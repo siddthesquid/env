@@ -9,7 +9,7 @@ BOOTSTRAP_POST_SCRIPT_NAME="post.sh"
 download_pre() {
   local script_name=$1
   local output_file=$2
-  curl -sL \
+  curl -sfL \
     -H 'Cache-Control: no-cache, no-store' \
     "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_PRE_SCRIPT_NAME}" \
     > "${output_file}"
@@ -18,7 +18,7 @@ download_pre() {
 download_cmd() {
   local script_name=$1
   local output_file=$2
-  curl -sL \
+  curl -sfL \
     -H 'Cache-Control: no-cache, no-store' \
     "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_CMD_SCRIPT_NAME}" \
     > "${output_file}"
@@ -27,7 +27,7 @@ download_cmd() {
 download_post() {
   local script_name=$1
   local output_file=$2
-  curl -sL \
+  curl -sfL \
     -H 'Cache-Control: no-cache, no-store' \
     "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_POST_SCRIPT_NAME}" \
     > "${output_file}"
@@ -36,29 +36,33 @@ download_post() {
 bootstrap() {
   local script_name=$1
 
-  echo "Running ${script_name}"
+  echo "RUNNING ${script_name}"
 
   # Download the pre script and run it if it exists
+  echo "PRE SCRIPT STARTED"
   local pre_script="$(mktemp)"
   download_pre "${script_name}" "${pre_script}"
   if [ -f "${pre_script}" ]; then
     bash "${pre_script}"
     if [ $? -ne 0 ]; then
-      echo "Pre script failed"
+      echo "PRE SCRIPT FAILED"
       rm "${pre_script}"
       return 1
     fi
   fi
   rm "${pre_script}"
+  echo "PRE SCRIPT FINISHED"
 
   # Download the cmd script and run it if the pre script succeeded or didn't
   # exist
+  echo "CMD SCRIPT STARTED"
   local cmd_script="$(mktemp)"
   download_cmd "${script_name}" "${cmd_script}"
   if [ -f "${cmd_script}" ]; then
     bash "${cmd_script}"
   fi
   rm "${cmd_script}"
+  echo "CMD SCRIPT FINISHED"
 
   # Download the post script and run it if it exists
   local post_script="$(mktemp)"
