@@ -83,12 +83,74 @@ Assuming 2 TB of storage, the below table shows how to partition the drive.
 
 | Mount Point | Type | Size               | Description    |
 | ----------- | ---- | ------------------ | -------------- |
-| /           | ext4 | 100 GB             | Root partition |
+| [BOOT]      | EFI  | 1 GB               | Boot partition |
+| /           | ext4 | 200 GB             | Root partition |
 | /data       | ext4 | 1 TB               | Data partition |
 | [SWAP]      | swap | 16 GB              | Swap partition |
-| /home       | ext4 | 900 GB (remaining) | Home partition |
+| /home       | ext4 | 800 GB (remaining) | Home partition |
 
 The above can be achieved with the following fdisk commands:
+
+```sh
+echo "
+g
+n
+1
+
++1G
+Y
+n
+2
+
++200G
+n
+3
+
++1T
+n
+4
+
++16G
+n
+5
+
+
+t
+1
+1
+t
+2
+1
+t
+3
+24
+t
+4
+19
+t
+5
+24
+w
+" | fdisk /dev/nvme1n1
+```
+
+or we can use parted
+
+```sh
+parted /dev/nvme1n1 \
+  mklabel gpt \
+  mkpart ESP fat32 1MiB 512MiB \
+  set 1 boot on \
+  name 1 boot \
+  mkpart primary ext4 512MiB 250GiB \
+  name 2 root \
+  mkpart primary ext4 250GiB 1250GiB \
+  name 3 data \
+  mkpart primary linux-swap 1250GiB 1266GiB \
+  name 4 swap \
+  mkpart primary ext4 1266GiB 100% \
+  name 5 home
+```
 
 ## WiFi
 
