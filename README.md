@@ -48,10 +48,11 @@ lsblk
 LIVE_INSTALL_DRIVE=/dev/sda
 
 # Wipe the drive
-wipefs -a $LIVE_INSTALL_DRIVE
+umount ${LIVE_INSTALL_DRIVE}1
+sudo wipefs -a $LIVE_INSTALL_DRIVE
 
 # Copy the Arch Linux ISO to the drive
-ARCH_ISO_PATH=~/downloads/archlinux-x86_64.iso
+ARCH_ISO_PATH=~/Downloads/archlinux-x86_64.iso
 sudo dd bs=4M if=$ARCH_ISO_PATH of=$LIVE_INSTALL_DRIVE status=progress oflag=direct
 ```
 
