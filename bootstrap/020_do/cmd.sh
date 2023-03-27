@@ -1,2 +1,2 @@
 #!/bin/bash
-echdo "cdmd"
+echo "cdmd2"

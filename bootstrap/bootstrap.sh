@@ -36,6 +36,8 @@ download_post() {
 bootstrap() {
   local script_name=$1
 
+  echo "Running ${script_name}"
+
   # Download the pre script and run it if it exists
   local pre_script="$(mktemp)"
   download_pre "${script_name}" "${pre_script}"
