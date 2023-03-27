@@ -44,7 +44,7 @@ bootstrap() {
     if [ $? -ne 0 ]; then
       echo "Pre script failed"
       rm "${pre_script}"
-      exit 1
+      return 1
     fi
   fi
   rm "${pre_script}"
@@ -66,7 +66,7 @@ bootstrap() {
     if [ $? -ne 0 ]; then
       echo "Post script failed"
       rm "${post_script}"
-      exit 1
+      return 1
     fi
   fi
   rm "${post_script}"
