@@ -25,6 +25,36 @@ Here are some general principles:
 - We assume Arch Linux but notes should ideally be as generic as possible (hopefully also including OSX)
 - Configuration should be declarative and version controlled (in this repo)
 
+# Preparation
+
+## Computer
+
+We should wipe the drive (or prepare it however) that we would like to use. This isn't really required, but it has caused issues for me before to not do it, so might as well.
+
+```sh
+# Identify the drive
+lsblk
+INSTALL_DESTINATION_DRIVE=/dev/nvme1n1
+
+# Wipe the drive
+wipefs -a $INSTALL_DESTINATION_DRIVE
+```
+
+## Installation drive
+
+```sh
+# Identify the drive
+lsblk
+LIVE_INSTALL_DRIVE=/dev/sda
+
+# Wipe the drive
+wipefs -a $LIVE_INSTALL_DRIVE
+
+# Copy the Arch Linux ISO to the drive
+ARCH_ISO_PATH=~/downloads/archlinux-x86_64.iso
+sudo dd bs=4M if=$ARCH_ISO_PATH of=$LIVE_INSTALL_DRIVE status=progress oflag=direct
+```
+
 # Arch Linux
 
 Arch Linux is probably installed on a flash drive. Boot from that flash drive in UEFI mode without CSM enabled.
