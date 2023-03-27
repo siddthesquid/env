@@ -40,9 +40,9 @@ bootstrap() {
 
   # Download the pre script and run it if it exists
   echo "PRE SCRIPT STARTED"
+
   local pre_script="$(mktemp)"
-  download_pre "${script_name}" "${pre_script}"
-  if [ -f "${pre_script}" ]; then
+  if download_pre "${script_name}" "${pre_script}"; then
     bash "${pre_script}"
     if [ $? -ne 0 ]; then
       echo "PRE SCRIPT FAILED"
@@ -51,29 +51,34 @@ bootstrap() {
     fi
   fi
   rm "${pre_script}"
+
   echo "PRE SCRIPT FINISHED"
 
   # Download the cmd script and run it if the pre script succeeded or didn't
   # exist
   echo "CMD SCRIPT STARTED"
+
   local cmd_script="$(mktemp)"
-  download_cmd "${script_name}" "${cmd_script}"
-  if [ -f "${cmd_script}" ]; then
+  if download_cmd "${script_name}" "${cmd_script}"; then
     bash "${cmd_script}"
   fi
   rm "${cmd_script}"
+
   echo "CMD SCRIPT FINISHED"
 
   # Download the post script and run it if it exists
+  echo "POST SCRIPT STARTED"
+
   local post_script="$(mktemp)"
-  download_post "${script_name}" "${post_script}"
-  if [ -f "${post_script}" ]; then
+  if download_post "${script_name}" "${post_script}"; then
     bash "${post_script}"
     if [ $? -ne 0 ]; then
-      echo "Post script failed"
+      echo "POST SCRIPT FAILED"
       rm "${post_script}"
       return 1
     fi
   fi
   rm "${post_script}"
+
+  echo "POST SCRIPT FINISHED"
 }
