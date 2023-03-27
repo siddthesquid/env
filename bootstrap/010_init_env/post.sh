@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "post"
+echo "No post script"
