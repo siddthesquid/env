@@ -56,7 +56,7 @@ ARCH_ISO_PATH=~/Downloads/archlinux-x86_64.iso
 sudo dd bs=4M if=$ARCH_ISO_PATH of=$LIVE_INSTALL_DRIVE status=progress oflag=direct
 ```
 
-# Arch Linux
+# Arch Linux Installation
 
 Arch Linux is probably installed on a flash drive. Boot from that flash drive in UEFI mode without CSM enabled.
 
@@ -137,6 +137,8 @@ mount -m $HOME_PARTITION /mnt/home
 swapon $SWAP_PARTITION
 ```
 
+## OS Bootstrapping
+
 Replace `/etc/pacman.d/mirrorlist` with a mirrors from US academic institutions:
 
 ```
@@ -146,6 +148,87 @@ Server = https://plug-mirror.rcac.purdue.edu/archlinux/$repo/os/$arch
 Server = https://mirrors.rutgers.edu/archlinux/$repo/os/$arch
 Server = https://mirror.umd.edu/archlinux/$repo/os/$arch
 ```
+
+Bootstrap (or `pacstrap`) the system:
+
+```sh
+pacstrap /mnt \
+  base \
+  base-devel \
+  linux \
+  linux-firmware \
+  vim
+```
+
+Generate the `fstab` file and chroot:
+
+```sh
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+```
+
+Timezone and hardware clock:
+
+```sh
+ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+hwclock --systohc
+```
+
+Locale
+
+```sh
+sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+locale-gen
+echo LANG=en_US.UTF-8 > /etc/locale.conf
+```
+
+Keyboard `vconsole`
+
+```sh
+echo KEYMAP=us > /etc/vconsole.conf
+```
+
+Set the hostname:
+
+```sh
+HOSTNAME=woofnet
+echo $HOSTNAME > /etc/hostname
+```
+
+Set the root password:
+
+```sh
+passwd
+# Enter password
+```
+
+## Reboot
+
+```sh
+exit
+umount -R /mnt
+reboot
+```
+
+# Hardware Configuration
+
+In this section, we'll make sure all the hardware is configured properly, along with their drivers. Some things we may want to configure:
+
+- Network
+- Keyboard
+- Mouse
+- WiFi
+- Bluetooth
+- Audio Out
+  - Audio interface
+  - Wireless Headphones
+  - Wired Headphones
+  - Speakers
+- Microphone
+- Webcam/Camera
+- Chassis Fans/Lights
+- GPU
+- Monitors
 
 ## WiFi
 
