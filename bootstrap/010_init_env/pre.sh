@@ -1,4 +1,4 @@
 #!/bin/bash
-# Ensure UEFI boot
-ls /sys/firmware/efi/efivars 1>/dev/null \
-  || (echo "Not booted in UEFI mode" && exit 1)
+check_env LOADKEYS
+check_env TIMEZONE
+check_env OS_HOST_DRIVE

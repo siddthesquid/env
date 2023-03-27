@@ -60,21 +60,29 @@ sudo dd bs=4M if=$ARCH_ISO_PATH of=$LIVE_INSTALL_DRIVE status=progress oflag=dir
 
 Arch Linux is probably installed on a flash drive. Boot from that flash drive in UEFI mode without CSM enabled.
 
-## On Boot
+## Install utility
+
+It's best to use the custom bootstrap utility from this repo. Modify as needed.
 
 ```sh
-# Ensure UEFI boot
-ls /sys/firmware/efi/efivars 1>/dev/null \
-  || echo "Not booted in UEFI mode"
+curl -sL \
+  https://raw.githubusercontent.com/siddthesquid/env/main/bootstrap.sh \
+  > bootstrap.sh
+. ./bootstrap.sh
+```
 
-# Set the keymap
-loadkeys us
+Running `bootstrap <step>` will run the following scripts in order:
 
-# Set the time zone
-timedatectl set-timezone America/Los_Angeles
+- `./bootstrap/<step>/pre.sh`
+- `./bootstrap/<step>/cmd.sh`
+- `./bootstrap/<step>/post.sh`
 
-# Ensure internet connectivity, or connect to internet
-# ip link
+## First steps
+
+Simple keyboard settings and UEFI check.
+
+```sh
+bootstrap 010_int_env
 ```
 
 ## Partitions
