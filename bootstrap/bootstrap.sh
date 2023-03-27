@@ -10,6 +10,7 @@ download_pre() {
   local script_name=$1
   local output_file=$2
   curl -sL \
+    -H 'Cache-Control: no-cache, no-store' \
     "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_PRE_SCRIPT_NAME}" \
     > "${output_file}"
 }
@@ -18,14 +19,16 @@ download_cmd() {
   local script_name=$1
   local output_file=$2
   curl -sL \
-  "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_CMD_SCRIPT_NAME}" \
-  > "${output_file}"
+    -H 'Cache-Control: no-cache, no-store' \
+    "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_CMD_SCRIPT_NAME}" \
+    > "${output_file}"
 }
 
 download_post() {
   local script_name=$1
   local output_file=$2
   curl -sL \
+    -H 'Cache-Control: no-cache, no-store' \
     "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_POST_SCRIPT_NAME}" \
     > "${output_file}"
 }
