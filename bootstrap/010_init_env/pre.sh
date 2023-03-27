@@ -1,2 +1,2 @@
 #!/bin/bash
-edascho "pre"
+edascho "predsa"
