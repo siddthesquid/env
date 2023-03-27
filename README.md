@@ -89,52 +89,7 @@ Assuming 2 TB of storage, the below table shows how to partition the drive.
 | [SWAP]      | swap | 16 GB              | Swap partition |
 | /home       | ext4 | 800 GB (remaining) | Home partition |
 
-The above can be achieved with the following fdisk commands:
-
-```sh
-echo "
-g
-n
-1
-
-+1G
-Y
-n
-2
-
-+200G
-n
-3
-
-+1T
-n
-4
-
-+16G
-n
-5
-
-
-t
-1
-1
-t
-2
-1
-t
-3
-24
-t
-4
-19
-t
-5
-24
-w
-" | fdisk /dev/nvme1n1
-```
-
-or we can use parted
+The above can be achieved with the following parted command:
 
 ```sh
 parted /dev/nvme1n1 \
@@ -150,6 +105,46 @@ parted /dev/nvme1n1 \
   name 4 swap \
   mkpart primary ext4 1266GiB 100% \
   name 5 home
+```
+
+Let's record the partitions into variables:
+
+```sh
+BOOT_PARTITION=/dev/nvme1n1p1
+ROOT_PARTITION=/dev/nvme1n1p2
+DATA_PARTITION=/dev/nvme1n1p3
+SWAP_PARTITION=/dev/nvme1n1p4
+HOME_PARTITION=/dev/nvme1n1p5
+```
+
+Format the partitions:
+
+```sh
+mkfs.fat -F32 /dev/$BOOT_PARTITION
+mkfs.ext4 /dev/$ROOT_PARTITION
+mkfs.ext4 /dev/$DATA_PARTITION
+mkswap /dev/$SWAP_PARTITION
+mkfs.ext4 /dev/$HOME_PARTITION
+```
+
+Mount the partitions:
+
+```sh
+mount $ROOT_PARTITION /mnt
+mount -m $BOOT_PARTITION /mnt/boot
+mount -m $DATA_PARTITION /mnt/data
+mount -m $HOME_PARTITION /mnt/home
+swapon $SWAP_PARTITION
+```
+
+Replace `/etc/pacman.d/mirrorlist` with a mirrors from US academic institutions:
+
+```
+Server = https://mirrors.ocf.berkeley.edu/archlinux/$repo/os/$arch
+Server = https://mirrors.mit.edu/archlinux/$repo/os/$arch
+Server = https://plug-mirror.rcac.purdue.edu/archlinux/$repo/os/$arch
+Server = https://mirrors.rutgers.edu/archlinux/$repo/os/$arch
+Server = https://mirror.umd.edu/archlinux/$repo/os/$arch
 ```
 
 ## WiFi
