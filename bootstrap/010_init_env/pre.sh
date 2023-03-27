@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "pre"
+edascho "pre"
