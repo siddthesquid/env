@@ -15,8 +15,13 @@ check_env() {
   local var_name=$1
   if [ -z "${!var_name}" ]; then
     echo "ERROR: ${var_name} is not set"
-    return 1
+    exit 1
   fi
+}
+
+error() {
+  echo "ERROR: $1"
+  exit 1
 }
 
 # `reload_params` will download `params.sh`, source it, and also source
@@ -25,15 +30,16 @@ reload_params() {
   local script_name=$1
 
   # Download the params file
-  $CURL_COMMAND \
+  curl -sfL -H 'Cache-Control: no-cache, no-store' \
     "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_PARAMS_FILE}" \
     > "${BOOTSTRAP_PARAMS_FILE}"
 
   # Source the params file
+  echo "SOURCING ${BOOTSTRAP_PARAMS_FILE}"
   source "${BOOTSTRAP_PARAMS_FILE}"
 
   if [ -f "${BOOSTRAP_PARAMS_OVERRIDES_FILE}" ]; then
-    "SOURCING ${BOOSTRAP_PARAMS_OVERRIDES_FILE}"
+    echo "SOURCING ${BOOSTRAP_PARAMS_OVERRIDES_FILE}"
     source "${BOOSTRAP_PARAMS_OVERRIDES_FILE}"
   fi
   "SOURCED BOOTSTRAP PARAMS"
@@ -42,7 +48,7 @@ reload_params() {
 download_pre() {
   local script_name=$1
   local output_file=$2
-  $CURL_COMMAND \
+  curl -sfL -H 'Cache-Control: no-cache, no-store' \
     "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_PRE_SCRIPT_NAME}" \
     > "${output_file}"
 }
@@ -50,7 +56,7 @@ download_pre() {
 download_cmd() {
   local script_name=$1
   local output_file=$2
-  $CURL_COMMAND \
+  curl -sfL -H 'Cache-Control: no-cache, no-store' \
     "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_CMD_SCRIPT_NAME}" \
     > "${output_file}"
 }
@@ -58,7 +64,7 @@ download_cmd() {
 download_post() {
   local script_name=$1
   local output_file=$2
-  $CURL_COMMAND \
+  curl -sfL -H 'Cache-Control: no-cache, no-store' \
     "${BOOTSTRAP_BASE_URL}/${script_name}/${BOOTSTRAP_POST_SCRIPT_NAME}" \
     > "${output_file}"
 }

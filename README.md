@@ -73,9 +73,10 @@ curl -sL \
 
 Running `bootstrap <step>` will run the following scripts in order:
 
-- `./bootstrap/<step>/pre.sh`
-- `./bootstrap/<step>/cmd.sh`
-- `./bootstrap/<step>/post.sh`
+- `./bootstrap/<step>/check.sh` - always run first. If this succeeds, skip to `post`
+- `./bootstrap/<step>/pre.sh` - checks to see if step can be run. should not make any changes to the system. If this fails, stop
+- `./bootstrap/<step>/cmd.sh` - performs the actual system modifications. If this fails, stop
+- `./bootstrap/<step>/post.sh` - don't assume that `cmd` was run. This should double check everything this step is supposed to do and provide diagnostic information regardless
 
 ## First steps
 
@@ -196,6 +197,25 @@ Keyboard `vconsole`
 echo KEYMAP=us > /etc/vconsole.conf
 ```
 
+## User setup
+
+Set the root password:
+
+```sh
+passwd
+# Enter password
+```
+
+Create a new user:
+
+```sh
+useradd -m -G wheel -s /bin/zsh sidd
+passwd sidd
+# Enter password
+```
+
+## Network
+
 Set the hostname:
 
 ```sh
@@ -203,11 +223,12 @@ HOSTNAME=woofnet
 echo $HOSTNAME > /etc/hostname
 ```
 
-Set the root password:
+## GRUB
 
 ```sh
-passwd
-# Enter password
+pacman -S grub efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 ## Reboot
@@ -256,15 +277,20 @@ In this section, we'll make sure all the hardware is configured properly, along 
 
 ## pacman
 
+## pip
+
+## ghcup
+
+## openjdk
+
+## sbt
+
+## cargo
+
+## nvm
+
 ## snap
 
-## Python / pip
-
-## Scala
-
-## Rust / cargo
-
-## JavaScript/Typescript
 
 # Misc Applications
 
