@@ -25,6 +25,8 @@ Here are some general principles:
 - We assume Arch Linux but notes should ideally be as generic as possible (hopefully also including OSX)
 - Configuration should be declarative and version controlled (in this repo)
 
+There's also some installation instructions for OSX when we are installing applications.
+
 # Preparation
 
 ## Computer
@@ -60,29 +62,20 @@ sudo dd bs=4M if=$ARCH_ISO_PATH of=$LIVE_INSTALL_DRIVE status=progress oflag=dir
 
 Arch Linux is probably installed on a flash drive. Boot from that flash drive in UEFI mode without CSM enabled.
 
-## Install utility
-
-It's best to use the custom bootstrap utility from this repo. Modify as needed.
-
-```sh
-curl -sL \
-  https://raw.githubusercontent.com/siddthesquid/env/main/bootstrap.sh \
-  > bootstrap.sh
-. ./bootstrap.sh
-```
-
-Running `bootstrap <step>` will run the following scripts in order:
-
-- `./bootstrap/<step>/pre.sh`
-- `./bootstrap/<step>/cmd.sh`
-- `./bootstrap/<step>/post.sh`
-
 ## First steps
 
 Simple keyboard settings and UEFI check.
 
 ```sh
-bootstrap 010_int_env
+# Check if booted in UEFI mode
+ls /sys/firmware/efi/efivars 1>/dev/null \
+  || echo "Not booted in UEFI mode"
+
+# Set the keymap
+loadkeys us
+
+# Set the time zone
+timedatectl set-timezone America/Los_Angeles
 ```
 
 ## Partitions
@@ -149,12 +142,12 @@ swapon $SWAP_PARTITION
 
 Replace `/etc/pacman.d/mirrorlist` with a mirrors from US academic institutions:
 
-```
-Server = https://mirrors.ocf.berkeley.edu/archlinux/$repo/os/$arch
+```sh
+echo 'Server = https://mirrors.ocf.berkeley.edu/archlinux/$repo/os/$arch
 Server = https://mirrors.mit.edu/archlinux/$repo/os/$arch
 Server = https://plug-mirror.rcac.purdue.edu/archlinux/$repo/os/$arch
 Server = https://mirrors.rutgers.edu/archlinux/$repo/os/$arch
-Server = https://mirror.umd.edu/archlinux/$repo/os/$arch
+Server = https://mirror.umd.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 ```
 
 Bootstrap (or `pacstrap`) the system:
@@ -210,6 +203,14 @@ passwd
 # Enter password
 ```
 
+## Bootloader
+
+```sh
+pacman -S grub efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
 ## Reboot
 
 ```sh
@@ -252,23 +253,84 @@ In this section, we'll make sure all the hardware is configured properly, along 
 
 # neovim
 
-# Package Managers and Runtimes
+# Core Developer Tools
+
+This includes things like compilers, package managers, build tools, and LSPs. We will try to build from source as much as possible.
+
+When looking at package managers, we care about how to
+
+- install, remove, and update package
+- list all packages we have
+- search for new packages
+- locate packages in our filesystem for debugging
+
+When looking at programming languages and compilers, we care about how to
+
+- install, remove, and update the the corresponding tools
+- setup our PATHs and environment variables
+- manage multiple versions
+- install and run any LSPs
+- run the REPL or simple scripts, if applicable
+- work in a virtual environment
+- start and configure a new project
+- compile and run programs
+- publish the project to a package registry
 
 ## pacman
 
+## brew
+
 ## snap
+
+## C / C++ / CMake / Conan
+
+## Java / Maven
 
 ## Python / pip
 
-## Scala
+## Scala / sbt
 
 ## Rust / cargo
 
-## JavaScript/Typescript
+## JavaScript / node / npm
 
-# Misc Applications
+## golang
+
+## Haskell / cabal
+
+## Swift / Xcode
+
+## Kotlin / Gradle
+
+## Agda
+
+# Other Tools
+
+## VirtualBox
+
+## Docker
+
+## kubectl
+
+## minikube
+
+## Terraform
+
+## AWS
+
+## GCP
+
+## Azure
+
+## VPN
+
+# UI Applications
+
+Everything we have covered has mostly only involved the terminal. However, there are a few UI applications worth installing, along with managing native OS notifications.
 
 ## Chrome
+
+https://aur.archlinux.org/packages/google-chrome
 
 ## Discord
 

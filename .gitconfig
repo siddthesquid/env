@@ -1,0 +1,21 @@
+[user]
+	email = ssingal05@gmail.com
+	name = Sidd Singal
+[init]
+	defaultBranch = main
+[push]
+  default = current
+[alias]
+	stat = status -sbu
+  logg = log --graph --pretty=format:\"%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %C(green)%cn%Creset %s\"
+	last = log -1 HEAD --stat
+	com = commit -am
+	rem = remote -v
+	dif = difftool -t vimdiff -y
+	conf = config --global -l
+	find = !git rev-list --all | xargs git grep -F
+  main = checkout main
+	chk = checkout
+  new = checkout -b
+[help]
+	autocorrect = 20
