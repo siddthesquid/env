@@ -62,8 +62,8 @@ sudo dd bs=4M if=$ARCH_ISO_PATH of=$LIVE_INSTALL_DRIVE status=progress oflag=dir
 
 Arch Linux is probably installed on a flash drive. Boot from that flash drive in UEFI mode without CSM enabled.
 
-<<<<<<< HEAD
-=======
+# <<<<<<< HEAD
+
 ## Install utility
 
 It's best to use the custom bootstrap utility from this repo. Modify as needed.
@@ -82,7 +82,8 @@ Running `bootstrap <step>` will run the following scripts in order:
 - `./bootstrap/<step>/cmd.sh` - performs the actual system modifications. If this fails, stop
 - `./bootstrap/<step>/post.sh` - don't assume that `cmd` was run. This should double check everything this step is supposed to do and provide diagnostic information regardless
 
->>>>>>> 3bb541f6883ca05f09be0cb1487542f2a656df54
+> > > > > > > 3bb541f6883ca05f09be0cb1487542f2a656df54
+
 ## First steps
 
 Simple keyboard settings and UEFI check.
@@ -319,7 +320,6 @@ When looking at programming languages and compilers, we care about how to
 
 ## pacman
 
-<<<<<<< HEAD
 ## brew
 
 ## snap
@@ -331,23 +331,11 @@ When looking at programming languages and compilers, we care about how to
 ## Python / pip
 
 ## Scala / sbt
-=======
-## pip
-
-## ghcup
-
-## openjdk
-
-## sbt
-
-## cargo
->>>>>>> 3bb541f6883ca05f09be0cb1487542f2a656df54
 
 ## nvm
 
 ## snap
 
-<<<<<<< HEAD
 ## JavaScript / node / npm
 
 ## golang
@@ -363,8 +351,6 @@ When looking at programming languages and compilers, we care about how to
 # Other Tools
 
 ## VirtualBox
-=======
->>>>>>> 3bb541f6883ca05f09be0cb1487542f2a656df54
 
 ## Docker
 
