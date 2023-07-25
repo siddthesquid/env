@@ -62,28 +62,6 @@ sudo dd bs=4M if=$ARCH_ISO_PATH of=$LIVE_INSTALL_DRIVE status=progress oflag=dir
 
 Arch Linux is probably installed on a flash drive. Boot from that flash drive in UEFI mode without CSM enabled.
 
-# <<<<<<< HEAD
-
-## Install utility
-
-It's best to use the custom bootstrap utility from this repo. Modify as needed.
-
-```sh
-curl -sL \
-  https://raw.githubusercontent.com/siddthesquid/env/main/bootstrap.sh \
-  > bootstrap.sh
-. ./bootstrap.sh
-```
-
-Running `bootstrap <step>` will run the following scripts in order:
-
-- `./bootstrap/<step>/check.sh` - always run first. If this succeeds, skip to `post`
-- `./bootstrap/<step>/pre.sh` - checks to see if step can be run. should not make any changes to the system. If this fails, stop
-- `./bootstrap/<step>/cmd.sh` - performs the actual system modifications. If this fails, stop
-- `./bootstrap/<step>/post.sh` - don't assume that `cmd` was run. This should double check everything this step is supposed to do and provide diagnostic information regardless
-
-> > > > > > > 3bb541f6883ca05f09be0cb1487542f2a656df54
-
 ## First steps
 
 Simple keyboard settings and UEFI check.
@@ -237,14 +215,6 @@ HOSTNAME=woofnet
 echo $HOSTNAME > /etc/hostname
 ```
 
-## GRUB
-
-```sh
-pacman -S grub efibootmgr
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
-```
-
 ## Bootloader
 
 ```sh
@@ -332,10 +302,6 @@ When looking at programming languages and compilers, we care about how to
 
 ## Scala / sbt
 
-## nvm
-
-## snap
-
 ## JavaScript / node / npm
 
 ## golang
@@ -348,6 +314,24 @@ When looking at programming languages and compilers, we care about how to
 
 ## Agda
 
+# More LSPs
+
+## json
+
+## yaml
+
+## toml
+
+## xml
+
+## html
+
+## ini
+
+## markdown
+
+## latex
+
 # Other Tools
 
 ## VirtualBox
@@ -359,6 +343,8 @@ When looking at programming languages and compilers, we care about how to
 ## minikube
 
 ## Terraform
+
+## Helm
 
 ## AWS
 
