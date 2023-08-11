@@ -1,342 +1,333 @@
-# Development Environment
+# Macbook Development Handbook
+
+- [Macbook Development Handbook](#macbook-development-handbook)
+- [Quickstart](#quickstart)
+- [Brew](#brew)
+  - [Commands](#commands)
+- [Git](#git)
+  - [Setup](#setup)
+  - [GitHub SSH](#github-ssh)
+  - [Cheatsheet](#cheatsheet)
+  - [Git based package management](#git-based-package-management)
+- [ITerm2](#iterm2)
+  - [tmux integration](#tmux-integration)
+- [zsh](#zsh)
+  - [Configuration files](#configuration-files)
+  - [ZLE Cheatsheet](#zle-cheatsheet)
+  - [Environment Variables](#environment-variables)
+  - [Aliases](#aliases)
+  - [Plugins](#plugins)
+  - [Aesthetics](#aesthetics)
+- [`$HOME`](#home)
+- [tmux](#tmux)
+- [neovim](#neovim)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Plugins](#plugins-1)
+  - [Core LSPs](#core-lsps)
+    - [C / C++ / CMake / Conan](#c--c--cmake--conan)
+    - [Java / Maven](#java--maven)
+    - [Python / pip](#python--pip)
+    - [Scala / sbt](#scala--sbt)
+    - [JavaScript / node / npm](#javascript--node--npm)
+    - [Rust / cargo](#rust--cargo)
+    - [golang](#golang)
+    - [Haskell / cabal](#haskell--cabal)
+    - [Swift / Xcode](#swift--xcode)
+    - [Kotlin / Gradle](#kotlin--gradle)
+    - [Agda](#agda)
+    - [sh / zsh](#sh--zsh)
+    - [Lua](#lua)
+  - [Other LSPs](#other-lsps)
+    - [json](#json)
+    - [yaml](#yaml)
+    - [toml](#toml)
+    - [xml](#xml)
+    - [ini](#ini)
+    - [HCL](#hcl)
+    - [html](#html)
+    - [css](#css)
+    - [markdown](#markdown)
+    - [latex](#latex)
+    - [protobuf](#protobuf)
+- [Command Line Tools](#command-line-tools)
+  - [kubectl](#kubectl)
+  - [minikube](#minikube)
+  - [Terraform](#terraform)
+  - [Helm](#helm)
+  - [AWS](#aws)
+  - [GCP](#gcp)
+  - [Azure](#azure)
+- [Credentials](#credentials)
+- [Desktop Applications](#desktop-applications)
+  - [VirtualBox](#virtualbox)
+  - [Docker](#docker)
+  - [NordVPN](#nordvpn)
+  - [Chrome](#chrome)
+  - [Discord](#discord)
+  - [Slack](#slack)
+  - [Spotify](#spotify)
+  - [Zoom](#zoom)
+- [Devices](#devices)
+
+# Quickstart
+
+First, install some dependencies from brew.
 
 ```sh
-git clone git@github.com:siddthesquid/env.git
+brew install exa glances btop fzf
 ```
 
-This document describes step-by-step instructions for setting up a development environment. What we want is
-
-- Arch Linux
-- Alacritty
-- zsh
-- tmux
-- neovim
-- package managers
-- some other misc applications
-
-Here are some general principles:
-
-- Optimize for keyboard usage, minimize mouse usage
-  - we can assume function keys exist
-  - ctrl + alt + shift + windows
-  - deprioritize arrow and function key assignments
-- Install from source as much as possible
-- Install locally as much as possible
-- We assume Arch Linux but notes should ideally be as generic as possible (hopefully also including OSX)
-- Configuration should be declarative and version controlled (in this repo)
-
-There's also some installation instructions for OSX when we are installing applications.
-
-# Preparation
-
-## Computer
-
-We should wipe the drive (or prepare it however) that we would like to use. This isn't really required, but it has caused issues for me before to not do it, so might as well.
+Clone this repo, clone the submodules, and link the config files.
 
 ```sh
-# Identify the drive
-lsblk
-INSTALL_DESTINATION_DRIVE=/dev/nvme1n1
-
-# Wipe the drive
-wipefs -a $INSTALL_DESTINATION_DRIVE
+git clone --recurse-submodules
 ```
 
-## Installation drive
+# Brew
+
+We will rely on Brew to install most packages. Packages are installed in `/usr/local/Cellar` and symlinked to `/usr/local/bin`. We will also use Brew to manage services.
+
+## Commands
+
+| Command                           | Description                                |
+| --------------------------------- | ------------------------------------------ |
+| `brew install <package>`          | Install `<package>`                        |
+| `brew uninstall <package>`        | Uninstall `<package>`                      |
+| `brew upgrade <package>`          | Upgrade `<package>`                        |
+| `brew install --cask <package>`   | Install `<package>` as a cask              |
+| `brew uninstall --cask <package>` | Uninstall `<package>` as a cask            |
+| `brew upgrade --cask <package>`   | Upgrade `<package>` as a cask              |
+| `brew list`                       | List installed packages                    |
+| `brew list --versions`            | List installed packages and their versions |
+| `brew search <package>`           | Search for `<package>`                     |
+| `brew info <package>`             | Get info about `<package>`                 |
+| `brew update`                     | Update brew itself                         |
+| `brew upgrade`                    | Upgrade all packages                       |
+| `brew outdated`                   | List outdated packages                     |
+| `brew cleanup`                    | Remove old versions of packages            |
+| `brew doctor`                     | Diagnose brew issues                       |
+| `brew services list`              | List services managed by brew              |
+
+# Git
+
+## Setup
 
 ```sh
-# Identify the drive
-lsblk
-LIVE_INSTALL_DRIVE=/dev/sda
-
-# Wipe the drive
-umount ${LIVE_INSTALL_DRIVE}1
-sudo wipefs -a $LIVE_INSTALL_DRIVE
-
-# Copy the Arch Linux ISO to the drive
-ARCH_ISO_PATH=~/Downloads/archlinux-x86_64.iso
-sudo dd bs=4M if=$ARCH_ISO_PATH of=$LIVE_INSTALL_DRIVE status=progress oflag=direct
+brew install git
+ln -s ./env/configs/git/.gitconfig ~/.gitconfig
 ```
 
-# Arch Linux Installation
+## GitHub SSH
 
-Arch Linux is probably installed on a flash drive. Boot from that flash drive in UEFI mode without CSM enabled.
-
-## First steps
-
-Simple keyboard settings and UEFI check.
+To setup SSH, run the following locally:
 
 ```sh
-# Check if booted in UEFI mode
-ls /sys/firmware/efi/efivars 1>/dev/null \
-  || echo "Not booted in UEFI mode"
-
-# Set the keymap
-loadkeys us
-
-# Set the time zone
-timedatectl set-timezone America/Los_Angeles
+EMAIL="ssingal05@gmail.com"
+ssh-keygen -t ed25519 -C "$EMAIL"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+pbcopy < ~/.ssh/id_ed25519.pub
 ```
 
-## Partitions
+`pbcopy` copies the public key to the clipboard. Add it to GitHub by doing the following:
 
-Assuming 2 TB of storage, the below table shows how to partition the drive.
+1. Go to [GitHub SSH settings](https://github.com/settings/keys)
+2. Click "New SSH key"
+3. Paste the key and click "Add SSH key"
 
-| Mount Point | Type | Size               | Description    |
-| ----------- | ---- | ------------------ | -------------- |
-| [BOOT]      | EFI  | 1 GB               | Boot partition |
-| /           | ext4 | 200 GB             | Root partition |
-| /data       | ext4 | 1 TB               | Data partition |
-| [SWAP]      | swap | 16 GB              | Swap partition |
-| /home       | ext4 | 800 GB (remaining) | Home partition |
+## Cheatsheet
 
-The above can be achieved with the following parted command:
+## Git based package management
 
-```sh
-parted /dev/nvme1n1 \
-  mklabel gpt \
-  mkpart ESP fat32 1MiB 512MiB \
-  set 1 boot on \
-  name 1 boot \
-  mkpart primary ext4 512MiB 250GiB \
-  name 2 root \
-  mkpart primary ext4 250GiB 1250GiB \
-  name 3 data \
-  mkpart primary linux-swap 1250GiB 1266GiB \
-  name 4 swap \
-  mkpart primary ext4 1266GiB 100% \
-  name 5 home
-```
+We want a consistent and repeatable workflow when installing stuff from git. We want each of our packages to have the following functionality:
 
-Let's record the partitions into variables:
+| Command              | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| `add <package>`      | download, build, and set as default `<package>[-<version>]`  |
+| `remove <package>`   | remove files for `<package>[-<version>]`                     |
+| `load <package>`     | download and build `<package>[-<version>]`, but don't use it |
+| `versions <package>` | list all versions of `<package>`                             |
+| `latest <package>`   | list the latest version of `<package>`                       |
 
-```sh
-BOOT_PARTITION=/dev/nvme1n1p1
-ROOT_PARTITION=/dev/nvme1n1p2
-DATA_PARTITION=/dev/nvme1n1p3
-SWAP_PARTITION=/dev/nvme1n1p4
-HOME_PARTITION=/dev/nvme1n1p5
-```
+The process roughly looks as follows:
 
-Format the partitions:
+1. Clone the repo
+2. Checkout a particular version or branch
+3. Build
+4. Copy artifacts to `$INSTALL_DIR/<project>-<version>`
+5. Symlink `$INSTALL_DIR/<project>` to `$INSTALL_DIR/<project>-<version>`
 
-```sh
-mkfs.fat -F32 /dev/$BOOT_PARTITION
-mkfs.ext4 /dev/$ROOT_PARTITION
-mkfs.ext4 /dev/$DATA_PARTITION
-mkswap /dev/$SWAP_PARTITION
-mkfs.ext4 /dev/$HOME_PARTITION
-```
+# ITerm2
 
-Mount the partitions:
-
-```sh
-mount $ROOT_PARTITION /mnt
-mount -m $BOOT_PARTITION /mnt/boot
-mount -m $DATA_PARTITION /mnt/data
-mount -m $HOME_PARTITION /mnt/home
-swapon $SWAP_PARTITION
-```
-
-## OS Bootstrapping
-
-Replace `/etc/pacman.d/mirrorlist` with a mirrors from US academic institutions:
-
-```sh
-echo 'Server = https://mirrors.ocf.berkeley.edu/archlinux/$repo/os/$arch
-Server = https://mirrors.mit.edu/archlinux/$repo/os/$arch
-Server = https://plug-mirror.rcac.purdue.edu/archlinux/$repo/os/$arch
-Server = https://mirrors.rutgers.edu/archlinux/$repo/os/$arch
-Server = https://mirror.umd.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
-```
-
-Bootstrap (or `pacstrap`) the system:
-
-```sh
-pacstrap /mnt \
-  base \
-  base-devel \
-  linux \
-  linux-firmware \
-  vim
-```
-
-Generate the `fstab` file and chroot:
-
-```sh
-genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
-```
-
-Timezone and hardware clock:
-
-```sh
-ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
-hwclock --systohc
-```
-
-Locale
-
-```sh
-sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
-locale-gen
-echo LANG=en_US.UTF-8 > /etc/locale.conf
-```
-
-Keyboard `vconsole`
-
-```sh
-echo KEYMAP=us > /etc/vconsole.conf
-```
-
-## User setup
-
-Set the root password:
-
-```sh
-passwd
-# Enter password
-```
-
-Create a new user:
-
-```sh
-useradd -m -G wheel -s /bin/zsh sidd
-passwd sidd
-# Enter password
-```
-
-## Network
-
-Set the hostname:
-
-```sh
-HOSTNAME=woofnet
-echo $HOSTNAME > /etc/hostname
-```
-
-## Bootloader
-
-```sh
-pacman -S grub efibootmgr
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-## Reboot
-
-```sh
-exit
-umount -R /mnt
-reboot
-```
-
-# Hardware Configuration
-
-In this section, we'll make sure all the hardware is configured properly, along with their drivers. Some things we may want to configure:
-
-- Network
-- Keyboard
-- Mouse
-- WiFi
-- Bluetooth
-- Audio Out
-  - Audio interface
-  - Wireless Headphones
-  - Wired Headphones
-  - Speakers
-- Microphone
-- Webcam/Camera
-- Chassis Fans/Lights
-- GPU
-- Monitors
-
-## WiFi
-
-## Bluetooth
-
-# Basic Setup
-
-# Alacritty
+## tmux integration
 
 # zsh
 
+## Configuration files
+
+## ZLE Cheatsheet
+
+## Environment Variables
+
+```sh
+LANG=en_US.UTF-8
+PWD=/Users/sidd
+SHELL=/bin/zsh
+TERM=xterm-256color
+HOME=/Users/sidd
+USER=sidd
+OLDPWD=/Users/sidd
+PATH=...
+```
+
+`zsh` already comes pre-installed on macOS. We still want to configure a few things.
+
+```sh
+ln -s ./env/configs/zsh/.zshrc ~/.zshrc
+```
+
+## Aliases
+
+## Plugins
+
+- zsh-autosuggestions
+- zsh-syntax-highlighting
+- zsh-completions
+
+## Aesthetics
+
+# `$HOME`
+
+```
+.
+├── .zshrc
+├── .gitconfig -> ./env/configs/git/.gitconfig
+├── .tmux.conf -> ./env/configs/tmux/.tmux.conf
+├── .tmux -> ./env/configs/tmux/.tmux
+├── .vimrc -> ./env/configs/neovim/.vimrc
+├── .config
+│   └── nvim -> ./env/configs/neovim/.config/nvim
+...
+├── .aws
+│   ├── config
+│   └── credentials
+├── .npmrc
+├── .pypirc
+├── .m2
+│   └── settings.xml
+...
+├── env
+├── knowledge
+├── clusters
+├── sandbox
+├── packages
+├── opt
+├── templates
+├── vms
+├── models
+...
+├── workspace
+│   ├── <organization-1>
+│   │   ├── <project-1a>
+│   │   ├── <project-1b>
+│   │   ...
+│   ├── <organization-2>
+│   │   ├── <project-2b>
+│   │   ...
+│   ...
+...
+├── documents
+├── downloads
+├── desktop
+├── pictures
+├── movies
+├── music
+...
+```
+
 # tmux
+
+- Development
+- Shell
+- Testing
+- Tasks
+- Debugging
+- Package Management
+- Git
+- Monitor
+- Process
+- Scratchpad
+- Files
+- Knowledge
+- Env
+- Tools
 
 # neovim
 
-# Core Developer Tools
+## Installation
 
-This includes things like compilers, package managers, build tools, and LSPs. We will try to build from source as much as possible.
+## Configuration
 
-When looking at package managers, we care about how to
+## Plugins
 
-- install, remove, and update package
-- list all packages we have
-- search for new packages
-- locate packages in our filesystem for debugging
+- treesitter
+- surround
+- nerd-tree
 
-When looking at programming languages and compilers, we care about how to
+## Core LSPs
 
-- install, remove, and update the the corresponding tools
-- setup our PATHs and environment variables
-- manage multiple versions
-- install and run any LSPs
-- run the REPL or simple scripts, if applicable
-- work in a virtual environment
-- start and configure a new project
-- compile and run programs
-- publish the project to a package registry
+### C / C++ / CMake / Conan
 
-## pacman
+### Java / Maven
 
-## brew
+### Python / pip
 
-## snap
+### Scala / sbt
 
-## C / C++ / CMake / Conan
+### JavaScript / node / npm
 
-## Java / Maven
+### Rust / cargo
 
-## Python / pip
+### golang
 
-## Scala / sbt
+### Haskell / cabal
 
-## JavaScript / node / npm
+### Swift / Xcode
 
-## golang
+### Kotlin / Gradle
 
-## Haskell / cabal
+### Agda
 
-## Swift / Xcode
+### sh / zsh
 
-## Kotlin / Gradle
+### Lua
 
-## Agda
+## Other LSPs
 
-# More LSPs
+### json
 
-## json
+### yaml
 
-## yaml
+### toml
 
-## toml
+### xml
 
-## xml
+### ini
 
-## html
+### HCL
 
-## ini
+### html
 
-## markdown
+### css
 
-## latex
+### markdown
 
-# Other Tools
+### latex
 
-## VirtualBox
+### protobuf
 
-## Docker
+# Command Line Tools
 
 ## kubectl
 
@@ -352,15 +343,29 @@ When looking at programming languages and compilers, we care about how to
 
 ## Azure
 
-## VPN
+# Credentials
 
-# UI Applications
+- SSH
+- AWS
+- GCP
+- Azure
+- npm
+- PyPI
+- Maven
+- Dockerhub
+- cargo
+- GitHub
+- NordVPN
 
-Everything we have covered has mostly only involved the terminal. However, there are a few UI applications worth installing, along with managing native OS notifications.
+# Desktop Applications
+
+## VirtualBox
+
+## Docker
+
+## NordVPN
 
 ## Chrome
-
-https://aur.archlinux.org/packages/google-chrome
 
 ## Discord
 
@@ -370,7 +375,19 @@ https://aur.archlinux.org/packages/google-chrome
 
 ## Zoom
 
-# notes
+# Devices
 
-flashdrive - /dev/sda
-windows: /dev/nvme1n1
+- Mouse
+- Keyboard
+- Monitors
+- Webcam/Camera
+- WiFi
+- Bluetooth
+- Audio Out
+  - Audio interface
+  - Wireless Headphones
+  - Wired Headphones
+  - Speakers
+- Audio In
+  - Microphone
+- Network

@@ -1,0 +1,30 @@
+# Paths
+# HOME=~
+ENV_HOME=~/env
+ENV_CONFIGS=$ENV_HOME/configs
+ENV_ZSH=$ENV_CONFIGS/zsh
+ENV_LIB=$ENV_HOME/lib
+ENV_ZSH_PLUGINS=$ENV_ZSH/plugins
+
+# Libraries
+
+# Configs
+. $ENV_ZSH/settings.zsh
+. $ENV_ZSH/paths.zsh
+. $ENV_ZSH/aliases.zsh
+. $ENV_ZSH/prompt.zsh
+. $ENV_ZSH/colors.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Plugins
+. $ENV_ZSH_PLUGINS/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+. $ENV_ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh
+. $ENV_ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
