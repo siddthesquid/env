@@ -1,0 +1,1 @@
+[[ $commands[minikube] ]] && source <(minikube completion zsh)

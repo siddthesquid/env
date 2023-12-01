@@ -1,0 +1,5 @@
+#!/bin/env zsh
+
+if ! term_is_tmux; then
+  echo tmux
+fi

@@ -1,0 +1,19 @@
+#!/bin/env zsh
+
+# Check if VIRTUAL_ENV is set (for virtualenv)
+if [[ -n "$VIRTUAL_ENV" ]]; then
+    if [[ "$VIRTUAL_ENV" == $HOME* ]]; then
+        echo "[py: ${VIRTUAL_ENV/#$HOME/~}] "
+    else
+        echo "[py: $VIRTUAL_ENV] "
+    fi
+# Check if CONDA_PREFIX is set (for conda)
+elif [[ -n "$CONDA_PREFIX" ]]; then
+    if [[ "$CONDA_PREFIX" == $HOME* ]]; then
+        echo "[conda: ${CONDA_PREFIX/#$HOME/~}] "
+    else
+        echo "[conda: $CONDA_PREFIX] "
+    fi
+else
+    echo ""
+fi

@@ -5,6 +5,9 @@ name = Sidd Singal
 [init]
 defaultBranch = main
 
+[core]
+excludesfile = /Users/sidd/.gitignore
+
 [push]
 default = current
 

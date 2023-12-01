@@ -1,0 +1,9 @@
+name: "~"
+root: "~"
+
+windows:
+  - main:
+      layout: main-vertical
+      panes:
+        - null
+        - null

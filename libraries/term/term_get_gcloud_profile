@@ -1,0 +1,15 @@
+#!/bin/env zsh
+
+# Check if 'gcloud' command exists
+if command -v gcloud &> /dev/null; then
+    # Get the active gcloud project
+    project=$(gcloud config get-value project 2>/dev/null)
+
+    if [[ -n "$project" && "$project" != "(unset)" ]]; then
+        echo "[gcloud: $project] "
+    else
+        echo ""
+    fi
+else
+    echo ""
+fi

@@ -1,0 +1,11 @@
+#!/bin/env zsh
+
+local os
+os="$(uname -s)"
+case "${os}" in
+  Linux*)     echo "linux" ;;
+  Darwin*)    echo "macos" ;;
+  CYGWIN*)    echo "cygwin" ;;
+  MINGW*)     echo "mingw" ;;
+  *)          echo "unknown" ;;
+esac

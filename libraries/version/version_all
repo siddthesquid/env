@@ -1,0 +1,91 @@
+#!/usr/bin/env zsh
+
+# This file is used to set the version of all the libraries.
+
+local FORMAT_END="%f"
+local HEADER_COLOR="%F{cyan}"
+local ITEM_COLOR="%F{white}"
+local ITEM_VERSION_COLOR="%F{green}"
+local ITEM_MISSING_COLOR="%F{red}"
+
+print_header() {
+  local header=$1
+  print -P "\n${HEADER_COLOR}${header}${FORMAT_END}"
+  print -P "${HEADER_COLOR}-----${FORMAT_END}"
+}
+
+print_item() {
+  local item=$1
+  local version=$2
+  if [[ -z $version ]]; then
+    print -P "  ${ITEM_COLOR}${item}: ${FORMAT_END}${ITEM_MISSING_COLOR}MISSING${FORMAT_END}"
+  else
+    print -P "  ${ITEM_COLOR}${item}${FORMAT_END}: ${ITEM_VERSION_COLOR}${version}${FORMAT_END}"
+  fi
+}
+
+print_header "DevX"
+print_item "zsh" "$(command -v zsh &> /dev/null && zsh --version)"
+print_item "tmux" "$(command -v tmux &> /dev/null && tmux -V)"
+print_item "vim" "$(command -v vim &> /dev/null && vim --version | head -n 1)"
+print_item "nvim" "$(command -v nvim &> /dev/null && nvim --version | head -n 1)"
+print_item "fzf" "$(command -v fzf &> /dev/null && fzf --version | head -n 1)"
+print_item "rg" "$(command -v rg &> /dev/null && rg --version | head -n 1)"
+print_item "fd" "$(command -v fd &> /dev/null && fd --version | head -n 1)"
+print_item "bat" "$(command -v bat &> /dev/null && bat --version | head -n 1)"
+print_item "git" "$(command -v git &> /dev/null && git --version)"
+
+print_header "C/C++"
+print_item "gcc" "$(command -v gcc &> /dev/null && gcc --version | head -n 1)"
+print_item "cmake" "$(command -v cmake &> /dev/null && cmake --version)"
+
+print_header "Python"
+print_item "python" "$(command -v python &> /dev/null && python --version 2>&1)"
+print_item "python3" "$(command -v python3 &> /dev/null && python3 --version 2>&1)"
+print_item "pip" "$(command -v pip &> /dev/null && pip --version 2>&1)"
+print_item "pip3" "$(command -v pip3 &> /dev/null && pip3 --version 2>&1)"
+print_item "conda" "$(command -v conda &> /dev/null && conda --version 2>&1)"
+
+print_header "JavaScript/Node.js"
+print_item "nvm" "$(command -v nvm &> /dev/null && nvm --version 2>&1)"
+print_item "node" "$(command -v node &> /dev/null && node --version 2>&1)"
+print_item "npm" "$(command -v npm &> /dev/null && npm --version 2>&1)"
+print_item "yarn" "$(command -v yarn &> /dev/null && yarn --version 2>&1)"
+
+print_header "Ruby"
+print_item "ruby" "$(command -v ruby &> /dev/null && ruby --version)"
+print_item "gem" "$(command -v gem &> /dev/null && gem --version)"
+
+print_header "Scala and Java"
+print_item "scala" "$(command -v scala &> /dev/null && scala -version 2>&1)"
+print_item "java" "$(command -v java &> /dev/null && java --version 2>&1)"
+print_item "sbt" "$(command -v sbt &> /dev/null && echo Installed)"
+print_item "coursier" "$(command -v coursier &> /dev/null && coursier --version)"
+
+print_header "Functional Languages"
+print_item "agda" "$(command -v agda &> /dev/null && agda --version)"
+print_item "haskell" "$(command -v ghc &> /dev/null && ghc --version)"
+print_item "cabal" "$(command -v cabal &> /dev/null && cabal --version)"
+print_item "stack" "$(command -v stack &> /dev/null && stack --version)"
+
+print_header "Other JVM Languages"
+print_item "kotlin" "$(command -v kotlinc &> /dev/null && kotlinc -version 2>&1)"
+print_item "clojure" "$(command -v clojure &> /dev/null && clojure -e \"(println \\"Clojure \\" (clojure-version))\" 2>&1)"
+print_item "groovy" "$(command -v groovy &> /dev/null && groovy --version)"
+
+print_header "Lua"
+print_item "lua" "$(command -v lua &> /dev/null && lua -v 2>&1)"
+
+print_header "Rust"
+print_item "rustc" "$(command -v rustc &> /dev/null && rustc --version 2>&1)"
+print_item "cargo" "$(command -v cargo &> /dev/null && cargo --version 2>&1)"
+
+print_header "Infrastructure Tools"
+print_item "kubectl" "$(command -v kubectl &> /dev/null && kubectl version --client --short)"
+print_item "kustomize" "$(command -v kustomize &> /dev/null && kustomize version)"
+print_item "aws" "$(command -v aws &> /dev/null && aws --version 2>&1)"
+print_item "gcloud" "$(command -v gcloud &> /dev/null && gcloud --version | head -n 1)"
+print_item "az" "$(command -v az &> /dev/null && az --version | head -n 1)"
+print_item "terraform" "$(command -v terraform &> /dev/null && terraform --version)"
+print_item "helm" "$(command -v helm &> /dev/null && helm version --short)"
+

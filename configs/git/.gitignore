@@ -1,0 +1,8 @@
+.siddthesquid
+.env.local
+.tmuxinator.yaml
+.idea
+.idea_modules
+.sw[po]
+.DS_Store
+node_modules

@@ -1,0 +1,4 @@
+#!/bin/env zsh
+
+# Generate a conda environment.yml file from the current environment.
+conda env export --from-history > environment.yml

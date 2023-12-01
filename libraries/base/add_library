@@ -1,0 +1,15 @@
+#!/bin/env zsh
+
+local lib_path="$1"
+
+# Append the library path to fpath
+fpath=("$lib_path" $fpath)
+
+# So globbing doesn't throw errors for empty directories, which stops
+# zsh from running
+setopt localoptions nullglob
+
+# Autoload all the zsh scripts in the provided directory
+for file in "$lib_path"/*; do
+  autoload -Uz "${file:t:r}"
+done
