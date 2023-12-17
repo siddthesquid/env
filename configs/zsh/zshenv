@@ -8,11 +8,7 @@ export STS_OPT_HOME="${STS_OPT_HOME:-$HOME/opt}"
 export STS_SANDBOX_HOME="${STS_SANDBOX_HOME:-$HOME/sandbox}"
 export STS_WORKSPACE_HOME="${STS_WORKSPACE_HOME:-$HOME/workspace}"
 
-# Convenience path variable
-local STS_ENV_CONFIGS="$STS_ENV_HOME/configs"
-local STS_ENV_CONFIGS_ZSH="$STS_ENV_CONFIGS/zsh"
-local STS_ENV_ZSH_APPLICATIONS="$STS_ENV_CONFIGS_ZSH/applications"
-local STS_ENV_LIBRARIES="$STS_ENV_HOME/libraries"
+# Convenience path variables
 
 # Usage: load_library LIBRARY_NAME
 #   This will autoload all functions in the folder
@@ -28,13 +24,12 @@ load_library() {
   fi
 
   # Check if the library has been disabled from loading
-  local override_var="STS_LIB_DISABLE_${lib_path:t:r}"
-  # TODO: can the below be cleaner?
-  # FIXME: this is actually not working
-  # if [[ -n $"${override_var}" ]]; then
-  #   echo "Skipped autoloading functions from $lib_path. ${override_var} is set"
-  #   return 1
-  # fi
+  local override_var_name="STS_LIB_DISABLE_${lib_path:t:r}"
+  local override_var_value=$(eval echo \$$override_var_name)
+  if [[ -n $override_var_value ]]; then
+    echo "Skipped autoloading functions from $lib_path. $override_var_name is set"
+    return 1
+  fi
 
   # So globbing doesn't throw errors for empty directories, which stops
   # zsh from running
@@ -47,13 +42,11 @@ load_library() {
   done
 }
 
-# Load all libraries
+# Load all libraries. Order doesn't matter here.
+STS_ENV_LIBRARIES="$STS_ENV_HOME/libraries"
 for dir in "$STS_ENV_LIBRARIES"/*; do
   load_library "$dir"
 done
 
-# Load all application specific env configurations
-# They must be placed in a file called env.zsh in $STS_ENV_ZSH_APPLICATIONS
-for app_env_config in "$STS_ENV_ZSH_APPLICATIONS"/**/env.zsh; do
-  . "$app_env_config" &> /dev/null
-done
+# load application specific environments
+load_app_env_configs

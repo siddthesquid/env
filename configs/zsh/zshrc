@@ -1,87 +1,10 @@
-# Paths
-ENV_HOME="${ENV_HOME:-$HOME/env}"
-ENV_CONFIGS="${ENV_CONFIGS:-$ENV_HOME/configs}"
-ENV_ZSH="${ENV_ZSH:-$ENV_CONFIGS/zsh}"
+# load settings from the env/configs/zsh/settings folder
+load_setting general
+load_setting aliases
+load_setting prompt
+load_setting suggestions
+load_setting highlighting
+load_setting history
 
-ENV_ZSH_LIBRARIES="${ENV_ZSH_LIBRARIES:-$ENV_ZSH/libraries}"
-ENV_ZSH_APPLICATIONS="${ENV_ZSH_APPLICATIONS:-$ENV_ZSH/applications}"
-ENV_ZSH_GENERAL="${ENV_ZSH_GENERAL:-$ENV_ZSH/general}"
-ENV_ZSH_EXTERNAL="${ENV_ZSH_EXTERNAL:-$ENV_ZSH/external}"
-ENV_ZSH_PLUGINS="${ENV_ZSH_PLUGINS:-$ENV_ZSH/plugins}"
-
-# source_if_exists
-source_if_exists() {
-    local lib_path="$1"
-    [ -f ${lib_path} ] && source ${lib_path}
-}
-
-# Base
-fpath=("$ENV_ZSH_LIBRARIES/base" $fpath)
-autoload -Uz "$ENV_ZSH_LIBRARIES/base/add_library"
-
-# Libraries
-# [[ -z "$_DISABLE_LIB_CLUSTER" ]] \
-#     && add_library "$ENV_ZSH_LIBRARIES/cluster"
-# [[ -z "$_DISABLE_LIB_GENERAL" ]] \
-#     && add_library "$ENV_ZSH_LIBRARIES/general"
-# [[ -z "$_DISABLE_LIB_OS" ]] \
-#     && add_library "$ENV_ZSH_LIBRARIES/os"
-# [[ -z "$_DISABLE_LIB_PYTHON" ]] \
-#     && add_library "$ENV_ZSH_LIBRARIES/python"
-# [[ -z "$_DISABLE_LIB_TEMPLATE" ]] \
-#     && add_library "$ENV_ZSH_LIBRARIES/template"
-# [[ -z "$_DISABLE_LIB_TMUX" ]] \
-#     && add_library "$ENV_ZSH_LIBRARIES/term"
-# [[ -z "$_DISABLE_LIB_VERSION" ]] \
-#     && add_library "$ENV_ZSH_LIBRARIES/version"
-# [[ -z "$_DISABLE_LIB_WORKSPACE" ]] \
-#     && add_library "$ENV_ZSH_LIBRARIES/workspace"
-
-# General Configurations
-[[ -z "$_DISABLE_CONF_SETTINGS" ]] \
-    && source_if_exists "$ENV_ZSH_GENERAL/settings.zsh"
-[[ -z "$_DISABLE_CONF_ALIASES" ]] \
-    && source_if_exists "$ENV_ZSH_GENERAL/aliases.zsh"
-[[ -z "$_DISABLE_CONF_PROMPT" ]] \
-    && source_if_exists "$ENV_ZSH_GENERAL/prompt.zsh"
-
-# Application Configurations
-[[ -z "$_DISABLE_APP_BAT" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/bat.zsh"
-[[ -z "$_DISABLE_APP_CONDA" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/conda.zsh"
-[[ -z "$_DISABLE_APP_DOCKER" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/docker.zsh"
-[[ -z "$_DISABLE_APP_NVM" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/nvm.zsh"
-[[ -z "$_DISABLE_APP_AWS" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/aws.zsh"
-[[ -z "$_DISABLE_APP_AZURE" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/azure.zsh"
-[[ -z "$_DISABLE_APP_COURSIER" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/coursier.zsh"
-[[ -z "$_DISABLE_APP_FLOW" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/flow.zsh"
-[[ -z "$_DISABLE_APP_GCLOUD" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/gcloud.zsh"
-[[ -z "$_DISABLE_APP_HELM" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/helm.zsh"
-[[ -z "$_DISABLE_APP_JAVA" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/java.zsh"
-[[ -z "$_DISABLE_APP_KUBECTL" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/kubectl.zsh"
-[[ -z "$_DISABLE_APP_MINIKUBE" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/minikube.zsh"
-[[ -z "$_DISABLE_APP_PNPM" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/pnpm.zsh"
-[[ -z "$_DISABLE_APP_TERRAFORM" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/terraform.zsh"
-[[ -z "$_DISABLE_APP_RIPGREP" ]] \
-    && source_if_exists "$ENV_ZSH_APPLICATIONS/ripgrep.zsh"
-
-# Plugins
-. $ENV_ZSH_PLUGINS/suggestions.zsh &> /dev/null
-. $ENV_ZSH_PLUGINS/highlighting.zsh &> /dev/null
-. $ENV_ZSH_PLUGINS/history.zsh &> /dev/null
-
-
+# load application specific configs
+load_app_rc_configs

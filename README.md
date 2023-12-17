@@ -4,6 +4,39 @@
 - [Quickstart](#quickstart)
 - [`$HOME`](#home)
 - [Environment Variables](#environment-variables)
+- [Workspaces](#workspaces)
+  - [Named workspace](#named-workspace)
+  - [Path-based workspace](#path-based-workspace)
+  - [Other workspaces](#other-workspaces)
+  - [Workspace types](#workspace-types)
+  - [Javascript](#javascript)
+    - [`ts-npm-monorepo-standard`](#ts-npm-monorepo-standard)
+    - [`ts-yarn-monorepo-standard`](#ts-yarn-monorepo-standard)
+    - [`ts-pnpm-monorepo-standard`](#ts-pnpm-monorepo-standard)
+    - [`ts-npm-single-standard`](#ts-npm-single-standard)
+    - [`ts-yarn-single-standard`](#ts-yarn-single-standard)
+    - [`ts-pnpm-single-standard`](#ts-pnpm-single-standard)
+  - [Python](#python)
+    - [`python-pip-standard`](#python-pip-standard)
+    - [`python-poetry-standard`](#python-poetry-standard)
+    - [`python-conda-standard`](#python-conda-standard)
+  - [Rust](#rust)
+    - [`rust-cargo-standard`](#rust-cargo-standard)
+  - [Go](#go)
+    - [`go-standard`](#go-standard)
+  - [Java](#java)
+    - [`java-maven-standard`](#java-maven-standard)
+    - [`java-gradle-standard`](#java-gradle-standard)
+  - [C++](#c)
+    - [`cpp-cmake-monorepo-standard`](#cpp-cmake-monorepo-standard)
+    - [`cpp-cmake-single-standard`](#cpp-cmake-single-standard)
+  - [Scala](#scala)
+    - [`scala-sbt-standard`](#scala-sbt-standard)
+    - [`scala-maven-standard`](#scala-maven-standard)
+  - [Kotlin](#kotlin)
+    - [`kotlin-gradle-standard`](#kotlin-gradle-standard)
+  - [Swift](#swift)
+    - [`swift-xcode-standard`](#swift-xcode-standard)
 - [Brew](#brew)
   - [Commands](#commands)
 - [Git](#git)
@@ -11,6 +44,7 @@
   - [Git based package management](#git-based-package-management)
 - [ITerm2](#iterm2)
 - [zsh](#zsh)
+  - [`zsh` sessions](#zsh-sessions)
   - [Configuration files](#configuration-files)
   - [Aliases](#aliases)
   - [Basics](#basics)
@@ -26,9 +60,16 @@
   - [Terminal](#terminal)
   - [Compression](#compression)
   - [`ripgrep`](#ripgrep)
-  - [`bat`](#bat)
   - [`fd`](#fd)
+  - [`bat`](#bat)
   - [`fzf`](#fzf)
+    - [Basics](#basics-1)
+    - [Field index expressions](#field-index-expressions)
+    - [Preview](#preview)
+    - [Command execution](#command-execution)
+    - [Aesthetics and layout](#aesthetics-and-layout)
+    - [Building an `fzf` command](#building-an-fzf-command)
+    - [`fzf` cheatsheet](#fzf-cheatsheet)
   - [`jq`](#jq)
   - [`exa`](#exa)
   - [`glances`](#glances)
@@ -37,12 +78,14 @@
 - [tmux](#tmux)
   - [Sessions](#sessions)
   - [Windows](#windows)
+    - [Tabs](#tabs)
+    - [Temporary tools](#temporary-tools)
+    - [Global background sessions](#global-background-sessions)
   - [tmuxinator](#tmuxinator)
   - [tmux-thumbs](#tmux-thumbs)
   - [tmux-better-mouse-mode](#tmux-better-mouse-mode)
   - [Cheatsheet](#cheatsheet-1)
 - [neovim](#neovim)
-  - [Installation](#installation)
   - [Configuration](#configuration)
   - [LSP](#lsp)
   - [Treesitter](#treesitter)
@@ -64,7 +107,7 @@
   - [Perl](#perl)
   - [Ruby / gem](#ruby--gem)
   - [PHP](#php)
-  - [C#](#c)
+  - [C#](#c-1)
   - [Dart / Flutter](#dart--flutter)
   - [Swift / Xcode](#swift--xcode)
   - [Kotlin / Gradle](#kotlin--gradle)
@@ -122,6 +165,7 @@ brew install \
   ripgrep \
   bat \
   fd \
+  pstree \
   bash-completion \
   jesseduffield/lazygit/lazygit
 
@@ -166,30 +210,21 @@ pkg_add zoom
 
 For reference, this is what we expect the `$HOME` directory to look like:
 
-```
+```sh
 .
+: # Configuration files in the home directory
 ├── .zshrc (sources ~/env/configs/zsh/zshrc)
 ├── .zshenv (sources ~/env/configs/zsh/zshenv)
 ├── .gitconfig -> ~/env/configs/git/.gitconfig
 ├── .gitignore -> ~/env/configs/git/.gitignore
 ├── .tmux.conf -> ~/env/configs/tmux/.tmux.conf
 ├── .tmuxinator -> ~/env/configs/tmux/.tmuxinator
-├── .tmux
-│   ├── external -> ~/env/configs/tmux/external
-│   └── settings -> ~/env/configs/tmux/settings
 ├── .vimrc -> ~/env/configs/neovim/.vimrc
+├── .ripgreprc -> ~/env/configs/ripgrep/.ripgreprc
 ├── .config
 │   └── nvim -> ~/env/configs/neovim/nvim
-│       ├── lua
-│       │   ├── adapters
-│       │   ├── core
-│       │   ├── external
-│       │   ├── modules
-│       │   ├── themes
-│       │   └── siddthesquid
-│       └── init.lua
-├── .ripgreprc -> ~/env/configs/ripgrep/.ripgreprc
 :
+: # Credentials and such
 ├── .aws
 │   ├── config
 │   └── credentials
@@ -199,11 +234,59 @@ For reference, this is what we expect the `$HOME` directory to look like:
 ├── .m2
 │   └── settings.xml
 :
+: # Our development enviornment (this repo)
 ├── env
+│   ├── bootstrap
+│   ├── configs
+│   │   ├── git
+│   │   ├── neovim
+│   │   │   └── nvim
+│   │   │       ├── lua
+│   │   │       │   ├── adapters
+│   │   │       │   ├── core
+│   │   │       │   ├── external
+│   │   │       │   ├── modules
+│   │   │       │   ├── siddthesquid
+│   │   │       │   └── themes
+│   │   │       └── init.lua
+│   │   ├── ripgrep
+│   │   ├── tmux
+│   │   │   ├── external
+│   │   │   ├── modules
+│   │   │   └── settings
+│   │   └── zsh
+│   │       ├── applicatiosn
+│   │       ├── external
+│   │       └── settings
+│   ├── libraries
+│   ├── local (not checked in git)
+│   │   ├── .zshenv -> ~./zshenv
+│   │   ├── .zshrc -> ~./zshrc
+│   │   ├── .zprofile -> ~./zprofile
+│   │   ├── .zlogin -> ~./zlogin
+│   │   └── .zlogout -> ~./zlogout
+│   ├── packages
+│   └── templates
+:
+: # Notes and cheatsheets
 ├── knowledge
+:
+: # Virtual machines
 ├── vms
+:
+: # Services. Should be start-up and start-down automatically.
 ├── services
+│   ├── <service-1>
+│   ├── <service-2>
+│   :
+:
+: # Open source code
 ├── oss
+│   ├── <project-1>
+│   ├── <project-2>
+│   :
+:
+: # Custom installation directory
 ├── opt
 │   ├── lib
 │   ├── bin
@@ -214,26 +297,32 @@ For reference, this is what we expect the `$HOME` directory to look like:
 │   ├── tmp
 │   └── site-functions
 :
+: # Temporary projects
 ├── sandbox
 │   ├── <project-1>
 │   ├── <project-2>
 │   :
+:
+: # Primary work
 ├── workspace
 │   ├── <organization-1>
 │   │   ├── <repo-1a>
 │   │   ├── <repo-1b>
 │   │   :
 │   ├── <organization-2>
-│   │   ├── <repo-2a>
-│   │   :
-│   :
+│   :   ├── <repo-2a>
+│       :
 :
+: # Local documents
 ├── documents
+:
+: # Downloads - could be potentially unsafe.
 ├── downloads
 :
-├── drive
-├── public
-├── shared
+: # cloud
+├── drive     # personal
+├── public    # public
+├── shared    # permissioned
 :
 ```
 
@@ -275,7 +364,6 @@ STS_ENV_BOOTSTRAP="$STS_ENV_HOME/bootstrap"
 STS_ENV_CONFIGS="$STS_ENV_HOME/configs"
 STS_ENV_LIBRARIES="$STS_ENV_HOME/libraries"
 STS_ENV_PACKAGES="$STS_ENV_HOME/packages"
-STS_ENV_SCRIPTS="$STS_ENV_HOME/scripts"
 
 # Config
 STS_ENV_CONFIGS_GIT="$STS_ENV_CONFIGS/git"
@@ -286,10 +374,13 @@ STS_ENV_CONFIGS_ZSH="$STS_ENV_CONFIGS/zsh"
 
 # Zsh specific
 STS_ENV_ZSH_APPLICATIONS="$STS_ENV_CONFIGS_ZSH/applications"
-STS_ENV_ZSH_GENERAL="$STS_ENV_CONFIGS_ZSH/general"
+STS_ENV_ZSH_SETTINGS="$STS_ENV_CONFIGS_ZSH/settings"
 STS_ENV_ZSH_EXTERNAL="$STS_ENV_CONFIGS_ZSH/external"
-STS_ENV_ZSH_PLUGINS="$STS_ENV_CONFIGS_ZSH/plugins"
-STS_ENV_ZSH_MODULES="$STS_ENV_CONFIGS_ZSH/modules"
+
+# tmux specific
+STS_TMUX_EXTERNAL="$STS_ENV_CONFIGS_TMUX/external"
+STS_TMUX_SETTINGS="$STS_ENV_CONFIGS_TMUX/settings"
+STS_TMUX_MODULES="$STS_ENV_CONFIGS_TMUX/modules"
 ```
 
 And then we have some variables that are specific to tmux sessions. We can use them in scripts that assume they are running in a tmux session. The values below are examples.
@@ -303,6 +394,114 @@ TMUX_PANE=%19
 STS_SESSION_WORKSPACE="~/workspace/some-org/some-repo"
 STS_SESSION_TYPE="ts-pnpm-monorepo"
 ```
+
+# Workspaces
+
+Whenever we want to work on a project, we can either open a named or path-based workspace. Each `tmux` session is named based on the root directory. This way, we won't accidentally open multiple sessions in the same directory.
+
+## Named workspace
+
+The below table has all of the named workspaces. They would each get their own `tmux` session and be named accordingly.
+
+| Name       | Path    | Description                   |
+| ---------- | ------- | ----------------------------- |
+| home       | `~`     | home directory                |
+| root       | `/`     | root directory                |
+| opt        | `~/opt` | custom installation directory |
+| background | `~`     | background projects           |
+
+`background` is a `tmux` session that will never be attached to directly. We will use it to pop-up over other sessions for quick access to certain persistent windows. The below table lists the background projects. They would each get their own `tmux` window and be named accordingly.
+
+| Name      | Path          | Description                                                             |
+| --------- | ------------- | ----------------------------------------------------------------------- |
+| env       | `~/env`       | this directory                                                          |
+| knowledge | `~/knowledge` | mostly cheatsheets and guides for different software engineering topics |
+
+## Path-based workspace
+
+Certain directories (as listed in the below table) are marked as valid workspaces, meaning that launching a session in any of these directories will automatically open (or reopen) `tmux` in the root directory of the workspace. These session names will start with either `~/` or `/` depending on the path.
+
+| Name      | Path                                | Description                       |
+| --------- | ----------------------------------- | --------------------------------- |
+| services  | `~/services/<service>`              | manually managed services         |
+| vms       | `~/vms/<vm>`                        | manually managed virtual machines |
+| oss       | `~/oss/<project>`                   | open source projects              |
+| sandbox   | `~/sandbox/<project>`               | temporary projects                |
+| workspace | `~/workspace/<organization>/<repo>` | primary project workspace         |
+
+## Other workspaces
+
+If we want to open a session in a directory not listed above, we have two options:
+
+- Open a session with `cwd` as the current directory
+- Find the rootmost folder (with `~` or `/` prefix) that is a valid workspace and open a session in that directory
+- Find the first folder that is a valid package (which could be a subfolder in a larger workspace) or workspace
+
+In general, care is needed to make sure two sessions aren't opening the same files for editing.
+
+## Workspace types
+
+We want to configure some `tmux` and `neovim` settings specific to the type of repo/workspace we are working with. This section details the different types of sessions we care about. We care about
+
+- what identifies a session as a particular type
+- `tmux` specific bindings and configurations
+- `neovim` LSPs and diagnostics tools
+
+## Javascript
+
+### `ts-npm-monorepo-standard`
+
+### `ts-yarn-monorepo-standard`
+
+### `ts-pnpm-monorepo-standard`
+
+### `ts-npm-single-standard`
+
+### `ts-yarn-single-standard`
+
+### `ts-pnpm-single-standard`
+
+## Python
+
+### `python-pip-standard`
+
+### `python-poetry-standard`
+
+### `python-conda-standard`
+
+## Rust
+
+### `rust-cargo-standard`
+
+## Go
+
+### `go-standard`
+
+## Java
+
+### `java-maven-standard`
+
+### `java-gradle-standard`
+
+## C++
+
+### `cpp-cmake-monorepo-standard`
+
+### `cpp-cmake-single-standard`
+
+## Scala
+
+### `scala-sbt-standard`
+
+### `scala-maven-standard`
+
+## Kotlin
+
+### `kotlin-gradle-standard`
+
+## Swift
+
+### `swift-xcode-standard`
 
 # Brew
 
@@ -391,7 +590,13 @@ The process roughly looks as follows:
 
 # zsh
 
-`zsh` is a shell interpreter, meaning it parses commands sent to it from the terminal/terminal emulator and executes them. Our options for a shell interpreter generally include `sh`, `ksh`, `bash`, `zsh`, and `fish`. `zsh` is feature rich and, because it is the default shell on macOS, convenient to use.
+`zsh` is a shell interpreter, meaning it parses bytes sequences sent to it from the terminal/terminal emulator and executes them as commands. Our options for a shell interpreter generally include `sh`, `ksh`, `bash`, `zsh`, and `fish`.
+
+`zsh` is feature rich and, because it is the default shell on macOS, convenient to use.
+
+## `zsh` sessions
+
+Each instance of the shell has associated variables. Some key ones include `PATH`, `PWD`, and `OLDPWD`.
 
 If `zsh` is launched in interactive mode, that means the user is typing the commands into the shell. Otherwise, a file must be provided. We can check if `zsh` is running interactively with
 
@@ -425,7 +630,7 @@ When `zsh` is launched, it will source the following files in the following orde
 Generally, we only need to use
 
 - `~/.zshenv` for configuring `PATH`, `*_HOME`, and `fpath` variables
-- `~/.zshrc` for normal shell usage
+- `~/.zshrc` for interactive shell usage
 
 ## Aliases
 
@@ -481,11 +686,84 @@ Generally, we only need to use
 | `rg --sort <sort_by>`                        | Sort results. `<sort_by>` can be 'path', 'modified', 'accessed', or 'created' |
 | `rg --sortr <sort_by>`                       | Sort results in reverse order                                                 |
 
-## `bat`
-
 ## `fd`
 
+## `bat`
+
 ## `fzf`
+
+`fzf` provides a fuzzy finder interface for a given list of strings. It's features include
+
+- fuzzy search through any list of strings
+- multi-select
+- preview window with custom commands and syntax highlighting
+- keybindings and events for custom behavior
+- customizable UI
+
+For our development environment, we will try to keep the convention of having `fzf` based commands launched with `tmux` popups and have a specific purpose, with carefully picked keybindings and helpful previews. This way, we can keep the UI standardized.
+
+### Basics
+
+At its core, `fzf` is inputs a list of strings and outputs a list of selected strings based on a sequence of regex filters. `fzf` allows a few filtering strategies:
+
+| Stategy         | Flag | Default |
+| --------------- | ---- | ------- |
+| fuzzy           |      | yes     |
+| exact           | `-e` | no      |
+| extended regex  | `-x` | yes     |
+| smart case      |      | yes     |
+| case sensitive  | `+i` | no      |
+| case insensitve | `-i` | no      |
+
+### Field index expressions
+
+We can choose how to format and search the input list by specifying a regex delimiter and using field index expressions to select the fields at certain indices. The below are the relevant flags:
+
+| Flag                | Description                                         |
+| ------------------- | --------------------------------------------------- |
+| `--delimiter`, `-d` | Specify a regex delimiter. The default is AWK-style |
+| `--with-nth`        | Only these fields will be displayed                 |
+| `--nth`, `-n`       | Only these fields will be searched                  |
+
+### Preview
+
+### Command execution
+
+### Aesthetics and layout
+
+We can customize the borders, colors, and layout of the `fzf` window. We will generally try to keep these consistent as much as possible. The biggest questions we want to answer are:
+
+- do we want this to be a tmux popup or inline in the terminal?
+  - popup: can be called from anywhere, but output must target an existing pane
+  - cli: output is persistent and can be called asynchronously, but must be called from a specific pane
+- should the preview, if any, be on the right or bottom?
+  - right side: more space for multiline preview
+  - bottom: show more details for active selection
+
+### Building an `fzf` command
+
+When designing an `fzf` function, we need to figure out
+
+1. the goal of our function
+2. the desired layout
+3. default source of inputs and initial filters
+4. which fields of the input to actually display
+5. which fields of the input to limit the search to
+6. whether multi-select is applicable
+7. the text filter algorithm
+8. what the preview window should look like
+9. how selected text should be transformed on completion
+10. what to do with the selected text on completion
+11. how keybindings affect the input list
+12. which keybindings perform what operations on selected text
+13. how keybindings affect the preview window (if applicable)
+
+### `fzf` cheatsheet
+
+In our [libraries folder](./libraries), we've predefined a few `fzf` commands. The below is a quick reference, along with possible `tmux` bindings to launch them.
+
+| Command | Binding | Description |
+| ------- | ------- | ----------- |
 
 ## `jq`
 
@@ -520,17 +798,26 @@ When we ssh into a remote machine, we automatically attach to the remote session
 
 ## Windows
 
+### Tabs
+
 - Development
 - Shell
+- Files
 - Testing
 - Tasks
+- Git
 - Package Management
 - Scratchpad
-- Tools
-- Files
-- Git
+- Custom shells
+
+### Temporary tools
+
+- Utility functions
 - Monitor
 - Process
+
+### Global background sessions
+
 - Knowledge
 - Env
 
@@ -544,7 +831,7 @@ When we ssh into a remote machine, we automatically attach to the remote session
 
 # neovim
 
-`nvim` is our text editor of choice. It runs on the terminal and is incredibly configurable.
+`nvim` is our text editor of choice. It runs on the terminal and is configurable.
 
 In our `nvim` setup, we attach a single `nvim` instance to facilitate all textual editing for any given "project". The below step-by-step gives a rough idea of how this works:
 
@@ -556,8 +843,6 @@ In our `nvim` setup, we attach a single `nvim` instance to facilitate all textua
 So for example, `nvim` might find a `package.json` in the root directory and understand that it's a PNPM monorepo root. It will then load all configurations associated with PNPM monorepo workspaces. Configurations include things like keybindings, LSPs, linters, formatters, etc.
 
 Each `tmux` session ideally represents a single project or workspace, and every project is associated with a root directory. This means that whenever we open a `tmux` session, we can automatically open `nvim` in the root directory of the project.
-
-## Installation
 
 ## Configuration
 
@@ -686,15 +971,43 @@ Each `tmux` session ideally represents a single project or workspace, and every 
 # Devices
 
 - Mouse
+  - Trackpad
+  - Multiple mice
 - Keyboard
+
+  - Built-in
+  - Multiple keyboards
+
 - Monitors
-- Webcam/Camera
-- WiFi
-- Bluetooth
+  - Laptop
+  - External
+  - iPad
+- Video In
+
+  - Built-in Camera
+  - Camera
+  - Virtual Camera Filter
+  - Screen
+
 - Audio Out
   - Wireless Headphones
   - Wired Headphones
-  - Speakers
+  - Built-in Speakers
+  - External Speakers
+  - Airpods
 - Audio In
-  - Microphone
+
+  - Built-in Microphone
+  - External Microphone
+  - Virtual Microphone
+  - Audio Interface
+  - Airpods
+
+- WiFi
 - Network
+- Bluetooth
+
+- iPhone
+- iPad
+- Vision
+- AirPods

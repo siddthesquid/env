@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+# Paths
+STS_ENV_CONFIGS="$STS_ENV_HOME/configs"
+STS_ENV_CONFIGS_ZSH="$STS_ENV_CONFIGS/zsh"
+STS_ENV_ZSH_APPLICATIONS="$STS_ENV_CONFIGS_ZSH/applications"
+
+# To avoid errors with no files found
+setopt localoptions nullglob
+
+# Load all application specific rc configurations
+# They must be placed in a file called rc.zsh in $STS_ENV_ZSH_APPLICATIONS
+for app_rc_config in "$STS_ENV_ZSH_APPLICATIONS"/**/rc.zsh; do
+  . "$app_rc_config"
+done

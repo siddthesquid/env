@@ -1,12 +1,9 @@
 # Paths
-ENV_HOME="${ENV_HOME:-$HOME/env}"
-ENV_CONFIGS="${ENV_CONFIGS:-$ENV_HOME/configs}"
-ENV_ZSH="${ENV_ZSH:-$ENV_CONFIGS/zsh}"
-ENV_ZSH_EXTERNAL="${ENV_ZSH_EXTERNAL:-$ENV_ZSH/external}"
+STS_ENV_CONFIGS="$STS_ENV_HOME/configs"
+STS_ENV_CONFIGS_ZSH="$STS_ENV_CONFIGS/zsh"
+STS_ENV_ZSH_EXTERNAL="$STS_ENV_CONFIGS_ZSH/external"
 
-. $ENV_ZSH_EXTERNAL/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-declare -A ZSH_HIGHLIGHT_STYLES
+. $STS_ENV_ZSH_EXTERNAL/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Default Styles
 ZSH_HIGHLIGHT_STYLES[default]=fg=220,bold
@@ -35,5 +32,3 @@ ZSH_HIGHLIGHT_STYLES[process-substitution]=fg=141
 ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=207
 ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]=fg=93,underline
 ZSH_HIGHLIGHT_STYLES[named-fd]=fg=99,bold
-
-export ZSH_HIGHLIGHT_STYLES

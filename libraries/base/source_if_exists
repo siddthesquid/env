@@ -1,4 +1,0 @@
-#!/bin/env zsh
-
-local lib_path="$1"
-[ -f ${lib_path} ] && source ${lib_path}
