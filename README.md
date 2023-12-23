@@ -44,26 +44,74 @@
   - [Git based package management](#git-based-package-management)
 - [ITerm2](#iterm2)
 - [zsh](#zsh)
-  - [`zsh` sessions](#zsh-sessions)
+  - [Shell lifecycle](#shell-lifecycle)
   - [Configuration files](#configuration-files)
-  - [Aliases](#aliases)
-  - [Basics](#basics)
+  - [Variables](#variables)
+    - [Arrays](#arrays)
+    - [Strings](#strings)
+    - [Numeric](#numeric)
+    - [Scope and Function Handling](#scope-and-function-handling)
+  - [Basic Grammar](#basic-grammar)
+    - [Simple Command](#simple-command)
+    - [Redirection](#redirection)
+    - [Pipeline](#pipeline)
+    - [Sublist](#sublist)
+    - [List](#list)
+    - [Examples](#examples)
+  - [Conditionals](#conditionals)
+    - [File Existence](#file-existence)
+    - [File Attribute](#file-attribute)
+    - [File Comparison](#file-comparison)
+    - [String](#string)
+    - [Arithmetic](#arithmetic)
+    - [Options](#options)
+    - [Logical](#logical)
+  - [Control Structures](#control-structures)
+  - [Expansion](#expansion)
+    - [History](#history)
+    - [Alias](#alias)
+    - [Process](#process)
+    - [Parameter](#parameter)
+    - [Command](#command)
+    - [Arithmetic](#arithmetic-1)
+    - [Brace](#brace)
+    - [Filename expansion](#filename-expansion)
+    - [Filename generation](#filename-generation)
+    - [Modifiers](#modifiers)
+      - [Path manipulation](#path-manipulation)
+      - [Text formatting](#text-formatting)
+      - [Miscellaneous](#miscellaneous)
+  - [ZLE](#zle)
+  - [Jobs](#jobs)
+  - [Completion system](#completion-system)
+  - [Options](#options-1)
   - [Stream manipulation](#stream-manipulation)
+    - [`grep`](#grep)
+    - [`sed`](#sed)
+    - [`cut`](#cut)
+    - [`sort`](#sort)
+    - [`uniq`](#uniq)
+    - [`tr`](#tr)
+    - [`tee`](#tee)
+    - [`xargs`](#xargs)
+    - [`head`](#head)
+    - [`tail`](#tail)
+    - [`awk`](#awk)
   - [Filesystem](#filesystem)
+  - [Process](#process-1)
+  - [Hardware and Drivers](#hardware-and-drivers)
+  - [OS](#os)
+  - [Disk](#disk)
   - [Networking](#networking)
   - [Cryptography](#cryptography)
   - [Remote access](#remote-access)
-  - [Permissions](#permissions)
-  - [Disk](#disk)
-  - [Process](#process)
-  - [OS](#os)
   - [Terminal](#terminal)
   - [Compression](#compression)
   - [`ripgrep`](#ripgrep)
   - [`fd`](#fd)
   - [`bat`](#bat)
   - [`fzf`](#fzf)
-    - [Basics](#basics-1)
+    - [Basics](#basics)
     - [Field index expressions](#field-index-expressions)
     - [Preview](#preview)
     - [Command execution](#command-execution)
@@ -590,29 +638,53 @@ The process roughly looks as follows:
 
 # zsh
 
-`zsh` is a shell interpreter, meaning it parses bytes sequences sent to it from the terminal/terminal emulator and executes them as commands. Our options for a shell interpreter generally include `sh`, `ksh`, `bash`, `zsh`, and `fish`.
+`zsh`...
 
-`zsh` is feature rich and, because it is the default shell on macOS, convenient to use.
+- is a shell interpreter. It is a "shell" over the OS kernel, giving a user low-level access to (more-or-less) whatever the computer hardware can do, all via the command line
+- is a process that attaches (`stdin`, `stdout`, `stderr`) to a TTY/terminal, which is another process
+- parses bytes sequences sent to it from the terminal/terminal emulator, processes them, and then hands the output back to the terminal, potentially with ANSI escape sequences for compliant terminals to interpret
+- manages environment variables, which can be inherited by other programs, scripts, or subshells
+- provides a complete, though quirky, programming language, which allows aliases, functions, and scripts to be written
+- can spawn and manage other processes (or jobs)
+- provides useful DevX tooling like `compinit` (completion) and ZLE (`zsh` line editor)
+- alternatives include `sh`, `ksh`, `bash`, `csh`, and `fish`. but we will use `zsh` as it is feature rich and has good adoption.
 
-## `zsh` sessions
+## Shell lifecycle
 
-Each instance of the shell has associated variables. Some key ones include `PATH`, `PWD`, and `OLDPWD`.
+`zsh` is singlethreaded - it runs one command after another. In between commands, we can query the environment for it's current state. A command can
 
-If `zsh` is launched in interactive mode, that means the user is typing the commands into the shell. Otherwise, a file must be provided. We can check if `zsh` is running interactively with
+`zsh` can be run in a number of contexts
+
+- login shell provided by OS (accessible in Linux)
+- launching terminal gives you a default shell
+- tmux panes
+- script launched from within `zsh`
+- as a script from some other application
+
+In all cases, the shell processes commands on a single thread. Commands can take the form of
+
+- builtins
+- functions
+- scripts
+- binaries (on `PATH`)
+
+## Configuration files
+
+`zsh` can be configured based on whether it is a login or interactive shell.
+
+**Interactive** - If `zsh` is launched in interactive mode, that means the user is typing the commands into the shell. Otherwise, a file must be provided. We can check if `zsh` is running interactively with
 
 ```sh
 [[ -o interactive ]]
 ```
 
-`zsh` can also be launched in login mode. All that practically means is that it will source `~/.zprofile` instead of `~/.zshrc`. We can check if `zsh` is running in login mode with
+**Login** - `zsh` can also be launched in login mode. All that practically means is that it will source `~/.zprofile` instead of `~/.zshrc`. We can check if `zsh` is running in login mode with
 
 ```sh
 [[ -o login ]]
 ```
 
-## Configuration files
-
-When `zsh` is launched, it will source the following files in the following order:
+Based on the above properties, we know which files will be sourced.
 
 | Configuration File | Context         |
 | ------------------ | --------------- |
@@ -629,30 +701,309 @@ When `zsh` is launched, it will source the following files in the following orde
 
 Generally, we only need to use
 
-- `~/.zshenv` for configuring `PATH`, `*_HOME`, and `fpath` variables
+- `~/.zshenv` for configuring `PATH`, `*_HOME`, and `fpath`
 - `~/.zshrc` for interactive shell usage
 
-## Aliases
+## Variables
 
-## Basics
+The shell manages a number of variables during its life. For any process, an environment variable is a key value string pair. However, with `zsh`, we can add supplemental attributes to variables, which limits how the variables can be modified and represented.
+
+### Arrays
+
+| Attribute | Description                                                          |
+| --------- | -------------------------------------------------------------------- |
+| `-A`      | Refers to associative array parameters.                              |
+| `-a`      | Refers to array parameters.                                          |
+| `-U`      | For arrays, keep only the first occurrence of each duplicated value. |
+
+### Strings
+
+| Attribute | Description                                                     |
+| --------- | --------------------------------------------------------------- |
+| `-L [n]`  | Left justify and remove leading blanks. Width specified by `n`. |
+| `-R [n]`  | Right justify. Width specified by `n`.                          |
+| `-Z [n]`  | Pad with zeros instead of blanks. Width specified by `n`.       |
+| `-l`      | Convert to lower case upon expansion.                           |
+| `-u`      | Convert to upper case upon expansion.                           |
+
+### Numeric
+
+| Attribute | Description                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------------- |
+| `-i [n]`  | Use an internal integer representation. Base specified by `n`.                                    |
+| `-E [n]`  | Use double-precision float, output in scientific notation. Significant figures specified by `n`.  |
+| `-F [n]`  | Use double-precision float, output in fixed-point decimal. Digits after decimal specified by `n`. |
+
+### Scope and Function Handling
+
+| Attribute | Description                                                     |
+| --------- | --------------------------------------------------------------- |
+| `-f`      | Refers to functions rather than parameters.                     |
+| `-h`      | Hide special parameters or local parameters with the same name. |
+| `-H`      | Hide value of the parameter when listing parameters.            |
+| `-r`      | Mark variables as readonly.                                     |
+| `-t`      | Tag parameters (no special shell meaning).                      |
+| `-x`      | Mark for automatic export to the environment.                   |
+
+## Basic Grammar
+
+Shells process
+
+- lists: which are a sequence of sublists
+- sublists: which are a sequence of pipelines
+- pipelines: which are a sequence of commands
+- commands: which are a sequence of words
+
+### Simple Command
+
+A simple command in Zsh is a basic unit of execution.
+
+| Component             | Description                                          |
+| --------------------- | ---------------------------------------------------- |
+| Parameter assignments | Optional parameters set for the command.             |
+| Command               | The first word, specifying the command to execute.   |
+| Arguments             | Subsequent words passed as arguments to the command. |
+| Redirections          | Optional, used to redirect input/output.             |
+
+```shell
+FOO=bar echo $FOO
+```
+
+### Redirection
+
+### Pipeline
+
+A pipeline connects the output of one command to the input of another.
+
+| Separator | Description                                                                                  |
+| --------- | -------------------------------------------------------------------------------------------- |
+| `\|`      | The standard output of the first command is connected to the input of the next.              |
+| `\|&`     | Shorthand for `2>&1 \|`, connecting both stdout and stderr to the input of the next command. |
+
+### Sublist
+
+A sublist is a sequence of pipelines with conditional execution.
+
+| Separator | Description                                                              |
+| --------- | ------------------------------------------------------------------------ |
+| `&&`      | The right pipeline executes only if the left one succeeds (zero status). |
+| `\|\|`    | The right pipeline executes only if the left one fails (nonzero status). |
+
+### List
+
+A list is a sequence of sublists with various terminators.
+
+| Terminator  | Description                                                      |
+| ----------- | ---------------------------------------------------------------- |
+| `;`         | The shell waits for the sublist to finish before the next.       |
+| newline     | Same as `;`, used to separate and sequentially execute sublists. |
+| `&`         | Executes the last pipeline of the sublist in the background.     |
+| `&\|`, `&!` | Special background execution cases (similar to `&`).             |
+
+### Examples
+
+```shell
+# Simple Command Example
+echo foo # Echoes the word 'foo'.
+
+# Pipeline Example
+echo foo | sed 's/foo/bar/' # Replaces 'foo' with 'bar' in the output of echo.
+
+# Sublist Example
+dmesg | grep panic && print yes # Prints 'yes' if 'panic' is found in `dmesg` output.
+
+# List Example
+command1; command2 & command3 # `command1` then `command2` (foreground), and `command3` (background).
+```
+
+## Conditionals
+
+### File Existence
+
+| Conditional          | Description                                       |
+| -------------------- | ------------------------------------------------- |
+| `-a file`, `-e file` | True if file exists.                              |
+| `-f file`            | True if file is a regular file.                   |
+| `-d file`            | True if file is a directory.                      |
+| `-h file`, `-L file` | True if file is a symbolic link.                  |
+| `-p file`            | True if file is a FIFO special file (named pipe). |
+| `-S file`            | True if file is a socket.                         |
+| `-b file`            | True if file is a block special file.             |
+| `-c file`            | True if file is a character special file.         |
+
+### File Attribute
+
+| Conditional | Description                                                          |
+| ----------- | -------------------------------------------------------------------- |
+| `-r file`   | True if file is readable by the current process.                     |
+| `-w file`   | True if file is writable by the current process.                     |
+| `-x file`   | True if file is executable or directory is searchable.               |
+| `-s file`   | True if file exists and has size greater than zero.                  |
+| `-u file`   | True if file has its setuid bit set.                                 |
+| `-g file`   | True if file has its setgid bit set.                                 |
+| `-k file`   | True if file has its sticky bit set.                                 |
+| `-O file`   | True if file is owned by the effective user ID of this process.      |
+| `-G file`   | True if file's group matches the effective group ID of this process. |
+| `-N file`   | True if file's access time is not newer than its modification time.  |
+
+### File Comparison
+
+| Conditional       | Description                                     |
+| ----------------- | ----------------------------------------------- |
+| `file1 -nt file2` | True if file1 is newer than file2.              |
+| `file1 -ot file2` | True if file1 is older than file2.              |
+| `file1 -ef file2` | True if file1 and file2 refer to the same file. |
+
+### String
+
+| Conditional                             | Description                                                 |
+| --------------------------------------- | ----------------------------------------------------------- |
+| `-n string`                             | True if length of string is non-zero.                       |
+| `-z string`                             | True if length of string is zero.                           |
+| `string = pattern`, `string == pattern` | True if string matches pattern.                             |
+| `string != pattern`                     | True if string does not match pattern.                      |
+| `string =~ regexp`                      | True if string matches the regular expression regexp.       |
+| `string1 < string2`                     | True if string1 comes before string2 based on ASCII values. |
+| `string1 > string2`                     | True if string1 comes after string2 based on ASCII values.  |
+
+### Arithmetic
+
+| Conditional     | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| `exp1 -eq exp2` | True if exp1 is numerically equal to exp2.                 |
+| `exp1 -ne exp2` | True if exp1 is numerically not equal to exp2.             |
+| `exp1 -lt exp2` | True if exp1 is numerically less than exp2.                |
+| `exp1 -gt exp2` | True if exp1 is numerically greater than exp2.             |
+| `exp1 -le exp2` | True if exp1 is numerically less than or equal to exp2.    |
+| `exp1 -ge exp2` | True if exp1 is numerically greater than or equal to exp2. |
+
+### Options
+
+| Conditional  | Description                            |
+| ------------ | -------------------------------------- |
+| `-o option`  | True if shell option is on.            |
+| `-v varname` | True if shell variable varname is set. |
+
+### Logical
+
+| Conditional    | Description                          |
+| -------------- | ------------------------------------ | ----- | ------------------------------------ |
+| `( exp )`      | True if exp is true.                 |
+| `! exp`        | True if exp is false.                |
+| `exp1 && exp2` | True if both exp1 and exp2 are true. |
+| `exp1          |                                      | exp2` | True if either exp1 or exp2 is true. |
+
+## Control Structures
+
+## Expansion
+
+Let's suppose a string of text has been submitted to `zsh` for processing. A series of expansions will happen before it's tokenized into words and processed. These expansions happen in the following order:
+
+1. History
+2. Alias
+3. Process, parameter, command, arithmetic, and brace (left to right)
+4. Filename expansion
+5. FIlename generation
+
+### History
+
+### Alias
+
+### Process
+
+### Parameter
+
+### Command
+
+### Arithmetic
+
+### Brace
+
+### Filename expansion
+
+### Filename generation
+
+### Modifiers
+
+#### Path manipulation
+
+| Modifier     | Command Description                                                                                   |
+| ------------ | ----------------------------------------------------------------------------------------------------- |
+| `a`          | Turn a filename into an absolute path, logically (without resolving symlinks).                        |
+| `A`          | Turn a filename into an absolute path and resolve symlinks (uses realpath).                           |
+| `c`          | Resolve a command name into an absolute path by searching the PATH variable.                          |
+| `e`          | Remove all but the filename extension.                                                                |
+| `h [digits]` | Remove a trailing pathname component, optionally keeping a specified number of leading components.    |
+| `P`          | Turn a file name into an absolute path, similar to realpath(3) but allows non-existent components.    |
+| `r`          | Remove a filename extension, leaving the root name.                                                   |
+| `t [digits]` | Remove all leading pathname components, optionally keeping a specified number of trailing components. |
+
+#### Text formatting
+
+| Modifier             | Command Description                                            |
+| -------------------- | -------------------------------------------------------------- |
+| `s/l/r[/]`           | Substitute `r` for the first occurrence of `l`.                |
+| `gs/l/r`, `s/l/r/:G` | Global substitution: replace every occurrence of `l` with `r`. |
+| `&`                  | Repeat the previous `s` substitution.                          |
+| `l`                  | Convert the words to all lowercase.                            |
+| `u`                  | Convert the words to all uppercase.                            |
+
+#### Miscellaneous
+
+| Modifier | Command Description                                                      |
+| -------- | ------------------------------------------------------------------------ |
+| `p`      | Print the new command but do not execute it (history expansion).         |
+| `q`      | Quote the substituted words, escaping further substitutions.             |
+| `Q`      | Remove one level of quotes from the substituted words.                   |
+| `x`      | Break into words at whitespace (does not work with parameter expansion). |
+
+## ZLE
+
+## Jobs
+
+## Completion system
+
+## Options
 
 ## Stream manipulation
 
+### `grep`
+
+### `sed`
+
+### `cut`
+
+### `sort`
+
+### `uniq`
+
+### `tr`
+
+### `tee`
+
+### `xargs`
+
+### `head`
+
+### `tail`
+
+### `awk`
+
 ## Filesystem
+
+## Process
+
+## Hardware and Drivers
+
+## OS
+
+## Disk
 
 ## Networking
 
 ## Cryptography
 
 ## Remote access
-
-## Permissions
-
-## Disk
-
-## Process
-
-## OS
 
 ## Terminal
 
