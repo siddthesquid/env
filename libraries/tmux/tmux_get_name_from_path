@@ -17,12 +17,12 @@ get_absolute_directory() {
   elif [[ -f $path ]]; then
     dirname $path
   else
-    echo ""
+    return 1
   fi
 }
 
 # Function to assign value based on directory
-get_value() {
+derive_name() {
   local dir=$1
   case $dir in
     ~ | $HOME)
@@ -41,24 +41,15 @@ get_value() {
       echo "/${dir#/}"
       ;;
     *)
-      echo ""
+      return 1
       ;;
   esac
 }
 
 # Main script logic
 local input_path=$1
-if [[ -z "$input_path" ]]; then
-  echo ""
-  return 1
-fi
+[[ -z "$input_path" ]] || return 1
 
-absolute_directory=$(get_absolute_directory $input_path)
-
-if [[ -z $absolute_directory ]]; then
-  echo ""
-  return 1
-else
-  value=$(get_value $absolute_directory)
-  [[ -n $value ]] && echo "${value}" || echo ""
-fi
+absolute_directory=$(get_absolute_directory $input_path) || return 1
+value=$(derive_name $absolute_directory) || return 1
+echo "$value"

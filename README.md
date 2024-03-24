@@ -494,6 +494,7 @@ We want to configure some `tmux` and `neovim` settings specific to the type of r
 - what identifies a session as a particular type
 - `tmux` specific bindings and configurations
 - `neovim` LSPs and diagnostics tools
+- during which lifecycle events we want to run certain scripts
 
 ## Javascript
 
@@ -886,12 +887,12 @@ command1; command2 & command3 # `command1` then `command2` (foreground), and `co
 
 ### Logical
 
-| Conditional    | Description                          |
-| -------------- | ------------------------------------ | ----- | ------------------------------------ |
-| `( exp )`      | True if exp is true.                 |
-| `! exp`        | True if exp is false.                |
-| `exp1 && exp2` | True if both exp1 and exp2 are true. |
-| `exp1          |                                      | exp2` | True if either exp1 or exp2 is true. |
+| Conditional      | Description                          |
+| ---------------- | ------------------------------------ |
+| `( exp )`        | True if exp is true.                 |
+| `! exp`          | True if exp is false.                |
+| `exp1 && exp2`   | True if both exp1 and exp2 are true. |
+| `exp1 \|\| exp2` | True if either exp1 or exp2 is true. |
 
 ## Control Structures
 
@@ -1152,14 +1153,14 @@ When we ssh into a remote machine, we automatically attach to the remote session
 ### Tabs
 
 - Development
-- Shell
+- Main Terminal shell
+- Custom shells
 - Files
-- Testing
+- Services
 - Tasks
 - Git
 - Package Management
 - Scratchpad
-- Custom shells
 
 ### Temporary tools
 

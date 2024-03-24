@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-local env_dir=${ENV_DIR:-$HOME/env}
+local env_dir=${STS_ENV_HOME:-$HOME/env}
 
 create_link() {
   local source_path="$1"
@@ -12,6 +12,8 @@ create_link() {
     echo "$display_source is already linked to $display_target"
   elif [[ -e $source_path ]]; then
     echo "$display_source already exists"
+  elif [[ ! -e $target_path ]]; then
+    echo "$display_target does not exist"
   else
     ln -s $target_path $source_path
     echo "Link created: $display_source -> $display_target"
@@ -25,6 +27,7 @@ mkdir -p $HOME/.config
 # List of links to be created
 declare -A links
 links=(
+  ["$HOME/.gitconfixg"]="$env_dir/configs/git/.gitcoxnfig"
   ["$HOME/.gitconfig"]="$env_dir/configs/git/.gitconfig"
   ["$HOME/.gitignore"]="$env_dir/configs/git/.gitignore"
   ["$HOME/.tmux.conf"]="$env_dir/configs/tmux/.tmux.conf"

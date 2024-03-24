@@ -43,10 +43,15 @@ load_library() {
 }
 
 # Load all libraries. Order doesn't matter here.
-STS_ENV_LIBRARIES="$STS_ENV_HOME/libraries"
-for dir in "$STS_ENV_LIBRARIES"/*; do
-  load_library "$dir"
-done
+load_all_libraries() {
+  local STS_ENV_LIBRARIES="$STS_ENV_HOME/libraries"
+  for dir in "$STS_ENV_LIBRARIES"/*; do
+    load_library "$dir"
+  done
+}
+
+# load all libraries
+load_all_libraries
 
 # load application specific environments
 load_app_env_configs
