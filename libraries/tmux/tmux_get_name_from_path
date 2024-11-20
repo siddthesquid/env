@@ -48,7 +48,7 @@ derive_name() {
 
 # Main script logic
 local input_path=$1
-[[ -z "$input_path" ]] || return 1
+[[ -z "$input_path" ]] && return 1
 
 absolute_directory=$(get_absolute_directory $input_path) || return 1
 value=$(derive_name $absolute_directory) || return 1

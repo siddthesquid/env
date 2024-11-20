@@ -1,4 +1,7 @@
 #!/usr/bin/env zsh
 
+echo home
+echo root
+echo opt
 echo env
 echo knowledge

@@ -1,28 +1,37 @@
 #!/usr/bin/env zsh
 
+# load_setting <setting_name>
+# Easy way to load settings from configs/zsh/settings/<setting_name>.zsh
+# Can be disabled by setting STS_SETTING_DISABLE_<setting_name> to any value
+
+# Paths
 STS_ENV_CONFIGS="$STS_ENV_HOME/configs"
 STS_ENV_CONFIGS_ZSH="$STS_ENV_CONFIGS/zsh"
 STS_ENV_ZSH_SETTINGS="$STS_ENV_CONFIGS_ZSH/settings"
 
+# Get setting name
 local setting_name="$1"
 if [[ -z "$setting_name" ]]; then
   echo "Usage: load_setting <setting_name>"
   return 1
 fi
 
+# Check if setting file exists
 local setting_path="$STS_ENV_ZSH_SETTINGS/$setting_name.zsh"
 if [[ ! -f "$setting_path" ]]; then
   echo "Setting '$setting_name' not found"
   return 1
 fi
 
-local override_var_name="STS_SETTING_DISABLE_${setting_name:t:r}"
+# Check if setting is disabled
+local override_var_name="STS_SETTING_DISABLE_${setting_name}"
 local override_var_value=$(eval echo \$$override_var_name)
 if [[ -n $override_var_value ]]; then
   echo "Skipped loading setting '$setting_name'. $override_var_name is set"
   return 1
 fi
 
+# Load setting
 source "$setting_path"
 
 

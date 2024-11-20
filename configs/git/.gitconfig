@@ -10,9 +10,11 @@ excludesfile = /Users/sidd/.gitignore
 
 [push]
 default = current
+autoSetupRemote = true
 
 [pull]
-rebase = true
+default = current
+rebase = false
 
 [alias]
 stat = status -sbu

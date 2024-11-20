@@ -1,4 +1,5 @@
 .siddthesquid
+.dx
 .env.local
 .tmuxinator.yaml
 .idea
@@ -7,3 +8,9 @@
 .DS_Store
 node_modules
 .venv
+workspace.code-workspace
+.workspace.py.code-workspace
+*.bak
+
+sandbox.py
+sandbox.ts

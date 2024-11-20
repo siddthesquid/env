@@ -37,6 +37,12 @@
     - [`kotlin-gradle-standard`](#kotlin-gradle-standard)
   - [Swift](#swift)
     - [`swift-xcode-standard`](#swift-xcode-standard)
+  - [Agda](#agda)
+    - [`agda-standard`](#agda-standard)
+  - [Terraform](#terraform)
+    - [`terraform-standard`](#terraform-standard)
+  - [Kubernetes](#kubernetes)
+    - [`kubernetes-standard`](#kubernetes-standard)
 - [Brew](#brew)
   - [Commands](#commands)
 - [Git](#git)
@@ -85,31 +91,219 @@
   - [Jobs](#jobs)
   - [Completion system](#completion-system)
   - [Options](#options-1)
+  - [Editors](#editors)
+    - [`less`](#less)
+    - [`xxd`](#xxd)
+    - [`vim`, `vi`](#vim-vi)
+    - [`nano`](#nano)
+    - [`emacs`](#emacs)
   - [Stream manipulation](#stream-manipulation)
-    - [`grep`](#grep)
+    - [`cat` - con`cat`enate](#cat---concatenate)
+    - [`awk`](#awk)
     - [`sed`](#sed)
-    - [`cut`](#cut)
+    - [`expand`](#expand)
     - [`sort`](#sort)
     - [`uniq`](#uniq)
+    - [`jq`](#jq)
+    - [`grep`](#grep)
+    - [`cut`](#cut)
     - [`tr`](#tr)
-    - [`tee`](#tee)
-    - [`xargs`](#xargs)
+    - [`wc`](#wc)
     - [`head`](#head)
     - [`tail`](#tail)
-    - [`awk`](#awk)
-  - [Filesystem](#filesystem)
-  - [Process](#process-1)
-  - [Hardware and Drivers](#hardware-and-drivers)
-  - [OS](#os)
-  - [Disk](#disk)
-  - [Networking](#networking)
+    - [`echo`](#echo)
+    - [`grep`](#grep-1)
+    - [`tee`](#tee)
+    - [`xargs`](#xargs)
   - [Cryptography](#cryptography)
-  - [Remote access](#remote-access)
-  - [Terminal](#terminal)
+    - [`ssh-keygen`](#ssh-keygen)
+    - [`ssh-copy-id`](#ssh-copy-id)
+    - [`ssh-agent`](#ssh-agent)
+    - [`ssh-add`](#ssh-add)
+    - [`ssh`](#ssh)
+    - [`scp`](#scp)
+    - [`rsync`](#rsync)
+    - [`gpg`](#gpg)
+    - [`sftp`](#sftp)
+    - [`openssl`](#openssl)
+  - [Networking](#networking)
+    - [`curl`](#curl)
+    - [`wget`](#wget)
+    - [`netstat`](#netstat)
+    - [`ifconfig`](#ifconfig)
+    - [`ip`](#ip)
+    - [`route`](#route)
+    - [`ping`](#ping)
+    - [`traceroute`](#traceroute)
+    - [`mtr`](#mtr)
+    - [`dig`](#dig)
+    - [`nslookup`](#nslookup)
+    - [`tcpdump`](#tcpdump)
+    - [`nmap`](#nmap)
+    - [`whois`](#whois)
+    - [`ufw`](#ufw)
+    - [`iptables`](#iptables)
   - [Compression](#compression)
+    - [`tar`](#tar)
+    - [`gzip`](#gzip)
+    - [`bzip2`](#bzip2)
+    - [`xz`](#xz)
+    - [`zip`](#zip)
+    - [`unzip`](#unzip)
+  - [Filesystem](#filesystem)
+    - [`cp`](#cp)
+    - [`ln`](#ln)
+    - [`mv`](#mv)
+    - [`rm`](#rm)
+    - [`mkdir`](#mkdir)
+    - [`rmdir`](#rmdir)
+    - [`find`](#find)
+    - [`ls`](#ls)
+    - [`lsblk`](#lsblk)
+    - [`tree`](#tree)
+    - [`df`](#df)
+    - [`du`](#du)
+    - [`free`](#free)
+    - [`file`](#file)
+    - [`diff`](#diff)
+    - [`cmp`](#cmp)
+    - [`comm`](#comm)
+    - [`patch`](#patch)
+    - [`touch`](#touch)
+    - [`mkfifo`](#mkfifo)
+  - [Operating system](#operating-system)
+    - [`shutdown`](#shutdown)
+    - [`reboot`](#reboot)
+    - [`halt`](#halt)
+    - [`poweroff`](#poweroff)
+    - [`systemctl`](#systemctl)
+    - [`service`](#service)
+    - [`journalctl`](#journalctl)
+    - [`dmesg`](#dmesg)
+  - [Terminal interaction](#terminal-interaction)
+    - [`tmux`](#tmux)
+    - [`cd`](#cd)
+    - [`pwd`](#pwd)
+    - [`alias`](#alias-1)
+    - [`unalias`](#unalias)
+    - [`history`](#history-1)
+    - [`clear`](#clear)
+    - [`exit`](#exit)
+    - [`which`](#which)
+    - [`whereis`](#whereis)
+    - [`whatis`](#whatis)
+    - [`pushd`](#pushd)
+    - [`popd`](#popd)
+    - [`dirs`](#dirs)
+    - [`printenv`](#printenv)
+    - [`set`](#set)
+    - [`unset`](#unset)
+  - [Process](#process-1)
+    - [`ps`](#ps)
+    - [`pstree`](#pstree)
+    - [`lsof`](#lsof)
+    - [`top`](#top)
+    - [`kill`](#kill)
+    - [`killall`](#killall)
+    - [`sh`](#sh)
+    - [`xargs`](#xargs-1)
+    - [`coproc`](#coproc)
+    - [`fg`](#fg)
+    - [`bg`](#bg)
+    - [`sleep`](#sleep)
+    - [`watch`](#watch)
+    - [`nohup`](#nohup)
+    - [`nice`](#nice)
+    - [`renice`](#renice)
+    - [`at`](#at)
+    - [`batch`](#batch)
+    - [`cron`](#cron)
+    - [`crontab`](#crontab)
+    - [`atq`](#atq)
+    - [`atrm`](#atrm)
+  - [Info](#info)
+    - [`id`](#id)
+    - [`whoami`](#whoami)
+    - [`whatis`](#whatis-1)
+    - [`hostname`](#hostname)
+    - [`date`](#date)
+    - [`cal`](#cal)
+    - [`uptime`](#uptime)
+    - [`time`](#time)
+    - [`uname`](#uname)
+    - [`arch`](#arch)
+  - [Permissions](#permissions)
+    - [`chmod`](#chmod)
+    - [`chown`](#chown)
+    - [`chgrp`](#chgrp)
+    - [`sudo`](#sudo)
+    - [`su`](#su)
+    - [`passwd`](#passwd)
+    - [`useradd`](#useradd)
+    - [`userdel`](#userdel)
+    - [`usermod`](#usermod)
+    - [`groupadd`](#groupadd)
+    - [`groupdel`](#groupdel)
+    - [`groupmod`](#groupmod)
+  - [Disk operations](#disk-operations)
+    - [`dd`](#dd)
+    - [`mount`](#mount)
+    - [`umount`](#umount)
+    - [`blkid`](#blkid)
+    - [`fdisk`](#fdisk)
+    - [`parted`](#parted)
+    - [`mkfs`](#mkfs)
+    - [`mkswap`](#mkswap)
+    - [`swapon`](#swapon)
+    - [`swapoff`](#swapoff)
+  - [Drivers](#drivers)
+    - [`insmod`](#insmod)
+    - [`rmmod`](#rmmod)
+    - [`lsmod`](#lsmod)
+    - [`modprobe`](#modprobe)
+    - [`modinfo`](#modinfo)
+    - [`depmod`](#depmod)
+  - [Object files](#object-files)
+    - [`ar`](#ar)
+    - [`nm`](#nm)
+    - [`objdump`](#objdump)
+    - [`readelf`](#readelf)
+    - [`strip`](#strip)
+    - [`ldd`](#ldd)
+    - [`ldconfig`](#ldconfig)
+  - [Debugging](#debugging)
+    - [`gdb`](#gdb)
+    - [`strace`](#strace)
+    - [`ltrace`](#ltrace)
+    - [`valgrind`](#valgrind)
+    - [`perf`](#perf)
+    - [`dtrace`](#dtrace)
+    - [`systemtap`](#systemtap)
+    - [`bpftrace`](#bpftrace)
+  - [Monitoring](#monitoring)
+    - [`htop`](#htop)
+    - [`iotop`](#iotop)
+    - [`iftop`](#iftop)
+    - [`nethogs`](#nethogs)
+    - [`vnstat`](#vnstat)
+    - [`dstat`](#dstat)
+    - [`sysstat`](#sysstat)
+    - [`sar`](#sar)
+    - [`mpstat`](#mpstat)
+    - [`pidstat`](#pidstat)
+    - [`iostat`](#iostat)
+    - [`vmstat`](#vmstat)
+    - [`free`](#free-1)
+    - [`top`](#top-1)
+    - [`ps`](#ps-1)
+    - [`uptime`](#uptime-1)
+  - [Misc](#misc)
+    - [`git`](#git-1)
+    - [`man`](#man)
   - [`ripgrep`](#ripgrep)
   - [`fd`](#fd)
   - [`bat`](#bat)
+  - [`nnn`](#nnn)
   - [`fzf`](#fzf)
     - [Basics](#basics)
     - [Field index expressions](#field-index-expressions)
@@ -118,12 +312,12 @@
     - [Aesthetics and layout](#aesthetics-and-layout)
     - [Building an `fzf` command](#building-an-fzf-command)
     - [`fzf` cheatsheet](#fzf-cheatsheet)
-  - [`jq`](#jq)
+  - [`jq`](#jq-1)
   - [`exa`](#exa)
   - [`glances`](#glances)
   - [Plugins](#plugins)
   - [Aesthetics](#aesthetics)
-- [tmux](#tmux)
+- [tmux](#tmux-1)
   - [Sessions](#sessions)
   - [Windows](#windows)
     - [Tabs](#tabs)
@@ -133,6 +327,7 @@
   - [tmux-thumbs](#tmux-thumbs)
   - [tmux-better-mouse-mode](#tmux-better-mouse-mode)
   - [Cheatsheet](#cheatsheet-1)
+- [yabai / skhd](#yabai--skhd)
 - [neovim](#neovim)
   - [Configuration](#configuration)
   - [LSP](#lsp)
@@ -142,7 +337,7 @@
   - [Telescope](#telescope)
 - [VSCode](#vscode)
 - [Xcode](#xcode)
-- [Emacs](#emacs)
+- [Emacs](#emacs-1)
 - [Tools, LSPs, Configurations, etc.](#tools-lsps-configurations-etc)
   - [C / C++ / CMake / Conan](#c--c--cmake--conan)
   - [Java / Maven](#java--maven)
@@ -159,7 +354,7 @@
   - [Dart / Flutter](#dart--flutter)
   - [Swift / Xcode](#swift--xcode)
   - [Kotlin / Gradle](#kotlin--gradle)
-  - [Agda](#agda)
+  - [Agda](#agda-1)
   - [Julia](#julia)
   - [Idris](#idris)
   - [R](#r)
@@ -180,7 +375,7 @@
   - [protobuf](#protobuf)
   - [kubectl](#kubectl)
   - [minikube](#minikube)
-  - [Terraform](#terraform)
+  - [Terraform](#terraform-1)
   - [Helm](#helm)
   - [AWS](#aws)
   - [GCP](#gcp)
@@ -215,7 +410,8 @@ brew install \
   fd \
   pstree \
   bash-completion \
-  jesseduffield/lazygit/lazygit
+  jesseduffield/lazygit/lazygit \
+  orbstack
 
 # Other misc tools
 gem install tmuxinator
@@ -236,10 +432,9 @@ git clone --recurse-submodules git@github.com:siddthesquid/env.git
 export ENV_HOME=~/env
 
 # Run bootstrapping code (as needed)
-. ~/env/bootstrap/source_env_in_host_configs.zsh
-. ~/env/bootstrap/symlink_configs_from_host_to_env.zsh
-. ~/env/bootstrap/symlink_configs_from_env_to_host.zsh
-. ~/env/bootstrap/update_xdg_dirs.zsh
+. ~/env/bootstrap/00_source_env_in_host_zsh_configs.zsh
+. ~/env/bootstrap/01_symlink_configs_from_host_to_env.zsh
+. ~/env/bootstrap/02_symlink_configs_from_env_to_host.zsh
 
 # Install applications. (Some things in here may be manual)
 pkg_add tmux
@@ -303,7 +498,7 @@ For reference, this is what we expect the `$HOME` directory to look like:
 │   │   │   ├── modules
 │   │   │   └── settings
 │   │   └── zsh
-│   │       ├── applicatiosn
+│   │       ├── applications
 │   │       ├── external
 │   │       └── settings
 │   ├── libraries
@@ -319,8 +514,22 @@ For reference, this is what we expect the `$HOME` directory to look like:
 : # Notes and cheatsheets
 ├── knowledge
 :
+: # Custom installation directory
+├── local
+│   ├── lib
+│   ├── bin
+│   ├── include
+│   ├── share
+│   ├── etc
+│   ├── var
+│   ├── tmp
+│   └── site-functions
+:
 : # Virtual machines
 ├── vms
+│   ├── <vm-1>
+│   ├── <vm-2>
+│   :
 :
 : # Services. Should be start-up and start-down automatically.
 ├── services
@@ -334,16 +543,11 @@ For reference, this is what we expect the `$HOME` directory to look like:
 │   ├── <project-2>
 │   :
 :
-: # Custom installation directory
+: # Packages that are automatically maintained
 ├── opt
-│   ├── lib
-│   ├── bin
-│   ├── include
-│   ├── share
-│   ├── etc
-│   ├── var
-│   ├── tmp
-│   └── site-functions
+│   ├── <project-1>
+│   ├── <project-2>
+│   :
 :
 : # Temporary projects
 ├── sandbox
@@ -412,6 +616,7 @@ STS_ENV_BOOTSTRAP="$STS_ENV_HOME/bootstrap"
 STS_ENV_CONFIGS="$STS_ENV_HOME/configs"
 STS_ENV_LIBRARIES="$STS_ENV_HOME/libraries"
 STS_ENV_PACKAGES="$STS_ENV_HOME/packages"
+STS_ENV_TEMPLATES="$STS_ENV_HOME/templates"
 
 # Config
 STS_ENV_CONFIGS_GIT="$STS_ENV_CONFIGS/git"
@@ -457,12 +662,12 @@ The below table has all of the named workspaces. They would each get their own `
 | root       | `/`     | root directory                |
 | opt        | `~/opt` | custom installation directory |
 | background | `~`     | background projects           |
+| env        | `~/env` | this directory                |
 
 `background` is a `tmux` session that will never be attached to directly. We will use it to pop-up over other sessions for quick access to certain persistent windows. The below table lists the background projects. They would each get their own `tmux` window and be named accordingly.
 
 | Name      | Path          | Description                                                             |
 | --------- | ------------- | ----------------------------------------------------------------------- |
-| env       | `~/env`       | this directory                                                          |
 | knowledge | `~/knowledge` | mostly cheatsheets and guides for different software engineering topics |
 
 ## Path-based workspace
@@ -473,9 +678,9 @@ Certain directories (as listed in the below table) are marked as valid workspace
 | --------- | ----------------------------------- | --------------------------------- |
 | services  | `~/services/<service>`              | manually managed services         |
 | vms       | `~/vms/<vm>`                        | manually managed virtual machines |
-| oss       | `~/oss/<project>`                   | open source projects              |
-| sandbox   | `~/sandbox/<project>`               | temporary projects                |
-| workspace | `~/workspace/<organization>/<repo>` | primary project workspace         |
+| oss       | `~/oss/<project>/<branch>`                   | open source projects              |
+| sandbox   | `~/sandbox/<project>/<branch>`               | temporary projects                |
+| workspace | `~/workspace/<organization>/<repo>/<branch>` | primary project workspace         |
 
 ## Other workspaces
 
@@ -552,6 +757,22 @@ We want to configure some `tmux` and `neovim` settings specific to the type of r
 
 ### `swift-xcode-standard`
 
+## Agda
+
+### `agda-standard`
+
+## Terraform
+
+### `terraform-standard`
+
+## Kubernetes
+
+### `kubernetes-standard`
+
+## Misc
+
+### `unknown`
+
 # Brew
 
 We will rely on Brew to install most packages. Packages are installed in `/usr/local/Cellar` and symlinked to `/usr/local/bin`. We will also use Brew to manage services.
@@ -605,14 +826,12 @@ We want a consistent and repeatable workflow when installing stuff from git. Pac
 
 ```mermaid
 graph LR
-    CLEAN -- "ADD" --> DOWNLOADED
+    EMPTY -- "ADD" --> DOWNLOADED
     DOWNLOADED -- "BUILD" --> BUILT
     BUILT -- "INSTALL" --> INSTALLED
-    INSTALLED -- "LOAD COMPLETION" --> COMPLETABLE
-    INSTALLED -- "USE" --> INSTALLED
-    COMPLETABLE -- "REMOVE COMPLETION" --> INSTALLED
     INSTALLED -- "UNINSTALL" --> BUILT
-    BUILT -- "REMOVE" --> CLEAN
+    BUILT -- "REMOVE" --> DOWNLOADED
+    DOWNLOADED -- "CLEAN" --> EMPTY
 ```
 
 - We need a way of checking what state we are in
@@ -966,49 +1185,430 @@ Let's suppose a string of text has been submitted to `zsh` for processing. A ser
 
 ## Options
 
+## Editors
+
+### `less`
+
+### `xxd`
+
+### `vim`, `vi`
+
+### `nano`
+
+### `emacs`
+
 ## Stream manipulation
 
-### `grep`
+### `cat` - con`cat`enate
+
+The easiest way to view a file.
+
+```sh
+# cat [FILE]...
+cat /etc/hosts /etc/hostname
+```
+
+### `awk`
 
 ### `sed`
 
-### `cut`
+### `expand`
 
 ### `sort`
 
 ### `uniq`
 
+### `jq`
+
+### `grep`
+
+### `cut`
+
 ### `tr`
 
-### `tee`
-
-### `xargs`
+### `wc`
 
 ### `head`
 
 ### `tail`
 
-### `awk`
+### `echo`
 
-## Filesystem
+### `grep`
 
-## Process
+### `tee`
 
-## Hardware and Drivers
-
-## OS
-
-## Disk
-
-## Networking
+### `xargs`
 
 ## Cryptography
 
-## Remote access
+### `ssh-keygen`
 
-## Terminal
+### `ssh-copy-id`
+
+### `ssh-agent`
+
+### `ssh-add`
+
+### `ssh`
+
+### `scp`
+
+### `rsync`
+
+### `gpg`
+
+### `sftp`
+
+### `openssl`
+
+## Networking
+
+### `curl`
+
+### `wget`
+
+### `netstat`
+
+### `ifconfig`
+
+### `ip`
+
+### `route`
+
+### `ping`
+
+### `traceroute`
+
+### `mtr`
+
+### `dig`
+
+### `nslookup`
+
+### `tcpdump`
+
+### `nmap`
+
+### `whois`
+
+### `ufw`
+
+### `iptables`
 
 ## Compression
+
+### `tar`
+
+### `gzip`
+
+### `bzip2`
+
+### `xz`
+
+### `zip`
+
+### `unzip`
+
+## Filesystem
+
+### `cp`
+
+### `ln`
+
+### `mv`
+
+### `rm`
+
+### `mkdir`
+
+### `rmdir`
+
+### `find`
+
+### `ls`
+
+### `lsblk`
+
+### `tree`
+
+### `df`
+
+### `du`
+
+### `free`
+
+### `file`
+
+### `diff`
+
+### `cmp`
+
+### `comm`
+
+### `patch`
+
+### `touch`
+
+### `mkfifo`
+
+## Operating system
+
+### `shutdown`
+
+### `reboot`
+
+### `halt`
+
+### `poweroff`
+
+### `systemctl`
+
+### `service`
+
+### `journalctl`
+
+### `dmesg`
+
+## Terminal interaction
+
+### `tmux`
+
+### `cd`
+
+### `pwd`
+
+### `alias`
+
+### `unalias`
+
+### `history`
+
+### `clear`
+
+### `exit`
+
+### `which`
+
+### `whereis`
+
+### `whatis`
+
+### `pushd`
+
+### `popd`
+
+### `dirs`
+
+### `printenv`
+
+### `set`
+
+### `unset`
+
+## Process
+
+### `ps`
+
+### `pstree`
+
+### `lsof`
+
+### `top`
+
+### `kill`
+
+### `killall`
+
+### `sh`
+
+### `xargs`
+
+### `coproc`
+
+### `fg`
+
+### `bg`
+
+### `sleep`
+
+### `watch`
+
+### `nohup`
+
+### `nice`
+
+### `renice`
+
+### `at`
+
+### `batch`
+
+### `cron`
+
+### `crontab`
+
+### `atq`
+
+### `atrm`
+
+## Info
+
+### `id`
+
+### `whoami`
+
+### `whatis`
+
+### `hostname`
+
+### `date`
+
+### `cal`
+
+### `uptime`
+
+### `time`
+
+### `uname`
+
+### `arch`
+
+## Permissions
+
+### `chmod`
+
+### `chown`
+
+### `chgrp`
+
+### `sudo`
+
+### `su`
+
+### `passwd`
+
+### `useradd`
+
+### `userdel`
+
+### `usermod`
+
+### `groupadd`
+
+### `groupdel`
+
+### `groupmod`
+
+## Disk operations
+
+### `dd`
+
+### `mount`
+
+### `umount`
+
+### `blkid`
+
+### `fdisk`
+
+### `parted`
+
+### `mkfs`
+
+### `mkswap`
+
+### `swapon`
+
+### `swapoff`
+
+## Drivers
+
+### `insmod`
+
+### `rmmod`
+
+### `lsmod`
+
+### `modprobe`
+
+### `modinfo`
+
+### `depmod`
+
+## Object files
+
+### `ar`
+
+### `nm`
+
+### `objdump`
+
+### `readelf`
+
+### `strip`
+
+### `ldd`
+
+### `ldconfig`
+
+## Debugging
+
+### `gdb`
+
+### `strace`
+
+### `ltrace`
+
+### `valgrind`
+
+### `perf`
+
+### `dtrace`
+
+### `systemtap`
+
+### `bpftrace`
+
+## Monitoring
+
+### `htop`
+
+### `iotop`
+
+### `iftop`
+
+### `nethogs`
+
+### `vnstat`
+
+### `dstat`
+
+### `sysstat`
+
+### `sar`
+
+### `mpstat`
+
+### `pidstat`
+
+### `iostat`
+
+### `vmstat`
+
+### `free`
+
+### `top`
+
+### `ps`
+
+### `uptime`
+
+## Misc
+
+### `git`
+
+### `man`
 
 ## `ripgrep`
 
@@ -1041,6 +1641,8 @@ Let's suppose a string of text has been submitted to `zsh` for processing. A ser
 ## `fd`
 
 ## `bat`
+
+## `nnn`
 
 ## `fzf`
 
@@ -1180,6 +1782,8 @@ When we ssh into a remote machine, we automatically attach to the remote session
 ## tmux-better-mouse-mode
 
 ## Cheatsheet
+
+# yabai / skhd
 
 # neovim
 

@@ -1,3 +1,4 @@
+alias srcenv="source $HOME/.zshenv"
 alias src="source $HOME/.zshrc"
 
 # Different useful ls patterns
@@ -46,3 +47,5 @@ function h() {
 alias k="kubectl"
 
 alias v="version_all"
+
+alias rl="load_all_libraries"

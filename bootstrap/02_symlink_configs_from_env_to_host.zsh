@@ -27,7 +27,6 @@ mkdir -p $HOME/.config
 # List of links to be created
 declare -A links
 links=(
-  ["$HOME/.gitconfixg"]="$env_dir/configs/git/.gitcoxnfig"
   ["$HOME/.gitconfig"]="$env_dir/configs/git/.gitconfig"
   ["$HOME/.gitignore"]="$env_dir/configs/git/.gitignore"
   ["$HOME/.tmux.conf"]="$env_dir/configs/tmux/.tmux.conf"

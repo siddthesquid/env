@@ -1,4 +1,4 @@
-#!/bin/env zsh
+#!/usr/bin/env zsh
 
 # Activate conda in the current directory, using .env as the prefix.
 # If .env does not exist, then create it.

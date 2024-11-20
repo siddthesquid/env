@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+generate_zshrc() {
+  cat <<EOF
+fdasf
+fdasfasf
+EOF
+
+}
+
+generate_zshrc

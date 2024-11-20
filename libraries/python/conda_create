@@ -1,4 +1,4 @@
-#!/bin/env zsh
+#!/usr/bin/env zsh
 
 # Create a conda environment if one does not already exist in the current
 # directory.
