@@ -48,4 +48,4 @@ alias k="kubectl"
 
 alias v="version_all"
 
-alias rl="load_all_libraries"
+alias rl="env_lib_reload"

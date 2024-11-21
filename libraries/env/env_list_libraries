@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+
+# Usage: env_list_libraries
+#   Lists all user-defined libraries
+
+env_require_variable STS_ENV_HOME || return 1
+
+local STS_ENV_LIBRARIES="$STS_ENV_HOME/libraries"
+
+# Don't throw errors for empty directories
+setopt localoptions nullglob
+
+local dir
+for dir in $STS_ENV_LIBRARIES/*; do
+  if [ -d "$dir" ]; then
+    echo "$(format_text underline red)${dir:t}$(format_reset)"
+    for file in "$dir"/*; do
+      if [ -f "$file" ]; then
+        echo "- $(format_text bright_blue)${file:t}$(format_reset)"
+      fi
+    done
+  fi
+done

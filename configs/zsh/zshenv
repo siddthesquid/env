@@ -1,3 +1,5 @@
+# Note: This file should be cross-platform compatible
+
 # Global variables
 export STS_ENV_HOME="${STS_ENV_HOME:-$HOME/env}"
 export STS_KNOWLEDGE_HOME="${STS_KNOWLEDGE_HOME:-$HOME/knowledge}"
@@ -7,9 +9,22 @@ export STS_OSS_HOME="${STS_OSS_HOME:-$HOME/oss}"
 export STS_OPT_HOME="${STS_OPT_HOME:-$HOME/opt}"
 export STS_SANDBOX_HOME="${STS_SANDBOX_HOME:-$HOME/sandbox}"
 export STS_WORKSPACE_HOME="${STS_WORKSPACE_HOME:-$HOME/workspace}"
+export STS_LOCAL_HOME="${STS_LOCAL_HOME:-$HOME/local}"
 
-# Have we already loaded libraries?
-export _STS_LIBRARIES_LOADED=false
+# Usage: reset_fpath
+#   This will reset the fpath by removing all directories that start with
+#   $STS_ENV_HOME/libraries
+reset_fpath() {
+  local dir="$STS_ENV_HOME/libraries"
+  local new_fpath=()
+
+  local fpathitem
+  for fpathitem in $fpath; do
+    [[ "${fpathitem#$dir}" == "$fpathitem" ]] && new_fpath+=("$fpathitem")
+  done
+
+  fpath=("${new_fpath[@]}")
+}
 
 # Usage: load_library LIBRARY_NAME
 #   This will autoload all functions in the folder
@@ -37,17 +52,14 @@ load_library() {
   setopt localoptions nullglob
 
   # Update fpath if the libraries have not been loaded
-  if ! $_STS_LIBRARIES_LOADED; then
-    fpath=("$lib_path" $fpath)
-  fi
+  fpath=("$lib_path" $fpath)
 
   # For each zsh script in the provided directory...
+  local file
   for file in "$lib_path"/*; do
 
     # Unload the library if it has already been loaded
-    if $_STS_LIBRARIES_LOADED; then
-      unfunction "${file:t:r}" 2>/dev/null
-    fi
+    unfunction "${file:t:r}" 2>/dev/null
 
     # Autoload the function
     autoload -Uz "${file:t:r}"
@@ -57,10 +69,15 @@ load_library() {
 # Load all libraries. Order doesn't matter here.
 load_all_libraries() {
   local STS_ENV_LIBRARIES="$STS_ENV_HOME/libraries"
+
+  # Reset the fpath
+  reset_fpath
+
+  # Load all libraries
+  local dir
   for dir in "$STS_ENV_LIBRARIES"/*; do
     load_library "$dir"
   done
-  _STS_LIBRARIES_LOADED=true
 }
 
 # load all libraries

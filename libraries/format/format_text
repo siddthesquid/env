@@ -1,0 +1,62 @@
+#!/usr/bin/env zsh
+
+local args=("$@")
+local codes=()
+
+local arg
+for arg in "${args[@]}"; do
+  case $arg in
+    # Foreground colors
+    black) codes+=("30") ;;
+    red) codes+=("31") ;;
+    green) codes+=("32") ;;
+    yellow) codes+=("33") ;;
+    blue) codes+=("34") ;;
+    magenta) codes+=("35") ;;
+    cyan) codes+=("36") ;;
+    white) codes+=("37") ;;
+    bright_black) codes+=("90") ;;
+    bright_red) codes+=("91") ;;
+    bright_green) codes+=("92") ;;
+    bright_yellow) codes+=("93") ;;
+    bright_blue) codes+=("94") ;;
+    bright_magenta) codes+=("95") ;;
+    bright_cyan) codes+=("96") ;;
+    bright_white) codes+=("97") ;;
+
+    # Background colors
+    black_background) codes+=("40") ;;
+    red_background) codes+=("41") ;;
+    green_background) codes+=("42") ;;
+    yellow_background) codes+=("43") ;;
+    blue_background) codes+=("44") ;;
+    magenta_background) codes+=("45") ;;
+    cyan_background) codes+=("46") ;;
+    white_background) codes+=("47") ;;
+    bright_black_background) codes+=("100") ;;
+    bright_red_background) codes+=("101") ;;
+    bright_green_background) codes+=("102") ;;
+    bright_yellow_background) codes+=("103") ;;
+    bright_blue_background) codes+=("104") ;;
+    bright_magenta_background) codes+=("105") ;;
+    bright_cyan_background) codes+=("106") ;;
+    bright_white_background) codes+=("107") ;;
+
+    # Text styles
+    bold) codes+=("1") ;;
+    dim) codes+=("2") ;;
+    italic) codes+=("3") ;;
+    underline) codes+=("4") ;;
+    blink) codes+=("5") ;;
+    reverse) codes+=("7") ;;
+    hidden) codes+=("8") ;;
+    strikethrough) codes+=("9") ;;
+
+    # Special cases or unsupported formats
+    *) ;;
+  esac
+done
+
+# Join all codes into a single escape sequence
+local sequence="\033[$(IFS=';'; echo "${codes[*]}")m"
+echo "$sequence"

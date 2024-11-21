@@ -43,6 +43,8 @@
     - [`terraform-standard`](#terraform-standard)
   - [Kubernetes](#kubernetes)
     - [`kubernetes-standard`](#kubernetes-standard)
+  - [Misc](#misc)
+    - [`unknown`](#unknown)
 - [Brew](#brew)
   - [Commands](#commands)
 - [Git](#git)
@@ -297,7 +299,7 @@
     - [`top`](#top-1)
     - [`ps`](#ps-1)
     - [`uptime`](#uptime-1)
-  - [Misc](#misc)
+  - [Misc](#misc-1)
     - [`git`](#git-1)
     - [`man`](#man)
   - [`ripgrep`](#ripgrep)
@@ -432,8 +434,16 @@ git clone --recurse-submodules git@github.com:siddthesquid/env.git
 export ENV_HOME=~/env
 
 # Run bootstrapping code (as needed)
+
+# 1. Install zsh
+
+# 2. Source custom zsh files
 . ~/env/bootstrap/00_source_env_in_host_zsh_configs.zsh
+
+# 3. Symlink zsh configs for easy editing here
 . ~/env/bootstrap/01_symlink_configs_from_host_to_env.zsh
+
+# 4.
 . ~/env/bootstrap/02_symlink_configs_from_env_to_host.zsh
 
 # Install applications. (Some things in here may be manual)
@@ -571,7 +581,7 @@ For reference, this is what we expect the `$HOME` directory to look like:
 : # Downloads - could be potentially unsafe.
 ├── downloads
 :
-: # cloud
+: # Cloud
 ├── drive     # personal
 ├── public    # public
 ├── shared    # permissioned
@@ -674,10 +684,10 @@ The below table has all of the named workspaces. They would each get their own `
 
 Certain directories (as listed in the below table) are marked as valid workspaces, meaning that launching a session in any of these directories will automatically open (or reopen) `tmux` in the root directory of the workspace. These session names will start with either `~/` or `/` depending on the path.
 
-| Name      | Path                                | Description                       |
-| --------- | ----------------------------------- | --------------------------------- |
-| services  | `~/services/<service>`              | manually managed services         |
-| vms       | `~/vms/<vm>`                        | manually managed virtual machines |
+| Name      | Path                                         | Description                       |
+| --------- | -------------------------------------------- | --------------------------------- |
+| services  | `~/services/<service>`                       | manually managed services         |
+| vms       | `~/vms/<vm>`                                 | manually managed virtual machines |
 | oss       | `~/oss/<project>/<branch>`                   | open source projects              |
 | sandbox   | `~/sandbox/<project>/<branch>`               | temporary projects                |
 | workspace | `~/workspace/<organization>/<repo>/<branch>` | primary project workspace         |

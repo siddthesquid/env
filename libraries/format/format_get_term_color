@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+# Usage: format_get_term_color
+#   Returns the terminal color format
+#   Possible values: 8, 16, 256, truecolor
+
+if [[ "$COLORTERM" == "truecolor" || "$COLORTERM" == "24bit" ]]; then
+  echo "truecolor"
+elif command -v tput >/dev/null 2>&1; then
+  local colors=$(tput colors 2>/dev/null || echo 0)
+  if [[ $colors -ge 256 ]]; then
+    echo "256"
+  elif [[ $colors -ge 16 ]]; then
+    echo "16"
+  else
+    echo "8"
+  fi
+else
+  # Fallback based on $TERM
+  case "$TERM" in
+    *-256color) echo "256" ;;
+    *-color) echo "16" ;;
+    *) echo "8" ;;
+  esac
+fi

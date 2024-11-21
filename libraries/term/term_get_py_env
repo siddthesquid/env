@@ -1,4 +1,4 @@
-#!/bin/env zsh
+#!/usr/bin/env zsh
 
 # Check if VIRTUAL_ENV is set (for virtualenv)
 if [[ -n "$VIRTUAL_ENV" ]]; then

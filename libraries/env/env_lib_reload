@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+# Usage: env_lib_reload
+#   Reloads all user-defined libraries
+
+env_require_command load_all_libraries || return 1
+
+load_all_libraries

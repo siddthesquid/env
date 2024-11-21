@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+
+# Usage: env_require_command COMMAND_NAME
+#   Checks if the command exists and exits if it doesn't
+env_require_command() {
+  if [[ $# -ne 1 ]]; then
+    echo "Usage: env_require_command COMMAND_NAME"
+    return 1
+  fi
+
+  local command_name="$1"
+  if ! env_check_command "$command_name"; then
+    echo "Command '$command_name' does not exist"
+    return 1
+  fi
+}

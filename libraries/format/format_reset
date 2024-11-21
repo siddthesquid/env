@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+local format=$(format_get_term_color)
+
+echo "\033[0m"
