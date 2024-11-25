@@ -616,6 +616,7 @@ export STS_OSS_HOME="${STS_OSS_HOME:-$HOME/oss}"
 export STS_OPT_HOME="${STS_OPT_HOME:-$HOME/opt}"
 export STS_SANDBOX_HOME="${STS_SANDBOX_HOME:-$HOME/sandbox}"
 export STS_WORKSPACE_HOME="${STS_WORKSPACE_HOME:-$HOME/workspace}"
+export STS_LOCAL_HOME="${STS_LOCAL_HOME:-$HOME/local}"
 ```
 
 Below is some copypasta for paths within this repo for scripts to use.

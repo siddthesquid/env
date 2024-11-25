@@ -13,10 +13,10 @@ setopt localoptions nullglob
 local dir
 for dir in $STS_ENV_LIBRARIES/*; do
   if [ -d "$dir" ]; then
-    echo "$(format_text underline red)${dir:t}$(format_reset)"
+    echo "$(format header "${dir:t}")"
     for file in "$dir"/*; do
       if [ -f "$file" ]; then
-        echo "- $(format_text bright_blue)${file:t}$(format_reset)"
+        echo "- $(format value "${file:t}")"
       fi
     done
   fi

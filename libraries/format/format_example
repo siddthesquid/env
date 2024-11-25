@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+
+# Define allowed themes and types
+local -a allowed_themes=("light" "dark")
+local -a allowed_types=("dir" "file" "error" "success" "warning" "info" "command" "argument" "option" "key" "value" "message" "quote" "header")
+
+local theme type
+
+for theme in "${allowed_themes[@]}"; do
+  echo "Theme: $theme"
+  export STS_COLOR_THEME="$theme"
+  for type in "${allowed_types[@]}"; do
+    output=$(format "$type" "Hello world. This is an example")
+    echo " $type: $output"
+  done
+  echo
+done

@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+
+# Usage: env_vars
+#   Lists all environment variables and makes it pretty
+
+# a list of vars that have a normal "path" structure
+local -a path_vars=("PATH" "MANPATH")
+
+printenv | sort | while read -r line; do
+  local key="${line%%=*}"
+  local value="${line#*=}"
+
+  # if the key is in the path_vars array, split value into multiple lines
+  if [[ " ${path_vars[@]} " =~ " $key " ]]; then
+    local split_value=(${(s/:/)value})
+    echo "$(format key "$key")="
+    for v in $split_value; do
+      echo "  $(format value "$v")"
+    done
+    continue
+  else
+    echo "$(format key "$key")=$(format value "$value")"
+  fi
+done

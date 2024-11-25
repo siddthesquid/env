@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+if (( $# != 2 )); then
+  echo ""
+  return
+fi
+
+local format_options="$1"
+local text="$2"
+
+echo "$(format_text ${(z)format_options})$text$(format_reset)"

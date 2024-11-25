@@ -2,15 +2,13 @@
 
 # Usage: env_require_variable VARIABLE_NAME
 #   Checks if the variable exists and exits if it doesn't
-env_require_variable() {
-  if [[ $# -ne 1 ]]; then
-    echo "Usage: env_require_variable VARIABLE_NAME"
-    return 1
-  fi
+if [[ $# -ne 1 ]]; then
+  echo "$(format header "Usage"): $(format command "env_require_variable") $(format "argument" "VARIABLE_NAME")"
+  return 1
+fi
 
-  local var_name="$1"
-  if ! env_check_variable "$var_name"; then
-    echo "Variable '$var_name' does not exist"
-    return 1
-  fi
-}
+local var_name="$1"
+if ! env_check_variable "$var_name"; then
+  echo "$(format error "variable") $(format command "$var_name") $(format "error" "does not exist")"
+  return 1
+fi

@@ -1,0 +1,3 @@
+#!/usr/bin/env zsh
+
+STS_ENV_PACKAGES="$STS_ENV_HOME/packages"

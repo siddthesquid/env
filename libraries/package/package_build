@@ -1,3 +1,27 @@
 #!/usr/bin/env zsh
 
+# Usage: package_build PACKAGE_NAME [ARGUMENTS]
+
+# Paths
 STS_ENV_PACKAGES="$STS_ENV_HOME/packages"
+
+# Check arguments
+if [[ $# -eq 0 ]]; then
+  echo "$(format header "Usage"): $(format command "package_build") $(format argument PACKAGE_NAME) [$(format option "ARGUMENTS...")]"
+  return 1
+fi
+local package="$1"
+local package_path="$STS_ENV_PACKAGES/$package.zsh"
+
+# Does the package exist?
+if [[ ! -f "$package_path" ]]; then
+  echo "$(format warning "Package") $(format info "$package") $(format warning "does not exist (checking ")$(format info "$package_path")$(format warning ")")"
+  return 1
+fi
+
+shift
+(
+  source "$package_path" || return 1
+  env_check_command build || (echo "$(format warning "Package") $(format info "$package") $(format warning "does not have an") $(format command "build") $(format warning "command")" && return 1)
+  build "$@"
+)

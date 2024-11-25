@@ -1,0 +1,103 @@
+#!/usr/bin/env zsh
+
+# Usage: [STS_COLOR_THEME=<theme>] format <type> <text>
+#   Allowed themes:
+#     - light
+#     - dark
+#   Allowed types:
+#     - dir
+#     - file
+#     - error
+#     - success
+#     - warning
+#     - info
+#     - command
+#     - argument
+#     - option
+#     - key
+#     - value
+#     - message
+#     - quote
+#     - header
+
+local DEFAULT_THEME="dark"
+local theme="${STS_COLOR_THEME:-$DEFAULT_THEME}"
+
+# Check if correct number of arguments is provided
+if (( $# != 2 )); then
+    echo "Usage: [STS_COLOR_THEME=<theme>] format <type> <text>"
+    return 1
+fi
+
+local type="$1"
+local text="$2"
+
+# Define allowed themes and types
+local -a allowed_themes=("light" "dark")
+local -a allowed_types=("dir" "file" "error" "success" "warning" "info" "command" "argument" "option" "key" "value" "message" "quote" "header")
+
+# Validate theme
+if [[ ! " ${allowed_themes[@]} " =~ " ${theme} " ]]; then
+  theme="$DEFAULT_THEME"
+fi
+
+# If type is not recognized, output text without formatting
+if [[ ! " ${allowed_types[@]} " =~ " ${type} " ]]; then
+  echo "$text"
+  return 0
+fi
+
+# Define formatting options for each theme
+typeset -A format_map_light=(
+  dir "bold blue underline"
+  file "green underline"
+  error "bold red"
+  success "green"
+  warning "yellow"
+  info "blue"
+  command "magenta"
+  argument "cyan"
+  option "blue"
+  key "red"
+  value "green"
+  message "black"
+  quote "reverse black"
+  header "underline black"
+)
+
+typeset -A format_map_dark=(
+  dir "bold bright_blue underline"
+  file "bright_green underline"
+  error "bold bright_red"
+  success "bright_green"
+  warning "bright_yellow"
+  info "bright_blue"
+  command "bright_magenta"
+  argument "bright_cyan"
+  option "bright_blue"
+  key "bright_red"
+  value "bright_green"
+  message "white"
+  quote "reverse white"
+  header "underline white"
+)
+
+# Select the appropriate format map based on the theme
+typeset -A format_map
+if [[ "$theme" == "light" ]]; then
+  format_map=("${(@kv)format_map_light}")
+else
+  format_map=("${(@kv)format_map_dark}")
+fi
+
+# Get formatting options for the given type
+local format_options="${format_map[$type]}"
+
+# If no formatting options found, output text without formatting
+if [[ -z "$format_options" ]]; then
+  echo "$text"
+  return 0
+fi
+
+# Apply formatting using format_full
+echo "$(format_full "$format_options" "$text")"
