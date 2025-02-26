@@ -1,5 +1,5 @@
 env_require_variable STS_OPT_HOME \
-  && env_require_variable STS_LOCAL_HOMfE \
+  && env_require_variable STS_LOCAL_HOME \
   || return 1
 
 # Default version
