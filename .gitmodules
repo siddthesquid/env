@@ -13,9 +13,6 @@
 [submodule "configs/tmux/external/tmux-thumbs"]
 	path = configs/tmux/external/tmux-thumbs
 	url = https://github.com/fcsonline/tmux-thumbs
-[submodule "configs/neovim/nvim/lua/external/lazy.nvim"]
-	path = configs/neovim/nvim/lua/external/lazy.nvim
+[submodule "configs/neovim/nvim/external/lazy.nvim"]
+	path = configs/neovim/nvim/external/lazy.nvim
 	url = https://github.com/folke/lazy.nvim.git
-[submodule "configs/neovim/nvim/lua/external/nvim-tree.lua"]
-	path = configs/neovim/nvim/lua/external/nvim-tree.lua
-	url = https://github.com/nvim-tree/nvim-tree.lua.git
