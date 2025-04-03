@@ -51,6 +51,8 @@
   - [Cheatsheet](#cheatsheet)
   - [Git based package management](#git-based-package-management)
 - [ITerm2](#iterm2)
+  - [Colors](#colors)
+  - [Font](#font)
 - [zsh](#zsh)
   - [Shell lifecycle](#shell-lifecycle)
   - [Configuration files](#configuration-files)
@@ -331,12 +333,41 @@
   - [Cheatsheet](#cheatsheet-1)
 - [yabai / skhd](#yabai--skhd)
 - [neovim](#neovim)
-  - [Configuration](#configuration)
-  - [LSP](#lsp)
-  - [Treesitter](#treesitter)
-  - [Surround](#surround)
-  - [Nerd-tree](#nerd-tree)
-  - [Telescope](#telescope)
+  - [Concepts](#concepts)
+    - [Buffers](#buffers)
+    - [Variables](#variables-1)
+    - [Commands](#commands-1)
+    - [Events](#events)
+    - [libuv](#libuv)
+      - [Filesystem](#filesystem-1)
+      - [Filesystem events](#filesystem-events)
+      - [Networking](#networking-1)
+      - [Processes](#processes)
+      - [Worker](#worker)
+      - [Timer](#timer)
+      - [Pipes](#pipes)
+      - [TTY](#tty)
+      - [Polling](#polling)
+    - [Job control](#job-control)
+      - [msgpack-rpc](#msgpack-rpc)
+      - [Channels](#channels)
+    - [Treesitter](#treesitter)
+    - [LSP](#lsp)
+    - [DAP](#dap)
+    - [Configuration](#configuration)
+  - [Lua](#lua)
+  - [Plugins](#plugins-1)
+    - [lazy.nvim](#lazynvim)
+    - [nvim-tree](#nvim-tree)
+      - [Operations](#operations)
+      - [Workspaces](#workspaces-1)
+    - [Tree-sitter](#tree-sitter)
+    - [auto-session](#auto-session)
+    - [Mason](#mason)
+    - [nvim-cmp](#nvim-cmp)
+    - [Telescope](#telescope)
+    - [Surround](#surround)
+    - [Supermaven](#supermaven)
 - [VSCode](#vscode)
 - [Xcode](#xcode)
 - [Emacs](#emacs-1)
@@ -361,7 +392,7 @@
   - [Idris](#idris)
   - [R](#r)
   - [sh / zsh](#sh--zsh)
-  - [Lua](#lua)
+  - [Lua](#lua-1)
   - [json](#json)
   - [yaml](#yaml)
   - [toml](#toml)
@@ -866,6 +897,10 @@ The process roughly looks as follows:
 5. Symlink `$INSTALL_DIR/<project>` to `$INSTALL_DIR/<project>-<version>`
 
 # ITerm2
+
+## Colors
+
+## Font
 
 # zsh
 
@@ -1811,17 +1846,108 @@ So for example, `nvim` might find a `package.json` in the root directory and und
 
 Each `tmux` session ideally represents a single project or workspace, and every project is associated with a root directory. This means that whenever we open a `tmux` session, we can automatically open `nvim` in the root directory of the project.
 
-## Configuration
+## Concepts
 
-## LSP
+- buffer
+- window
+- tab
+- event
+- command
+- job
+- channel
 
-## Treesitter
+### Buffers
 
-## Surround
+### Variables
 
-## Nerd-tree
+### Commands
 
-## Telescope
+### Events
+
+### libuv
+
+#### Filesystem
+
+#### Filesystem events
+
+#### Networking
+
+#### Processes
+
+#### Worker
+
+#### Timer
+
+#### Pipes
+
+#### TTY
+
+#### Polling
+
+### Job control
+
+#### msgpack-rpc
+
+#### Channels
+
+### Treesitter
+
+### LSP
+
+### DAP
+
+### Configuration
+
+| Order | Directory         | Trigger/Event                  | Description                             |
+| ----- | ----------------- | ------------------------------ | --------------------------------------- |
+| 1     | `plugin/`         | Startup                        | Initial global setup                    |
+| 2     | `ftdetect/`       | Startup (after plugin)         | Filetype detection rules                |
+| 3     | `after/plugin/`   | Startup (after all plugins)    | Override plugin setups                  |
+| 4     | `colors/`         | On `:colorscheme`              | Colorscheme definitions                 |
+| 5     | `syntax/`         | Buffer open (filetype matched) | Syntax highlighting rules               |
+| 6     | `after/syntax/`   | Buffer open (after syntax)     | Override syntax highlighting            |
+| 7     | `indent/`         | Buffer open (filetype matched) | Indentation rules                       |
+| 8     | `after/indent/`   | Buffer open (after indent)     | Override indentation rules              |
+| 9     | `ftplugin/`       | Buffer open (filetype matched) | Filetype-specific settings and mappings |
+| 10    | `after/ftplugin/` | Buffer open (after ftplugin)   | Override filetype-specific setups       |
+| 11    | `compiler/`       | On `:compiler` invocation      | Compiler settings and error formats     |
+| 12    | `lua/`            | On-demand (`require()`)        | Lua modules and libraries               |
+
+## Lua
+
+## Plugins
+
+### lazy.nvim
+
+`lazy` is our preferred plugin manager for neovim. By convention, the `plugins` module should contain a set of Lua files, each returning a LazySpec table.
+
+### nvim-tree
+
+#### Operations
+
+#### Workspaces
+
+### Tree-sitter
+
+"[Tree-sitter](https://tree-sitter.github.io/tree-sitter) is a parser generator tool and an incremental parsing library." Basically, language developers create grammars in javascript which gets compiled to optimized C code. Code editors using tree-sitter can then use these grammars to
+
+- parse code
+- provide syntax highlighting
+- code completion
+
+It is built into neovim, but the [nvim-treesitter plugin](https://github.com/nvim-treesitter/nvim-treesitter) helps us with installing parsers.
+
+### auto-session
+
+### Mason
+
+### nvim-cmp
+
+### Telescope
+
+### Surround
+
+### Supermaven
 
 # VSCode
 
