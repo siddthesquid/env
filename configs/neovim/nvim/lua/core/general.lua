@@ -36,13 +36,7 @@ vim.opt.clipboard:append("unnamedplus")
 -- todo: what is this
 vim.opt.backspace = { "indent", "eol", "start" }
 
-
-
-
-
-
-
-
-
-
+-- my personal opinion, the below is generally more consistent.
+-- vim.opt.virtualedit = 'onemore'
+-- vim.keymap.set('i', '<Esc>', '<Esc>l', { noremap = true })
 

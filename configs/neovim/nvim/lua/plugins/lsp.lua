@@ -34,7 +34,40 @@ return {
     "neovim/nvim-lspconfig",
     config = function()
       local lspconfig = require('lspconfig')
-      lspconfig.lua_ls.setup({})
+
+      -- Keybindings
+
+      -- Lua
+      lspconfig.lua_ls.setup({
+        settings = {
+          Lua = {
+            runtime = {
+              version = 'LuaJIT',
+            },
+            diagnostics = {
+              globals = {'vim'},
+
+              -- the b
+              missingRequire = true,
+              severity = {
+                missingRequire = "Error",
+              },
+            },
+            workspace = {
+              -- Make the server aware of Neovim runtime files
+              library = {
+                vim.api.nvim_get_runtime_file("", true),
+                -- Add your config directory to workspace
+                vim.fn.expand('~/.config/nvim/lua'),
+              },
+              checkThirdParty = false,
+            },
+            telemetry = {
+              enable = false,
+            },
+          },
+        },
+      })
     end
   }
 }

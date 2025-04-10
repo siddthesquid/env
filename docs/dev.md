@@ -20,6 +20,53 @@ Some key points:
 - Kotlin for native Android apps
 - Cpp + Ansible for embedded systems, native desktop apps, and HPC apps
 
+# Uniqueness
+
+- developer machine
+    - (user)
+        - home directory
+        - projects directory
+            - (client)
+                - (repo)
+                    - main
+                    - (branch)
+                        - code
+                        - session
+                            - ide
+                            - sh
+                            - stat
+                            - git
+                            - ops
+                            - svc
+                            - dev
+                            - test
+                            - run
+                            - ai
+        - config
+            - zsh
+            - tmux
+            - nvim
+        - credential
+            - github
+            - aws
+            - pypi
+            - dockerhub
+            - openai
+            - claude
+            - gemini
+        - notes
+            - (namespace)
+        - planner
+            - (namespace)
+        - documents
+            - (document)
+        - downloads
+            - (source)
+                - (download)
+    - keyboard
+    - trackpad
+
+
 # Concepts
 
 ```

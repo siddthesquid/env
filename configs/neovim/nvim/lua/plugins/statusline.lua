@@ -26,7 +26,7 @@ return {
           }
         },
         sections = {},
-        inactive_sections = {}, 
+        inactive_sections = {},
         tabline = {},
         winbar = {
           lualine_a = {'mode'},

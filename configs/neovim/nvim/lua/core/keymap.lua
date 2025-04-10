@@ -31,4 +31,3 @@ vim.keymap.set(
   function() vim.opt.colorcolumn = "" end,
   { noremap = true, silent = true }
 )
-

@@ -9,19 +9,178 @@ Thus, we need to understand the tools from the ground up. Doing this will allow 
 
 # zsh
 
+## `fzf`
 
 # Tmux
 
+## tmux Options Cheatsheet
+
+### Built-in Options
+
+These are commonly used built-in tmux options.
+
+#### Global Options
+
+| Option Name         | Description |
+|---------------------|-------------|
+| `status`            | Enables or disables the status bar. |
+| `status-interval`   | Time in seconds for refreshing the status line. |
+| `status-keys`       | Key bindings mode for the status line (e.g., `emacs`, `vi`). |
+| `mouse`             | Enables mouse support for selecting panes, resizing, etc. |
+| `default-shell`     | Default shell for new windows and panes. |
+| `default-command`   | Command to run when creating a new pane or window. |
+| `escape-time`       | Time in ms to wait after escape key (useful for vi mode). |
+| `base-index`        | Start window numbering from 0 or 1. |
+| `renumber-windows`  | Automatically renumber windows when one is closed. |
+
+#### Session Options
+
+| Option Name        | Description |
+|--------------------|-------------|
+| `status`           | Enables the status bar for this session. |
+| `detach-on-destroy`| Whether the client detaches when session is destroyed. |
+| `display-panes-time` | Time in ms to display pane numbers. |
+
+#### Window Options
+
+| Option Name                | Description |
+|----------------------------|-------------|
+| `automatic-rename`         | Automatically rename windows based on running process. |
+| `window-status-format`     | Format for inactive windows in the status bar. |
+| `window-status-current-format` | Format for the active window in the status bar. |
+| `synchronize-panes`        | Send input to all panes in the window. |
+| `remain-on-exit`           | Keep panes open after their command exits. |
+
+---
+
+### User Options Reference
+
+tmux supports user-defined options using the `@` prefix.
+
+| Scope      | Set Command | Get Command | Can Be Used In |
+|------------|-------------|-------------|----------------|
+| Global     | `tmux set-option -g @key value` | `tmux show-option -g -v @key` | Status line, scripts |
+| Session    | `tmux set-option -t session_name @key value` | `tmux show-option -v -t session_name @key` | Status line, scripts |
+| Window     | `tmux set-window-option -t session:window @key value` | `tmux show-window-option -v -t session:window @key` | Window status format, scripts |
+
 # Neovim
+
+## Buffers
+
+## Namespaces
+
+## Extmarks
+
+### Virtual Text
+
+## Highlight Groups
+
+## Sign Columns
+
+## Navigation
+
+## Visual Selection
+
+## Modifying text
+
+## Undos
+
+## Folding
+
+## Display
+
+## Quickfix
+
+## Clipboard
+
+## Macros
+
+## Tree
+
+## Telescope
 
 ## `vim.diagnostic`
 
+Diagnostics allow neovim subsystems to annotate ranges of cells in buffers with a `vim.Diagnostic`. We can think of it as the database that 
+
+- a custom message
+- severity level (error, warn, info, hint)
+- diagnostic code
+- custom user data
+
+They can present themselves in many ways to the user
+
+- signs
+- underlines/highlights
+- virtual text
+- floating windows
+- location list
+- quickfix list
+- telescope
+- trouble.nvim
+- status line
+
+Generally, diagnostics are controlled by
+
+- LSPs
+- linters
+- manual?
+- AI?
+- Tests
+
+### Overview
+
+### Interface
+
+As per `:h diagnostic-structure`, `vim.Diagnostic` has the following schema:
+
+```
+    Fields: ~
+      - {bufnr}?      (`integer`) Buffer number
+      - {lnum}        (`integer`) The starting line of the diagnostic
+                      (0-indexed)
+      - {end_lnum}?   (`integer`) The final line of the diagnostic (0-indexed)
+      - {col}         (`integer`) The starting column of the diagnostic
+                      (0-indexed)
+      - {end_col}?    (`integer`) The final column of the diagnostic
+                      (0-indexed)
+      - {severity}?   (`vim.diagnostic.Severity`) The severity of the
+                      diagnostic |vim.diagnostic.severity|
+      - {message}     (`string`) The diagnostic text
+      - {source}?     (`string`) The source of the diagnostic
+      - {code}?       (`string|integer`) The diagnostic code
+      - {user_data}?  (`any`) arbitrary data plugins can add
+      - {namespace}?  (`integer`)
+```
+
+Severities
+
+```
+    vim.diagnostic.severity.ERROR
+    vim.diagnostic.severity.WARN
+    vim.diagnostic.severity.INFO
+    vim.diagnostic.severity.HINT
+```
+
 ## nvim-cmp
 
+## Tree-sitter
+
+## LSP
+
+## Testing
+
+## Linting
+
+## DAP
+
+## Snippets
+
+## AI
 
 ## Ecosystem
 
-```
+```mermaid
 flowchart LR
 
 nvim-treesitter --"installs"--> Parsers
