@@ -1,3 +1,5 @@
+local Keymap = require("siddthesquid.keymap")
+
 return {
   {
     "williamboman/mason.nvim",
@@ -25,49 +27,42 @@ return {
     opts = {
       ensure_installed = {
         "pyright",
-        "lua_ls"
+        "lua_ls",
+        "ts_ls",
+        "rust_analyzer",
+        "clangd",
+        "bashls",
+        "cssls",
+        "html",
+        "jsonls",
+        "yamlls",
+        "marksman",
+        "ruff"
       },
       automatic_installation = false
     },
   },
   {
     "neovim/nvim-lspconfig",
+    dependencies = { "j-hui/fidget.nvim", opts = {} },
     config = function()
       local lspconfig = require('lspconfig')
 
-      -- Keybindings
+      local original_capabilities = vim.lsp.protocol.make_client_capabilities()
+      local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
 
-      -- Lua
-      lspconfig.lua_ls.setup({
-        settings = {
-          Lua = {
-            runtime = {
-              version = 'LuaJIT',
-            },
-            diagnostics = {
-              globals = {'vim'},
-
-              -- the b
-              missingRequire = true,
-              severity = {
-                missingRequire = "Error",
-              },
-            },
-            workspace = {
-              -- Make the server aware of Neovim runtime files
-              library = {
-                vim.api.nvim_get_runtime_file("", true),
-                -- Add your config directory to workspace
-                vim.fn.expand('~/.config/nvim/lua'),
-              },
-              checkThirdParty = false,
-            },
-            telemetry = {
-              enable = false,
-            },
-          },
-        },
+      vim.lsp.config('*', {
+        capabilities = capabilities
       })
+
+      -- Keybindings
+      vim.api.nvim_create_autocmd('LspAttach', {
+        desc = 'LSP actions',
+        callback = Keymap.tree
+      })
+
+      lspconfig.lua_ls.setup({})
+
     end
   }
 }

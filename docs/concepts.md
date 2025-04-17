@@ -67,6 +67,17 @@ tmux supports user-defined options using the `@` prefix.
 
 ## Buffers
 
+| Role               | `buftype`        | Editable | UI-Oriented | Interactive | File-Based |
+|--------------------|------------------|----------|-------------|-------------|------------|
+| File Editing       | `""`             | Yes      | No          | Yes         | Yes        |
+| Tool Interface     | `"nofile"`       | No       | Yes         | Yes         | No         |
+| Terminal           | `"terminal"`     | No       | Yes         | Yes         | No         |
+| Prompt             | `"prompt"`       | Yes      | Yes         | Yes         | No         |
+| Help / Documentation | `"help"`      | No       | Yes         | No          | No         |
+| Notifications      | `"nofile"`       | No       | Yes         | No          | No         |
+| Hidden / Scratch   | `"acwrite"`, etc.| Maybe    | No          | Maybe       | No         |
+
+
 ## Namespaces
 
 ## Extmarks

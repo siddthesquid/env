@@ -32,3 +32,124 @@
 | **Manual or Automatic Completion**               | Typically plugin-driven (e.g., `InsertCharPre`, `TextChangedI`)   | `textDocument/completion` (on-demand)                                                                                              | **Logic**: Autocompletion usually comes from plugins (like `nvim-cmp`). These plugins request completion items from the server as you type or when you trigger completion manually.<br><br>**Diagnostics**: This doesn’t directly affect diagnostics. However, if server logic updates anything during completion, it may publish new diagnostics.                                                                                                                  |
 | **Manual LSP Detach**                            | `LspDetach` (Neovim ≥ 0.8)                                       | Client de-initialization and resource cleanup                                                                                     | **Logic**: If you explicitly detach the LSP client (via code or user action), this event fires. It’s similar to `BufUnload` except it’s a direct detach from the LSP side. You might clean up buffer-local settings or mappings here.<br><br>**Diagnostics**: After detaching, no further diagnostics from that server are updated for this buffer.                                                                                                          |
 
+
+# IDE Feature Checklist (LSP + DAP)
+
+## Code Intelligence
+
+| Feature                 | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| Go to Definition        | Jump to the symbol's definition.                                            |
+| Go to Declaration       | Navigate to the symbol's declaration.                                       |
+| Go to Implementation    | Jump to the implementing function/class.                                    |
+| Go to Type Definition   | Navigate to the type definition of a variable or expression.                |
+| Find All References     | Find all usages of a symbol across files.                                   |
+| Hover Info              | Show type, docstring, and metadata when hovering over a symbol.             |
+| Signature Help          | Display function/method signatures as you type.                             |
+| Document Symbols        | List all symbols (functions, classes, variables) in the current file.       |
+| Workspace Symbols       | Search for any symbol across the entire project/workspace.                  |
+
+## Editing & Completion
+
+| Feature                 | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| Auto-completion         | Suggest symbols, keywords, methods, etc. as you type.                       |
+| Snippet Completion      | Expand snippets with tab stops and placeholders.                            |
+| Code Actions / Fixes    | Quick fixes such as missing imports or suggested changes.                   |
+| Rename Symbol           | Rename a variable/function across the codebase.                             |
+| Extract Variable        | Convert selected expression into a new variable.                            |
+| Extract Method          | Convert selected code into a new method/function.                           |
+| Inline Variable         | Inline the value of a variable and remove the declaration.                  |
+| Auto Import Symbol      | Automatically add required import statements.                               |
+| Folding Ranges          | Allow collapsing/expanding code blocks like functions or classes.           |
+| Format Document         | Format the entire document.                                                 |
+| Format Selection        | Format a selected range.                                                    |
+| Format on Save          | Automatically format file on save.                                          |
+
+## Linting & Diagnostics
+
+| Feature                 | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| Real-time Diagnostics   | Display errors, warnings, hints, and info as you type.                      |
+| Code Lenses             | Inline actionable items (e.g., run test, implement interface).              |
+| Semantic Highlighting   | Color code based on semantics (e.g., types, variables).                     |
+| Inline Annotations      | Show hints or warnings directly inline.                                     |
+| Suppress Diagnostics    | Ignore specific warnings (e.g., `// @ts-ignore`).                           |
+
+## File & Project Navigation
+
+| Feature                 | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| File Outline View       | View symbols/structure of current file.                                     |
+| Workspace Symbol Search | Search for symbols across the workspace.                                    |
+| References View         | View all references to a symbol.                                            |
+| Call Hierarchy          | Show functions that call or are called by a symbol.                         |
+
+## Language Services
+
+| Feature                 | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| Semantic Tokens         | Advanced syntax highlighting based on language rules.                       |
+| Inlay Hints             | Show inferred types or parameter names inline.                              |
+| Inline Value Hints      | Display runtime values (if integrated with debugger).                       |
+| Custom Commands         | Expose language-specific functionality as commands.                         |
+| Linked Editing Ranges   | Simultaneous editing of related tokens (e.g., tags).                        |
+| Prepare Rename          | Validate that a symbol can be renamed.                                      |
+
+## On-the-Fly Actions
+
+| Feature                      | Description                                                             |
+|------------------------------|-------------------------------------------------------------------------|
+| Rename File + Update Imports | Automatically update imports when a file is renamed.                    |
+| Auto Fix on Save             | Automatically apply available fixes when saving.                        |
+| Organize Imports             | Sort, group, and remove unused imports.                                 |
+| Sort Members                 | Alphabetically or logically order class members.                        |
+| Remove Unused Code           | Detect and remove unused variables, functions, etc.                     |
+
+## Cross-Language & Multi-Project Support
+
+| Feature                 | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| Multi-root Workspaces   | Support for multiple folders/projects in a single workspace.                |
+| Cross-file Navigation   | Navigate across files, even across languages.                               |
+| Partial Project Indexing| Load/index large codebases incrementally.                                   |
+
+## Custom / Advanced (LSP Extensions)
+
+| Feature                 | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| Test Discovery/Execution| Discover and run unit tests from within the IDE.                            |
+| Documentation Generation| Generate JSDoc or similar comments automatically.                           |
+| AST Visualization       | Visual representation of the abstract syntax tree.                          |
+| Schema-aware Validation | Validate config files using JSON/YAML schemas.                              |
+| Live Collaboration      | (External) support for real-time editing with others.                       |
+
+## Debugging (Debug Adapter Protocol - DAP)
+
+| Feature                   | Description                                                               |
+|---------------------------|---------------------------------------------------------------------------|
+| Launch/Attach Debugger    | Start debugging session or attach to running process.                     |
+| Breakpoints               | Set/remove breakpoints in source code.                                    |
+| Conditional Breakpoints   | Trigger breakpoints only when a condition is met.                         |
+| Logpoints                 | Log a message to the console without stopping execution.                  |
+| Step Over                 | Execute the current line and move to the next one.                        |
+| Step Into                 | Step into function/method calls.                                          |
+| Step Out                  | Step out of the current function.                                         |
+| Continue                  | Resume program execution until next breakpoint.                           |
+| Pause                     | Pause program execution at current state.                                 |
+| Variable View             | View local/global variables in current scope.                             |
+| Watch Expressions         | Evaluate and watch custom expressions during execution.                   |
+| Call Stack View           | Visualize the current function call stack.                                |
+| Threads View              | Display and manage multiple threads.                                      |
+| Evaluate in Debug Console | Run arbitrary code in the context of current stack frame.                 |
+| Exception Breakpoints     | Break on uncaught or specific exceptions.                                 |
+
+## Optional Tools & Enhancements
+
+| Feature                 | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| LSP Inspector/Logger    | Dev tools to view LSP requests/responses.                                   |
+| Offline Indexing        | Cache symbol data for offline use.                                          |
+| Lazy Loading            | Load language servers only when needed.                                     |
+| Theme-aware Highlighting| Match semantic colors to IDE theme.                                         |
+

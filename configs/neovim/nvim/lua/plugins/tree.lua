@@ -1,3 +1,5 @@
+local Keymap = require("siddthesquid.keymap")
+
 return {
   "nvim-tree/nvim-tree.lua",
   version = "*",
@@ -7,7 +9,6 @@ return {
   },
   config = function()
     require("nvim-tree").setup({})
-
-    vim.keymap.set('n', '<leader>ee', ':NvimTreeToggle<CR>')
+    Keymap.tree()
   end,
 }

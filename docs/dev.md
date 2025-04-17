@@ -33,15 +33,12 @@ Some key points:
                         - code
                         - session
                             - ide
-                            - sh
                             - stat
-                            - git
                             - ops
-                            - svc
-                            - dev
                             - test
                             - run
-                            - ai
+                            - sh
+                        - ai
         - config
             - zsh
             - tmux
@@ -246,11 +243,11 @@ In this document, the word "project" refers to something very specific. It is a 
 
 ## `pnpm` monorepo
 
-## `pnpm` single
+## `pnpm` package
 
 ## `uv` monorepo
 
-## `uv` single
+## `uv` package
 
 ## `maven` project
 
@@ -302,6 +299,99 @@ In this document, the word "project" refers to something very specific. It is a 
 
 ## Kotlin Android App
 
+# Project Directory Layouts
+
+## `app`
+
+```
+app-cli/
+    <application>/
+        src/
+
+        .env.ci
+        .env.live
+
+        package.json
+        cargo.toml
+
+app-static/
+    ...
+
+app-ssr/
+    ...
+
+app-server/
+    ...
+
+app-job/
+    ...
+
+app-data/
+    ...
+
+app-flow/
+    ...
+
+int-ts/
+int-rs/
+int-py/
+
+lib-ts/
+lib-rs/
+lib-py/
+
+migration/
+    state/
+    plan/
+
+schema/
+    x-syclla/
+    x-pulsar/
+    x-vitess/
+    x-etcd/
+    x-elasticsearch/
+    x-solr/
+    x-keycloak/
+    x-redis/
+    x-spark/
+    x-jupyter/
+
+
+dev/
+    services/
+        docker-compose.yaml
+    seed/
+        src/
+    dns/
+
+test/
+    x-suite/
+
+scripts/
+    doctor.sh
+    x.sh
+    y.sh
+
+.env.ci
+.env.ci.local
+.env.ci.<env>
+
+.env.live
+.env.live.local
+.env.live.<env>
+
+package.json
+nx.json
+.nvmrc
+
+pyproject.toml
+cargo.toml
+```
+
+## `svc`
+
+## `inf`
+
 # Modules
 
 # `$HOME` directory
@@ -316,7 +406,143 @@ In this document, the word "project" refers to something very specific. It is a 
 
 # Writing `fzf` functions
 
+# OS Layouts
+
+## Apps
+
+- terminal
+
+- firefox:research
+- firefox:entertainment
+- firefox:dev
+- chrome:dev:testing
+- safari:dev:testing
+
+- spotify
+- nordvpn
+
+- slack
+- discord
+
+## Layouts
+
+- fullscreen <screen>
+    - term
+- layover
+    - term + browser
+    - term + slack
+    - term + discord
+- side by side <screen>s
+    - term + notebook
+    - term + planner
+    - term + docs (cheatsheet)
+    - term + docs (cheatsheet)
+    - term + browser
+
+# Tmux layouts
+
+## `private`
+
+| Index | Name | Command |
+|-------|------|---------|
+| 1 | `notebook` | `nvim ~/notes` |
+| 2 | `planner` | `nvim ~/notes` |
+
+## `home`
+
+| Index | Name | Command |
+|-------|------|---------|
+| 1 | `shell` | `zsh` |
+
+## `env`
+
+| Index | Name | Command |
+|-------|------|---------|
+| 2 | `docs` | `nvim ~/notes` |
+| 2 | `nvim` | `nvim ~/notes` |
+| 2 | `tmux` | `nvim ~/notes` |
+| 2 | `zsh` | `nvim ~/notes` |
+| 1 | `shell` | `zsh` |
+
+## `<project>[/<worktree>]`
+
+| Index | Name | Command |
+|-------|------|---------|
+| 1 | `info` | `zsh` |
+| 2 | `ide` | `nvim ~/notes` |
+| 2 | `ops` | `nvim ~/notes` |
+| 2 | `run` | `nvim ~/notes` |
+| 2 | `test` | `nvim ~/notes` |
+| 2 | `shell` | `nvim ~/notes` |
+
 # Neovim Layouts
+
+```
+Layout
+    .view
+    .left_drawer
+        .status
+        .open
+        .close
+        .toggle
+        .append
+        .prepend
+        .insert
+        .remove
+        .pop_first
+        .pop_last
+        .move_up
+        .move_down
+        .set_tools
+        .configure
+    .right_drawer
+    .bottom_drawer
+    .editor
+        .add_column_left
+        .add_column_right
+        .split_column_up
+        .split_column_down
+    .modal
+        .open
+        .close
+    .floating_window
+        .open
+        .close
+        .focus
+```
+
+## Components
+
+- left sidebar
+- right sidebar
+- bottom drawer
+
+- modal
+- floating window
+
+- editor
+
+## Tools
+
+- bottom only
+    - terminal
+    - diagnostics
+    - quickfix
+- outline 
+- undotree
+- 
+
+- file tree
+- open buffers
+- file git information
+
+- dap menus (which ones are available?)
+
+## Layouts
+
+- editor
+    - vertical splits over 
+
 
 # Git workflows
 

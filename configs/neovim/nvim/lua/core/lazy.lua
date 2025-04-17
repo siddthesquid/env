@@ -7,5 +7,12 @@ local lazypath = Path.external .. "/lazy.nvim"
 -- to define specs
 if vim.uv.fs_stat(lazypath) then
   vim.opt.rtp:prepend(lazypath)
-  require("lazy").setup("plugins")
+  -- require("lazy").setup("plugins")
+  require("lazy").setup({
+    spec = "plugins",
+    change_detection = {
+      enabled = false,
+      notify = false
+    }
+  })
 end
