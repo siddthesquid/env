@@ -1,27 +1,25 @@
-local Keymap = require("siddthesquid.keymap")
+local Keymap = require('siddthesquid.keymap')
 
 return {
   {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
     config = function()
-      require("lsp_lines").setup()
+      require('lsp_lines').setup()
 
       vim.keymap.set(
-        "",
-        "<leader>di",
-        require("lsp_lines").toggle,
-        { desc = "Toggle lsp_lines" }
+        '',
+        '<leader>di',
+        require('lsp_lines').toggle,
+        { desc = 'Toggle lsp_lines' }
       )
-
     end,
   },
   {
-    "folke/trouble.nvim",
-    cmd = "Trouble",
+    'folke/trouble.nvim',
+    cmd = 'Trouble',
     config = function()
-      require("trouble").setup({})
+      require('trouble').setup({})
     end,
     keys = Keymap.diagnostics(),
   },
 }
-

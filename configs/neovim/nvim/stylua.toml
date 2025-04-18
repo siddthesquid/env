@@ -1,0 +1,15 @@
+# Stylua configuration: use spaces for indentation
+indent_type = "Spaces"
+indent_width = 2
+column_width = 80  # maximum line length
+
+# Use Unix-style line endings
+line_endings = "Unix"
+
+# Prefer single quotes wherever possible
+quote_style = "AutoPreferSingle"
+call_parentheses = "Always"
+
+[sort_requires]
+enabled = true
+

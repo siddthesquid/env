@@ -1,10 +1,10 @@
 ---@diagnostic disable: missing-fields
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
+    'nvim-treesitter/nvim-treesitter',
     -- Recommended build step to compile parsers locally
     -- Run :TSUpdate if parsers are not installed automatically
-    build = ":TSUpdate",
+    build = ':TSUpdate',
     -- Load early, as many plugins depend on it
     lazy = false,
     -- Alternatively, load on events like BufReadPost/BufNewFile
@@ -13,25 +13,25 @@ return {
       -- Ensure parsers for supported languages are installed
       -- Add/remove languages as needed
       ensure_installed = {
-        "bash",
-        "c",
-        "cpp",
-        "css",
-        "go",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline", -- Required for markdown code block highlighting
-        "python",
-        "query", -- Required for Treesitter queries (e.g., for highlighting)
-        "rust",
-        "tsx",
-        "typescript",
-        "vim",
-        "vimdoc", -- For Neovim help files
-        "yaml",
+        'bash',
+        'c',
+        'cpp',
+        'css',
+        'go',
+        'html',
+        'javascript',
+        'json',
+        'lua',
+        'markdown',
+        'markdown_inline', -- Required for markdown code block highlighting
+        'python',
+        'query', -- Required for Treesitter queries (e.g., for highlighting)
+        'rust',
+        'tsx',
+        'typescript',
+        'vim',
+        'vimdoc', -- For Neovim help files
+        'yaml',
       },
 
       -- Don't auto install parsers
@@ -52,10 +52,10 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<Enter>",
-          node_incremental = "<Enter>",
-          scope_incremental = "<leader>ts",
-          node_decremental = "<Backspace>",
+          init_selection = '<Enter>',
+          node_incremental = '<Enter>',
+          scope_incremental = '<leader>ts',
+          node_decremental = '<Backspace>',
         },
       },
 
@@ -64,7 +64,7 @@ return {
     },
     config = function(_, opts)
       -- Ensure opts is populated correctly before setup
-      if type(opts.ensure_installed) == "table" then
+      if type(opts.ensure_installed) == 'table' then
         -- Remove duplicates to avoid potential issues
         local unique_parsers = {}
         for _, parser in ipairs(opts.ensure_installed) do
@@ -77,17 +77,20 @@ return {
       end
 
       -- Call the actual setup function from nvim-treesitter
-      require("nvim-treesitter.configs").setup(opts)
+      require('nvim-treesitter.configs').setup(opts)
 
       -- Minor optimization: Disable parsing for very large files
-      vim.api.nvim_create_autocmd("BufRead", {
-        group = vim.api.nvim_create_augroup("MyTreesitterLargeFileDisable", { clear = true }),
-        pattern = "*",
+      vim.api.nvim_create_autocmd('BufRead', {
+        group = vim.api.nvim_create_augroup(
+          'MyTreesitterLargeFileDisable',
+          { clear = true }
+        ),
+        pattern = '*',
         callback = function(args)
           local stats = vim.uv.fs_stat(vim.api.nvim_buf_get_name(args.buf))
           if stats and stats.size > 1024 * 1024 then -- 1MB threshold
-            vim.cmd("TSBufDisable highlight")
-            vim.cmd("TSBufDisable indent")
+            vim.cmd('TSBufDisable highlight')
+            vim.cmd('TSBufDisable indent')
             -- print("Treesitter disabled for large file.")
           end
         end,
@@ -95,12 +98,12 @@ return {
     end,
   },
   {
-    "nvim-treesitter/nvim-treesitter-textobjects",
+    'nvim-treesitter/nvim-treesitter-textobjects',
     dependencies = {
-      "nvim-treesitter/nvim-treesitter"
+      'nvim-treesitter/nvim-treesitter',
     },
     init = function()
-      local config = require'nvim-treesitter.configs';
+      local config = require('nvim-treesitter.configs')
       config.setup({
         textobjects = {
           select = {
@@ -108,12 +111,19 @@ return {
             lookahead = true,
 
             keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ao"] = "@comment.outer",
-              ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-              ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ao'] = '@comment.outer',
+              ['ic'] = {
+                query = '@class.inner',
+                desc = 'Select inner part of a class region',
+              },
+              ['as'] = {
+                query = '@local.scope',
+                query_group = 'locals',
+                desc = 'Select language scope',
+              },
             },
 
             selection_modes = {
@@ -127,14 +137,17 @@ return {
           swap = {
             enable = true,
             swap_next = {
-              ["<leader>a"] = {query="@parameter.inner", desc="Swap with next parameter"},
+              ['<leader>a'] = {
+                query = '@parameter.inner',
+                desc = 'Swap with next parameter',
+              },
             },
             swap_previous = {
-              ["<leader>A"] = "@parameter.inner",
+              ['<leader>A'] = '@parameter.inner',
             },
           },
         },
-      });
-    end
-  }
+      })
+    end,
+  },
 }
