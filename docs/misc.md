@@ -1,5 +1,8 @@
 # Misc Notes
 
+![puppy](assets/puppy.png)
+
+
 # External devices
 
 | Target                    | Canonical Tooling                                  | Preferred Language(s)    |

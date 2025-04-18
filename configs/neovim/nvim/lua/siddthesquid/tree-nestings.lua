@@ -1,3 +1,4 @@
+-- https://github.com/saifulapm/neotree-file-nesting-config
 local M = {}
 
 local enabled = true
