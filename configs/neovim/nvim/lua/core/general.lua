@@ -2,7 +2,7 @@
 vim.opt.nu = true
 
 -- enable mouse mode
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
 -- indenting
 vim.opt.tabstop = 2
@@ -23,7 +23,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- live substitutions
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 
 -- Save undo history
 vim.opt.undofile = true
@@ -67,23 +67,23 @@ vim.opt.confirm = true
 
 -- diagnostics
 vim.diagnostic.config({
-  severity_sort = true,
-  float = { border = "rounded", source = "if_many" },
-  underline = { severity = vim.diagnostic.severity.ERROR },
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = "󰅚 ",
-      [vim.diagnostic.severity.WARN] = "󰀪 ",
-      [vim.diagnostic.severity.INFO] = "󰋽 ",
-      [vim.diagnostic.severity.HINT] = "󰌶 ",
-    },
-  },
+	severity_sort = true,
+	float = { border = "rounded", source = "if_many" },
+	underline = { severity = vim.diagnostic.severity.ERROR },
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "󰅚 ",
+			[vim.diagnostic.severity.WARN] = "󰀪 ",
+			[vim.diagnostic.severity.INFO] = "󰋽 ",
+			[vim.diagnostic.severity.HINT] = "󰌶 ",
+		},
+	},
 })
 
 -- don't auto comment next line after comment
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "*",
-  callback = function()
-    vim.opt_local.formatoptions:remove({ 'r', 'o' })
-  end,
+	pattern = "*",
+	callback = function()
+		vim.opt_local.formatoptions:remove({ "r", "o" })
+	end,
 })

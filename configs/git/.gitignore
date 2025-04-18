@@ -11,6 +11,7 @@ node_modules
 workspace.code-workspace
 .workspace.py.code-workspace
 *.bak
+.env.*.*
 
 sandbox.py
 sandbox.ts

@@ -144,7 +144,7 @@ function M.tree()
   vim.keymap.set('n', '<leader>ee', ':NvimTreeToggle<CR>')
 end
 
-function M.trouble()
+function M.diagnostics()
   return  {
     {
       "<leader>dd",
