@@ -170,6 +170,7 @@ type ProjectOperationManager = {
     svc: {
         up: Operation
         down: Operation
+        clear: Operation
         seed: Operation
     }
     dev: {
@@ -180,8 +181,14 @@ type ProjectOperationManager = {
     test: {
         updated: Operation
         all: Operation
-        bench: Operation
-        lint: Operation
+    },
+    bench: {
+        updated: Operation
+        all: Operation
+    },
+    lint: {
+        updated: Operation
+        all: Operation
     }
     build: {
         updated: Operation
@@ -193,7 +200,7 @@ type ProjectOperationManager = {
         debug: Operation
     }
     deploy: {
-        release: Operation
+        version: Operation
         publish: Operation
     }
 }
@@ -301,6 +308,26 @@ In this document, the word "project" refers to something very specific. It is a 
 
 # Project Directory Layouts
 
+## Random thoughts
+
+```
+- lib: published library
+- util: project repo internal library, not published
+- app: deployed unit
+
+lib -> util
+        -> app
+        -> schema
+        ->  
+
+app
+
+util
+
+lib
+
+```
+
 ## `app`
 
 ```
@@ -323,7 +350,7 @@ app-ssr/
 app-server/
     ...
 
-app-job/
+app-task/
     ...
 
 app-data/
@@ -349,23 +376,22 @@ schema/
     x-pulsar/
     x-vitess/
     x-etcd/
-    x-elasticsearch/
     x-solr/
     x-keycloak/
     x-redis/
     x-spark/
     x-jupyter/
 
-
 dev/
     services/
         docker-compose.yaml
-    seed/
-        src/
-    dns/
+        dns/
+        seed/
+    mock/
 
 test/
-    x-suite/
+    environments/
+    suites/
 
 scripts/
     doctor.sh
@@ -402,6 +428,10 @@ cargo.toml
 
 # Networking
 
+- domains
+- dnsmasq
+- ngrok
+
 # Writing `zsh` functions
 
 # Writing `fzf` functions
@@ -412,11 +442,13 @@ cargo.toml
 
 - terminal
 
-- firefox:research
+- firefox:research:(project):(task)
 - firefox:entertainment
-- firefox:dev
+- firefox:dev:testing
 - chrome:dev:testing
 - safari:dev:testing
+- edge:dev:testing
+- brave:dev:testing
 
 - spotify
 - nordvpn
@@ -425,6 +457,7 @@ cargo.toml
 - discord
 
 ## Layouts
+
 
 - fullscreen <screen>
     - term
@@ -513,14 +546,23 @@ Layout
 
 ## Components
 
+- editor
+
 - left sidebar
 - right sidebar
 - bottom drawer
 
 - modal
-- floating window
+- popup
 
-- editor
+- completion
+    - main
+    - help
+
+- left halfscreen
+- right halfscreen
+
+- tabpage
 
 ## Tools
 
@@ -530,13 +572,28 @@ Layout
     - quickfix
 - outline 
 - undotree
-- 
 
 - file tree
 - open buffers
-- file git information
+- code outline
+- version control
 
+- tests
+- lint diagnostics
+- lsp diagnostics
+- diagnostics
+
+- tasks
+- terminal
 - dap menus (which ones are available?)
+
+- drivers
+
+- ai chat
+- profiling
+
+- code actions
+- help menu
 
 ## Layouts
 
@@ -545,6 +602,32 @@ Layout
 
 
 # Git workflows
+
+## Check out a new branch
+
+## Staging changes
+
+## Merge changes from main into a feature branch
+
+## Make a simple commit
+
+## Make a final, linted commit
+
+## Push to remote
+
+## Cherry pick diffs from another commit
+
+## Create a PR on GitHub
+
+## Review a PR on GitHub
+
+## Configure remotes
+
+## Fetch metadata from remotes
+
+## Git bisect to find errors
+
+## Review GitHub Issues
 
 # Task Management
 

@@ -9,7 +9,9 @@ return {
     ---@type render.md.UserConfig
     opts = {
       render_modes = { 'n', 'c', 't' },
+      file_types = { 'markdown', 'Avante' },
     },
+    ft = { 'markdown', 'Avante' },
   },
   {
     'HakonHarnes/img-clip.nvim',

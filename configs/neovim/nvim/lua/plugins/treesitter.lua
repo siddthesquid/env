@@ -111,10 +111,22 @@ return {
             lookahead = true,
 
             keymaps = {
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['ac'] = '@class.outer',
-              ['ao'] = '@comment.outer',
+              ['af'] = {
+                query = '@function.outer',
+                desc = 'Select outer part of a function region',
+              },
+              ['if'] = {
+                query = '@function.inner',
+                desc = 'Select inner part of a function region',
+              },
+              ['ac'] = {
+                query = '@class.outer',
+                desc = 'Select outer part of a class region',
+              },
+              ['ao'] = {
+                query = '@comment.outer',
+                desc = 'Select outer part of a comment region',
+              },
               ['ic'] = {
                 query = '@class.inner',
                 desc = 'Select inner part of a class region',
@@ -137,13 +149,13 @@ return {
           swap = {
             enable = true,
             swap_next = {
-              ['<leader>a'] = {
+              ['<leader>s'] = {
                 query = '@parameter.inner',
                 desc = 'Swap with next parameter',
               },
             },
             swap_previous = {
-              ['<leader>A'] = '@parameter.inner',
+              ['<leader>S'] = '@parameter.inner',
             },
           },
         },
