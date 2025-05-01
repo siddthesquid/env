@@ -1,3 +1,5 @@
+vim.opt.termguicolors = true
+
 local Keymap = require('siddthesquid.keymap')
 
 Keymap.set_leader(' ', ' ')
@@ -10,3 +12,5 @@ require('core.general')
 require('core.display')
 -- require("core.keymap")
 require('core.lazy')
+
+vim.cmd([[colorscheme onedark_dark]])

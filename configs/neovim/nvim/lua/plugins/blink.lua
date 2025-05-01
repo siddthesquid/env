@@ -30,7 +30,15 @@ return {
           auto_show = true,
           window = { border = 'single' },
         },
-        menu = { border = 'single' },
+        menu = {
+          draw = {
+            columns = {
+              { 'label', 'label_description', gap = 1 },
+              { 'kind_icon', 'kind' },
+            },
+          },
+          border = 'single',
+        },
       },
 
       signature = {
@@ -53,20 +61,19 @@ return {
           lazydev = {
             name = 'LazyDev',
             module = 'lazydev.integrations.blink',
-            -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
           },
           nerdfont = {
             module = 'blink-nerdfont',
             name = 'Nerd Fonts',
-            score_offset = 15, -- Tune by preference
-            opts = { insert = true }, -- Insert nerdfont icon (default) or complete its name
+            score_offset = 15,
+            opts = { insert = true },
           },
           emoji = {
             module = 'blink-emoji',
             name = 'Emoji',
-            score_offset = 15, -- Tune by preference
-            opts = { insert = true }, -- Insert emoji (default) or complete its name
+            score_offset = 15,
+            opts = { insert = true },
           },
           css_vars = {
             name = 'CSS Vars',

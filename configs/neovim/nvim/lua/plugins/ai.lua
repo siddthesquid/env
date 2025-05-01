@@ -1,9 +1,15 @@
 return {
-
   {
     'supermaven-inc/supermaven-nvim',
     config = function()
-      require('supermaven-nvim').setup({})
+      require('supermaven-nvim').setup({
+        color = {
+          -- for some reason, cterm needs to be set to anything, only then
+          -- will suggestion_color work
+          suggestion_color = '#FFFFFF',
+          cterm = 255,
+        },
+      })
     end,
   },
   {

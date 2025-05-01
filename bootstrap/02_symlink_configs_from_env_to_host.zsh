@@ -36,6 +36,9 @@ links=(
   ["$HOME/.tmux/external"]="$env_dir/configs/tmux/external"
   ["$HOME/.tmux/settings"]="$env_dir/configs/tmux/settings"
   ["$HOME/.config/nvim"]="$env_dir/configs/neovim/nvim"
+  ["$HOME/.config/alacritty"]="$env_dir/configs/alacritty"
+  ["$HOME/.config/sketchybar"]="$env_dir/configs/sketchybar"
+  ["$HOME/.config/aerospace"]="$env_dir/configs/aerospace"
 )
 
 # Create links

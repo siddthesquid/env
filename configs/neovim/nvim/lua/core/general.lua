@@ -69,7 +69,7 @@ vim.opt.confirm = true
 vim.diagnostic.config({
   severity_sort = true,
   float = { border = 'rounded', source = 'if_many' },
-  underline = { severity = vim.diagnostic.severity.ERROR },
+  underline = true,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = '󰅚 ',
@@ -79,6 +79,34 @@ vim.diagnostic.config({
     },
   },
 })
+
+-- Error: Red undercurl
+vim.api.nvim_set_hl(
+  0,
+  'DiagnosticUnderlineError',
+  { undercurl = true, sp = '#DC2626' }
+) -- A bright red
+
+-- Warning: Orange/Yellow undercurl
+vim.api.nvim_set_hl(
+  0,
+  'DiagnosticUnderlineWarn',
+  { undercurl = true, sp = '#FBBF24' }
+) -- Amber/Yellow
+
+-- Info: Blue undercurl
+vim.api.nvim_set_hl(
+  0,
+  'DiagnosticUnderlineInfo',
+  { undercurl = true, sp = '#3B82F6' }
+) -- A medium blue
+
+-- Hint: Gray or Green undercurl
+vim.api.nvim_set_hl(
+  0,
+  'DiagnosticUnderlineHint',
+  { undercurl = true, sp = '#6B7280' }
+) -- A cool gray (or choose a green like #10B981)
 
 -- don't auto comment next line after comment
 vim.api.nvim_create_autocmd('FileType', {

@@ -23,3 +23,17 @@ compinit
 
 autoload bashcompinit
 bashcompinit
+
+# Updates editor information when the keymap changes.
+.zshrc.cursor() {
+  case $KEYMAP$ZLE_STATE in
+    # block
+    vicmd*) print -n "\e[2 q" ;;
+    # bar
+    *insert*) print -n "\e[6 q" ;;
+    # underbar
+    *) print -n "\e[4 q" ;;
+  esac
+}
+autoload -Uz add-zle-hook-widget
+add-zle-hook-widget zle-keymap-select .zshrc.cursor
