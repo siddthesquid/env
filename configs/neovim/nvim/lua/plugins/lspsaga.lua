@@ -1,7 +1,13 @@
 return {
   'nvimdev/lspsaga.nvim',
   config = function()
-    -- require('lspsaga').setup({})
+    require('lspsaga').setup({
+      symbol_in_winbar = {
+        enable = false,
+        show_file = false,
+        hide_keyword = true,
+      },
+    })
   end,
   event = 'LspAttach',
   dependencies = {

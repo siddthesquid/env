@@ -1,3 +1,14 @@
+vim.api.nvim_create_autocmd('DirChanged', {
+  callback = function(args)
+    vim.print(
+      'Dir changed from '
+        .. args.match
+        .. ' because of '
+        .. debug.traceback('', 2)
+    )
+  end,
+})
+
 vim.opt.termguicolors = true
 
 local Keymap = require('siddthesquid.keymap')

@@ -10,4 +10,4 @@ load_setting history
 load_app_rc_configs
 
 # Start default session
-session_start_default
+# session_start_default

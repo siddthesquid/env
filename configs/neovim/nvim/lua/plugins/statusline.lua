@@ -1,3 +1,11 @@
+local function breadcrumbs()
+  local str = require('lspsaga.symbol.winbar').get_bar()
+  if str == nil then
+    return ''
+  end
+  return str
+end
+
 return {
   {
     'nvim-lualine/lualine.nvim',
@@ -6,18 +14,16 @@ return {
       require('lualine').setup({
         options = {
           icons_enabled = true,
-          theme = 'auto',
-          -- component_separators = { left = '', right = ''},
-          -- section_separators = { left = '', right = ''},
+          theme = 'everforest',
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
           disabled_filetypes = {
             statusline = {
-              'AvanteInput',
-              'AvanteSelectedFiles',
-              'Avante',
-              'neo-tree',
-              'help',
+              -- 'AvanteInput',
+              -- 'AvanteSelectedFiles',
+              -- 'Avante',
+              -- 'neo-tree',
+              -- 'help',
             },
             winbar = {
               'AvanteInput',
@@ -30,7 +36,7 @@ return {
           ignore_focus = {},
           always_divide_middle = true,
           always_show_tabline = true,
-          globalstatus = false,
+          globalstatus = true,
           refresh = {
             statusline = 100,
             tabline = 100,
@@ -38,37 +44,58 @@ return {
           },
         },
         sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { 'filename' },
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { 'filename' },
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
-        },
-        tabline = {},
-        winbar = {
           lualine_a = { 'mode' },
-          lualine_b = { 'branch', 'diff', 'diagnostics' },
-          lualine_c = { 'filename' },
-          lualine_x = { 'encoding', 'fileformat', 'filetype' },
+          lualine_b = {
+            {
+              'diagnostics',
+              update_in_insert = true,
+            },
+          },
+          lualine_c = {
+            {
+              'diff',
+              -- symbols = { added = ' ', modified = ' ', removed = ' ' },
+              symbols = { added = '+', modified = '~', removed = '-' },
+            },
+          },
+          lualine_x = { breadcrumbs },
+          lualine_y = { 'lsp_status' },
+          lualine_z = { 'filetype' },
+        },
+        tabline = {
+          lualine_a = {
+            {
+              'tabs',
+              max_length = 300,
+              mode = 1,
+              symbols = {
+                modified = '',
+              },
+            },
+          },
+          lualine_x = {
+            { 'buffers' },
+          },
+        },
+        winbar = {
+          -- lualine_a = {},
+          lualine_a = { { 'filename', path = 1 } },
+          -- lualine_b = { { 'filename', path = 1 } },
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
           lualine_y = { 'progress' },
           lualine_z = { 'location' },
         },
         inactive_winbar = {
-          lualine_a = {},
+          -- lualine_a = {},
+          lualine_a = { { 'filename', path = 1 } },
+          -- lualine_b = { { 'filename', path = 1 } },
           lualine_b = {},
-          lualine_c = { 'filename' },
-          lualine_x = { 'location' },
-          lualine_y = {},
-          lualine_z = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' },
         },
         extensions = {},
       })
