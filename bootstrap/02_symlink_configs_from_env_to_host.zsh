@@ -21,24 +21,27 @@ create_link() {
 }
 
 # Make directories
-mkdir -p $HOME/.tmux
 mkdir -p $HOME/.config
+mkdir -p $HOME/.config/git
+mkdir -p $HOME/.config/ripgrep
+mkdir -p $HOME/.config/alacritty
+mkdir -p $HOME/.config/aerospace
+
 
 # List of links to be created
 declare -A links
 links=(
-  ["$HOME/.gitconfig"]="$env_dir/configs/git/.gitconfig"
-  ["$HOME/.gitignore"]="$env_dir/configs/git/.gitignore"
-  ["$HOME/.tmux.conf"]="$env_dir/configs/tmux/.tmux.conf"
-  ["$HOME/.tmuxinator"]="$env_dir/configs/tmux/.tmuxinator"
-  ["$HOME/.vimrc"]="$env_dir/configs/neovim/.vimrc"
-  ["$HOME/.ripgreprc"]="$env_dir/configs/ripgrep/.ripgreprc"
-  ["$HOME/.tmux/external"]="$env_dir/configs/tmux/external"
-  ["$HOME/.tmux/settings"]="$env_dir/configs/tmux/settings"
-  ["$HOME/.config/nvim"]="$env_dir/configs/neovim/nvim"
-  ["$HOME/.config/alacritty"]="$env_dir/configs/alacritty"
-  ["$HOME/.config/sketchybar"]="$env_dir/configs/sketchybar"
-  ["$HOME/.config/aerospace"]="$env_dir/configs/aerospace"
+
+  # Core
+  ["$HOME/.config/tmux"]="$env_dir/configs/tmux"
+  ["$HOME/.config/nvim"]="$env_dir/configs/nvim"
+
+  # Misc
+  ["$HOME/.config/git/ignore"]="$env_dir/configs/misc/gitignore"
+  ["$HOME/.config/git/config"]="$env_dir/configs/misc/gitconfig"
+  ["$HOME/.config/ripgrep/ripgreprc"]="$env_dir/configs/misc/ripgreprc"
+  ["$HOME/.config/alacritty/alacritty.toml"]="$env_dir/configs/misc/alacritty.toml"
+  ["$HOME/.config/aerospace/aerospace.toml"]="$env_dir/configs/misc/aerospace.toml"
 )
 
 # Create links

@@ -1,6 +1,0 @@
-#!/usr/bin/env zsh
-
-# Create a conda environment if one does not already exist in the current
-# directory.
-
-[[ -d ./.env ]] || conda create --yes --prefix ./.env python=3.11

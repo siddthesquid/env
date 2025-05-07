@@ -14,5 +14,5 @@
 	path = configs/tmux/external/tmux-thumbs
 	url = https://github.com/fcsonline/tmux-thumbs
 [submodule "configs/neovim/nvim/external/lazy.nvim"]
-	path = configs/neovim/nvim/external/lazy.nvim
+	path = configs/nvim/external/lazy.nvim
 	url = https://github.com/folke/lazy.nvim.git

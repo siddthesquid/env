@@ -1,0 +1,17 @@
+.siddthesquid
+.dx
+.env.local
+.tmuxinator.yaml
+.idea
+.idea_modules
+.sw[po]
+.DS_Store
+node_modules
+.venv
+workspace.code-workspace
+.workspace.py.code-workspace
+*.bak
+.env.*.*
+
+sandbox.py
+sandbox.ts

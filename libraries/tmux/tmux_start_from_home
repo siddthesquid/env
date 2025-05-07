@@ -1,6 +1,0 @@
-#!/usr/bin/env zsh
-
-local session_dir="${1}"
-[[ -n "${session_dir}" ]] || return 1
-
-local session_name=$(tmux_get_session_name

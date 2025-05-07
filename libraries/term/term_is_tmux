@@ -1,4 +1,0 @@
-#!/usr/bin/env zsh
-
-# Are we currently in tmux?
-[[ ${TERM_PROGRAM} == tmux ]]

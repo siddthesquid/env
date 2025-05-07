@@ -21,16 +21,17 @@ create_link() {
 }
 
 # Make directories
-mkdir -p $env_dir/local
+local zsh_dir="$env_dir/configs/zsh/local"
+mkdir -p $zsh_dir
 
 # List of links to be created
 declare -A links
 links=(
-  ["$env_dir/local/.zshenv"]="$HOME/.zshenv"
-  ["$env_dir/local/.zprofile"]="$HOME/.zprofile"
-  ["$env_dir/local/.zshrc"]="$HOME/.zshrc"
-  ["$env_dir/local/.zlogin"]="$HOME/.zlogin"
-  ["$env_dir/local/.zlogout"]="$HOME/.zlogout"
+  ["$zsh_dir/.zshenv"]="$HOME/.zshenv"
+  ["$zsh_dir/.zprofile"]="$HOME/.zprofile"
+  ["$zsh_dir/.zshrc"]="$HOME/.zshrc"
+  ["$zsh_dir/.zlogin"]="$HOME/.zlogin"
+  ["$zsh_dir/.zlogout"]="$HOME/.zlogout"
 )
 
 # Create links

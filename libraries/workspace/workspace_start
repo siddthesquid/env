@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-
-# if tmuxinator is installed, use it to start the workspace
-if command -v tmuxinator &> /dev/null; then
-  tmuxinator start "$1"
-  exit
-fi

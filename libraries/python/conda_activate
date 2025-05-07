@@ -1,8 +1,0 @@
-#!/usr/bin/env zsh
-
-# Activate conda in the current directory, using .env as the prefix.
-# If .env does not exist, then create it.
-
-[[ -n $CONDA_DEFAULT_ENV ]] && conda deactivate
-conda_create
-conda activate ./.env

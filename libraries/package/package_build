@@ -23,5 +23,3 @@ shift
 (
   source "$package_path" || return 1
   env_check_command build || (echo "$(format warning "Package") $(format info "$package") $(format warning "does not have an") $(format command "build") $(format warning "command")" && return 1)
-  build "$@"
-)

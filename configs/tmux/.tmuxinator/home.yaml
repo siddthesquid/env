@@ -1,9 +1,0 @@
-name: "home"
-root: "~"
-
-windows:
-  - main:
-      layout: main-vertical
-      panes:
-        - ls
-        - ls

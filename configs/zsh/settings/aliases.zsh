@@ -50,5 +50,4 @@ alias v="version_all"
 
 alias rl="env_lib_reload"
 
-# Source ~/env/.env.ide.local and run neovim
 alias nv="source $HOME/env/.env.ide.local && nvim"

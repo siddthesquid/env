@@ -1031,7 +1031,7 @@ A simple command in Zsh is a basic unit of execution.
 | Arguments             | Subsequent words passed as arguments to the command. |
 | Redirections          | Optional, used to redirect input/output.             |
 
-```shell
+```bash
 FOO=bar echo $FOO
 ```
 
@@ -1068,7 +1068,7 @@ A list is a sequence of sublists with various terminators.
 
 ### Examples
 
-```shell
+```bash
 # Simple Command Example
 echo foo # Echoes the word 'foo'.
 

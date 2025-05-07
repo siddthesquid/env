@@ -1,8 +1,0 @@
-#!/usr/bin/env zsh
-
-local session_name="${1}"
-
-[[ -n "${session_name}" ]] || return 1
-
-tmux list-sessions -F "#{session_name}" \
-  | grep "^${session_name}$" &> /dev/null
