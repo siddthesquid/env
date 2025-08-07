@@ -36,6 +36,9 @@ setopt hist_expand
 autoload -Uz add-zle-hook-widget
 add-zle-hook-widget zle-keymap-select .zshrc.cursor
 
+# Allow comments in interactive shells
+setopt interactivecomments
+
 # Some suggestions from https://thevaluable.dev/zsh-install-configure-mouseless/
 
 # Edit command line with vim

@@ -2,11 +2,9 @@ return {
   {
     'xzbdmw/colorful-menu.nvim',
     config = function()
-      -- You don't need to set these options.
       require('colorful-menu').setup({
         ls = {
           lua_ls = {
-            -- Maybe you want to dim arguments a bit.
             arguments_hl = '@comment',
           },
           gopls = {
@@ -90,12 +88,14 @@ return {
       })
     end,
   },
+
   {
     'saghen/blink.compat',
     version = '*',
     lazy = true,
     opts = {},
   },
+
   {
     'saghen/blink.cmp',
     build = 'cargo build --release',
@@ -104,7 +104,7 @@ return {
       'moyiz/blink-emoji.nvim',
       'MahanRahmati/blink-nerdfont.nvim',
       'jdrupal-dev/css-vars.nvim',
-      'Kaiser-Yang/blink-cmp-avante',
+      -- 'Kaiser-Yang/blink-cmp-avante',
       'xzbdmw/colorful-menu.nvim',
     },
 
@@ -120,7 +120,6 @@ return {
       completion = {
         documentation = {
           auto_show = true,
-          window = { border = 'single' },
         },
         menu = {
           draw = {
@@ -140,25 +139,26 @@ return {
               },
             },
           },
-          border = 'single',
         },
       },
 
       signature = {
         enabled = true,
-        window = { border = 'single' },
       },
 
       sources = {
         default = {
-          'avante',
+          -- 'avante',
           'lazydev',
           'lsp',
           'path',
-          'nerdfont',
-          'emoji',
+          -- 'nerdfont',
+          -- 'emoji',
           'snippets',
           'css_vars',
+        },
+        per_filetype = {
+          codecompanion = { 'codecompanion' },
         },
         providers = {
           lazydev = {
@@ -187,13 +187,13 @@ return {
               search_extensions = { '.js', '.ts', '.jsx', '.tsx' },
             },
           },
-          avante = {
-            module = 'blink-cmp-avante',
-            name = 'Avante',
-            opts = {
-              -- options for blink-cmp-avante
-            },
-          },
+          -- avante = {
+          --   module = 'blink-cmp-avante',
+          --   name = 'Avante',
+          --   opts = {
+          --     -- options for blink-cmp-avante
+          --   },
+          -- },
         },
       },
 

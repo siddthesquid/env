@@ -1,6 +1,0 @@
-#!/usr/bin/env zsh
-
-# Do a quick git update
-git add .
-git commit -m "Quick update"
-git push

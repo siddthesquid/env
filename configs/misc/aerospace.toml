@@ -67,7 +67,7 @@ alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-shift-n = """
+alt-shift-m = """
 exec-and-forget \
   aerospace list-workspaces \
   --monitor focused \
@@ -76,7 +76,7 @@ exec-and-forget \
   --wrap-around
 """
 
-alt-shift-p = """
+alt-shift-n = """
 exec-and-forget \
   aerospace list-workspaces \
   --monitor focused \

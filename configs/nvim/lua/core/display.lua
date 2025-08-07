@@ -6,3 +6,5 @@ vim.g.have_nerd_font = true
 
 -- color column
 vim.opt.colorcolumn = '80'
+
+vim.o.winborder = 'rounded'

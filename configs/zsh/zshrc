@@ -1,13 +1,12 @@
-# load settings from the env/configs/zsh/settings folder
+# load settings from the ~/env/configs/zsh/settings folder
 load_setting general
 load_setting suggestions
 load_setting highlighting
 load_setting history
 
-load_app_rc_configs
+load_setting app_rc
 
 load_setting comp
 
 load_setting aliases
 load_setting prompt
-

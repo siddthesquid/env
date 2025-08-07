@@ -25,13 +25,18 @@ return {
           DiagnosticUnderlineInfo = { undercurl = true, sp = '#3B82F6' },
           DiagnosticUnderlineHint = { undercurl = true, sp = '#6B7280' },
 
+          -- Background will already be black. make it transparent here
+          Normal = { bg = 'NONE', extend = true },
+          SignColumn = { bg = 'NONE', extend = true },
+          LineNr = { bg = 'NONE', extend = true },
+
           -- Brighter cursor line and selection colors
           CursorLine = { bg = '#4A4B42' },
           CursorLineNr = { fg = '#F8F8F2' },
           MatchWord = { bg = '#2A2B32' },
           Visual = { bg = '#3A3B42' },
           VisualNOS = { bg = '#3A3B42' },
-          Pmenu = { bg = '#2A2B32' },
+          Pmenu = { link = 'NormalFloat' },
           PmenuSel = { bg = '#3B82F6' },
           Search = { bg = '#3B82F6' },
           IncSearch = { bg = '#3B82F6' },

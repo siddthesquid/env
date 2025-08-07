@@ -13,6 +13,7 @@ return {
       -- Ensure parsers for supported languages are installed
       -- Add/remove languages as needed
       ensure_installed = {
+        'agda',
         'bash',
         'c',
         'cpp',

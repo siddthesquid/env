@@ -8,18 +8,18 @@ alias src="source $HOME/.zshrc"
 #   - date: sort by date
 #   - r: reverse sort
 
-# Use exa for ls if available
-if command -v exa >/dev/null 2>&1; then
-  alias l="exa -lhF --color=always"
-  alias la="exa -lhaF --color=always"
-  alias lsize="exa -lhFS --color=always --sort=size --reverse"
-  alias lasize="exa -lhaFS --color=always --sort=size --reverse"
-  alias lsizer="exa -lhFS --color=always --sort=size"
-  alias lasizer="exa -lhaFS --color=always --sort=size"
-  alias ldate="exa -lhF --color=always --sort=modified"
-  alias ladate="exa -lhaF --color=always --sort=modified"
-  alias ldater="exa -lhF --color=always --sort=modified --reverse"
-  alias ladater="exa -lhaF --color=always --sort=modified --reverse"
+# Use eza for ls if available
+if command -v eza >/dev/null 2>&1; then
+  alias l="eza -lhF --color=always"
+  alias la="eza -lhaF --color=always"
+  alias lsize="eza -lhFS --color=always --sort=size --reverse"
+  alias lasize="eza -lhaFS --color=always --sort=size --reverse"
+  alias lsizer="eza -lhFS --color=always --sort=size"
+  alias lasizer="eza -lhaFS --color=always --sort=size"
+  alias ldate="eza -lhF --color=always --sort=modified"
+  alias ladate="eza -lhaF --color=always --sort=modified"
+  alias ldater="eza -lhF --color=always --sort=modified --reverse"
+  alias ladater="eza -lhaF --color=always --sort=modified --reverse"
 
 # Otherwise use ls
 else

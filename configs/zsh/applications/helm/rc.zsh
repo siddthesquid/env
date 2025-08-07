@@ -1,1 +1,0 @@
-[[ $commands[helm] ]] && source <(helm completion zsh)

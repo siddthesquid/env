@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+setopt local_options
+set -euo pipefail
+set -o noclobber
+setopt no_nomatch
+
+echo "sys loaded"
+echo "sys loaded"

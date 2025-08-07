@@ -24,8 +24,9 @@ if [[ ! -f "$setting_path" ]]; then
 fi
 
 # Check if setting is disabled
-local override_var_name="STS_SETTING_DISABLE_${setting_name}"
-local override_var_value=$(eval echo \$$override_var_name)
+local sanitized_setting_name="${setting_name//-/_}"
+local override_var_name="STS_SETTING_DISABLE_${sanitized_setting_name}"
+local override_var_value="$(eval echo \$${override_var_name})"
 if [[ -n $override_var_value ]]; then
   echo "Skipped loading setting '$setting_name'. $override_var_name is set"
   return 1
@@ -33,5 +34,3 @@ fi
 
 # Load setting
 source "$setting_path"
-
-

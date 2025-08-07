@@ -1,0 +1,48 @@
+#!/usr/bin/env zsh
+#
+# NAME
+#     os - Determine and print the operating system type
+#
+# SYNOPSIS
+#     os_get
+#
+# DESCRIPTION
+#     This script provides a function `os_get` that identifies the current
+#     operating system (e.g., Linux, macOS, Cygwin, MinGW) and prints
+#     its type to standard output. If the operating system is not one of
+#     the recognized types, it prints "unknown".
+#
+#     The script also sets several shell options for robust execution:
+#     - `local_options`: Ensures options set within functions are local.
+#     - `set -euo pipefail`: Exits on error, unbound variable, or pipe failure.
+#     - `set -o noclobber`: Prevents accidental overwriting of files with `>`.
+#     - `setopt no_nomatch`: Prevents errors if a glob has no matches.
+#
+# EXAMPLES
+#     To determine the current OS:
+#       os_get
+#
+#     Example output on a macOS system:
+#       macos
+#
+#     Example output on a Linux system:
+#       linux
+
+setopt local_options
+set -euo pipefail
+set -o noclobber
+setopt no_nomatch
+
+function os_get() {
+  local os
+  os="$(uname -s)"
+  case "${os}" in
+  Linux*) echo "linux" ;;
+  Darwin*) echo "macos" ;;
+  CYGWIN*) echo "cygwin" ;;
+  MINGW*) echo "mingw" ;;
+  *) echo "unknown" ;;
+  esac
+}
+
+os_get

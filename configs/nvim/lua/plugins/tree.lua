@@ -227,35 +227,22 @@ return {
         filesystem = {
           filtered_items = {
             visible = false, -- when true, they will just be displayed differently than normal items
-            hide_dotfiles = true,
+            hide_dotfiles = false,
             hide_gitignored = true,
             hide_hidden = true, -- only works on Windows for hidden files/directories
-            hide_by_name = {
-              --"node_modules"
-            },
-            hide_by_pattern = { -- uses glob style patterns
-              --"*.meta",
-              --"*/src/*/tsconfig.json",
-            },
+            hide_by_name = {},
+            hide_by_pattern = {},
             always_show = { -- remains visible even if other settings would normally hide it
               'local',
             },
-            always_show_by_pattern = { -- uses glob style patterns
-              '.env*',
-              'local/**/*',
-            },
-            never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
-              --".DS_Store",
-              --"thumbs.db"
-            },
-            never_show_by_pattern = { -- uses glob style patterns
-              --".null-ls_*",
-            },
+            always_show_by_pattern = {},
+            never_show = {},
+            never_show_by_pattern = {},
           },
           follow_current_file = {
             enabled = true, -- This will find and focus the file in the active buffer every time
             --               -- the current file is changed while the tree is open.
-            leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+            leave_dirs_open = true, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
           },
           group_empty_dirs = false, -- when true, empty folders will be grouped together
           hijack_netrw_behavior = 'open_default', -- netrw disabled, opening a directory opens neo-tree
@@ -263,7 +250,7 @@ return {
           -- "open_current",  -- netrw disabled, opening a directory opens within the
           -- window like netrw would, regardless of window.position
           -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-          use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
+          use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
           -- instead of relying on nvim autocmd events.
           window = {
             mappings = {

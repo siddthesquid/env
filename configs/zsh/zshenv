@@ -1,6 +1,6 @@
 # Note: This file should be cross-platform compatible
 
-# Global variables
+# Default configuration variables
 export STS_ENV_HOME="${STS_ENV_HOME:-$HOME/env}"
 export STS_DOCS_HOME="${STS_DOCS_HOME:-$STS_ENV_HOME/docs}"
 export STS_NOTES_HOME="${STS_NOTES_HOME:-$HOME/notes}"
@@ -15,15 +15,22 @@ export STS_LOCAL_HOME="${STS_LOCAL_HOME:-$HOME/.local}"
 #   This will reset the fpath by removing all directories that start with
 #   $STS_ENV_HOME/libraries
 reset_fpath() {
-  local dir="$STS_ENV_HOME/libraries"
+  local old_libraries_dir_path="$STS_ENV_HOME/libraries"
   local new_fpath=()
 
   local fpathitem
   for fpathitem in $fpath; do
-    [[ "${fpathitem#$dir}" == "$fpathitem" && "$fpathitem" != "$STS_ENV_HOME/configs/zsh/lib" ]] && new_fpath+=("$fpathitem")
+    [[ "${fpathitem#"$old_libraries_dir_path"}" == "$fpathitem" && "$fpathitem" != "$STS_ENV_HOME/configs/zsh/libraries" ]] && new_fpath+=("$fpathitem")
   done
 
   fpath=("${new_fpath[@]}")
+}
+
+# Usage: init_fpath
+#   This will add $STS_ENV_HOME/libraries to the fpath
+init_fpath() {
+  local libraries_dir_path="$STS_ENV_HOME/configs/zsh/libraries"
+  fpath+=("$libraries_dir_path")
 }
 
 # Usage: load_library LIBRARY_NAME
@@ -41,7 +48,7 @@ load_library() {
 
   # Check if the library has been disabled from loading
   local override_var_name="STS_LIB_DISABLE_${lib_path:t:r}"
-  local override_var_value=$(eval echo \$$override_var_name)
+  local override_var_value=$(eval echo \$"$override_var_name")
   if [[ -n $override_var_value ]]; then
     echo "Skipped autoloading functions from $lib_path. $override_var_name is set"
     return 1
@@ -79,13 +86,11 @@ load_all_libraries() {
     load_library "$dir"
   done
 
-  load_library "$STS_ENV_HOME/configs/zsh/lib"
+  load_library "$STS_ENV_HOME/configs/zsh/libraries"
 }
 
 # load all libraries
 load_all_libraries
 
 load_setting base
-
-# load application specific environments
-load_app_env_configs
+load_setting app_env

@@ -1,0 +1,42 @@
+stash push — encrypt data and upload it
+
+Usage:
+  stash [GLOBAL OPTIONS] push [OPTIONS] [--] <RECIPIENT> [FILE]
+
+  If FILE is omitted or is “-”, data will be read from stdin.
+
+POSITIONAL ARGUMENTS
+  <RECIPIENT>             Identifier or alias of intended recipient (required)
+  [FILE]                  Path to file to encrypt and upload (use '-' for stdin)
+
+OPTIONS
+  -e, --expire <duration>   Auto-expire after a period (e.g., 30m, 1h, 1d)
+  -p, --password [<pass>]   Protect with additional passphrase (prompt if blank)
+  -h, --help                Show this help and exit
+
+GLOBAL OPTIONS
+  -q, --quiet               Suppress non-error output
+  -o, --output <fmt>        Set output format (json|yaml|text) [default: text]
+      --config <file>       Use alternate config file
+  -v, --version             Show version and exit
+  -h, --help                Show global help and exit
+
+EXAMPLES
+  Encrypt and upload a file for a recipient:
+    stash push alice ./secrets.env
+
+  Pipe in data from stdin:
+    echo "token=abc123" | stash push bob --
+
+  Set a 1-hour expiry and custom password:
+    stash push -e 1h -p -- charlie ./auth.json
+
+  Use alternate config and JSON output:
+    stash push --config ./dev.cfg --output json dana ./secrets.txt
+
+EXIT CODES
+  0   Success
+  1   General error (e.g. input validation failed)
+  2   Encryption failed
+  3   Network or upload error
+130  User aborted (e.g. Ctrl+C)

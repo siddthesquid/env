@@ -1,0 +1,30 @@
+stash — securely share encrypted data
+
+Usage:
+  stash [GLOBAL OPTIONS] <command> [<args>...]
+
+COMMANDS
+  push        Encrypt data and upload it (see 'stash help push')
+  pull        Download and decrypt a stash (see 'stash help pull')
+  list        List available stashes (see 'stash help list')
+  revoke      Revoke access to a stash (see 'stash help revoke')
+
+GLOBAL OPTIONS
+  -q, --quiet               Suppress non-error output
+  -o, --output <fmt>        Set output format (json|yaml|text) [default: text]
+      --config <file>       Use alternate config file
+  -v, --version             Show version and exit
+  -h, --help                Show global help and exit
+
+EXAMPLES
+  Encrypt and send a file:
+    stash push alice ./secret.txt
+
+  Retrieve a stash to a file:
+    stash pull --output text alice > recovered.txt
+
+  See all available stashes:
+    stash list
+
+  Revoke a previously sent stash:
+    stash revoke abc123

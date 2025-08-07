@@ -29,6 +29,7 @@ return {
               'AvanteInput',
               'AvanteSelectedFiles',
               'Avante',
+              'codecompanion',
               'neo-tree',
               'help',
             },

@@ -1,10 +1,5 @@
 local M = {}
 
-local bufmap = function(mode, lhs, rhs)
-  local opts = { buffer = true }
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
-
 function M.set_leader(global_key, local_key)
   vim.g.mapleader = global_key
   vim.g.maplocalleader = local_key
@@ -57,13 +52,13 @@ end
 function M.color_column()
   vim.keymap.set('n', '<leader>c8', function()
     vim.opt.colorcolumn = '80'
-  end, { noremap = true, silent = true })
+  end, { desc = 'Set colorcolumn to 80', noremap = true, silent = true })
   vim.keymap.set('n', '<leader>c0', function()
     vim.opt.colorcolumn = '100'
-  end, { noremap = true, silent = true })
+  end, { desc = 'Set colorcolumn to 100', noremap = true, silent = true })
   vim.keymap.set('n', '<leader>cc', function()
     vim.opt.colorcolumn = ''
-  end, { noremap = true, silent = true })
+  end, { desc = 'Clear colorcolumn', noremap = true, silent = true })
 end
 
 function M.fzf()
@@ -71,14 +66,22 @@ function M.fzf()
     {
       '<leader>ff',
       function()
-        require('fzf-lua').files()
+        require('fzf-lua').files({
+          file_ignore_patterns = { 'external' },
+          hidden = true,
+          follow = true,
+        })
       end,
       desc = 'Find Files in project directory',
     },
     {
       '<leader>fg',
       function()
-        require('fzf-lua').live_grep()
+        require('fzf-lua').live_grep({
+          file_ignore_patterns = { 'external' },
+          hidden = true,
+          follow = true,
+        })
       end,
       desc = 'Find by grepping in project directory',
     },
@@ -92,7 +95,12 @@ function M.fzf()
     {
       '<leader>fn',
       function()
-        require('fzf-lua').files({ cwd = vim.fn.stdpath('config') })
+        require('fzf-lua').files({
+          cwd = vim.fn.stdpath('config'),
+          file_ignore_patterns = { 'external' },
+          hidden = true,
+          follow = true,
+        })
       end,
       desc = 'Find in neovim configuration',
     },
@@ -110,6 +118,14 @@ function M.fzf()
       end,
       desc = '[F]ind [K]eymaps',
     },
+    -- nvim options
+    {
+      '<leader>fo',
+      function()
+        require('fzf-lua').nvim_options()
+      end,
+      desc = '[F]ind Neovim [O]ptions',
+    },
     {
       '<leader>fb',
       function()
@@ -120,14 +136,22 @@ function M.fzf()
     {
       '<leader>fw',
       function()
-        require('fzf-lua').grep_cword()
+        require('fzf-lua').grep_cword({
+          file_ignore_patterns = { 'external' },
+          hidden = true,
+          follow = true,
+        })
       end,
       desc = '[F]ind current [W]ord',
     },
     {
       '<leader>fW',
       function()
-        require('fzf-lua').grep_cWORD()
+        require('fzf-lua').grep_cWORD({
+          file_ignore_patterns = { 'external' },
+          hidden = true,
+          follow = true,
+        })
       end,
       desc = '[F]ind current [W]ORD',
     },
@@ -146,18 +170,19 @@ function M.fzf()
       desc = '[F]ind [R]esume',
     },
     {
-      '<leader>fo',
-      function()
-        require('fzf-lua').oldfiles()
-      end,
-      desc = '[F]ind [O]ld Files',
-    },
-    {
       '<leader><leader>',
       function()
         require('fzf-lua').buffers()
       end,
       desc = '[,] Find existing buffers',
+    },
+    -- lsp
+    {
+      '<leader>fs',
+      function()
+        require('fzf-lua').lsp_live_workspace_symbols()
+      end,
+      desc = '[f]ind LSP workspace [s]ymbols',
     },
     {
       '<leader>/',
@@ -170,7 +195,12 @@ function M.fzf()
 end
 
 function M.tree()
-  vim.keymap.set('n', '<leader>ee', ':NvimTreeToggle<CR>')
+  vim.keymap.set(
+    'n',
+    '<leader>ee',
+    ':NvimTreeToggle<CR>',
+    { desc = 'Toggle NvimTree' }
+  )
 end
 
 function M.diagnostics()
@@ -208,21 +238,6 @@ function M.diagnostics()
   }
 end
 
-function M.lsp()
-  bufmap('n', 'K', vim.lsp.buf.hover)
-  bufmap('n', 'gd', vim.lsp.buf.definition)
-  bufmap('n', 'gD', vim.lsp.buf.declaration)
-  bufmap('n', 'gi', vim.lsp.buf.implementation)
-  bufmap('n', 'go', vim.lsp.buf.type_definition)
-  bufmap('n', 'gr', vim.lsp.buf.references)
-  bufmap('n', 'gs', vim.lsp.buf.signature_help)
-  bufmap('n', 'gR', vim.lsp.buf.rename)
-  bufmap('n', 'ga', vim.lsp.buf.code_action)
-  bufmap('n', 'gl', vim.diagnostic.open_float)
-  bufmap('n', '[d', vim.diagnostic.jump({ count = 1 }))
-  bufmap('n', ']d', vim.diagnostic.jump({ count = -1 }))
-end
-
 -- "g" for "go to this word"
 function M.hop()
   local hop = require('hop')
@@ -237,15 +252,6 @@ function M.hop()
     '<leader>gl',
     hop.hint_lines,
     { desc = 'Hop to any line' }
-  )
-end
-
-function M.oil()
-  vim.keymap.set(
-    'n',
-    '-',
-    '<cmd>Oil --float<CR>',
-    { desc = 'Open Parent Directory in Oil' }
   )
 end
 

@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-
-echo "OS is $(uname -s)"
-echo "OS is $(uname -s)"
-echo "OS is $(uname -s)"
-
-

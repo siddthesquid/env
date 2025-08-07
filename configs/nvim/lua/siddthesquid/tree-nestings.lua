@@ -1,7 +1,7 @@
 -- https://github.com/saifulapm/neotree-file-nesting-config
 local M = {}
 
-local enabled = true
+local enabled = false
 
 function M.nestings()
   if enabled then

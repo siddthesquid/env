@@ -12,6 +12,9 @@ workspace.code-workspace
 .workspace.py.code-workspace
 *.bak
 .env.*.*
+.worktrees
 
 sandbox.py
 sandbox.ts
+
+**/.claude/settings.local.json
