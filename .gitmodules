@@ -1,18 +1,24 @@
 [submodule "configs/zsh/plugins/zsh-autosuggestions"]
 	path = configs/zsh/external/zsh-autosuggestions
 	url = git@github.com:zsh-users/zsh-autosuggestions.git
+	ignore = untracked
 [submodule "configs/zsh/plugins/zsh-history-substring-search"]
 	path = configs/zsh/external/zsh-history-substring-search
 	url = git@github.com:zsh-users/zsh-history-substring-search.git
+	ignore = untracked
 [submodule "configs/zsh/plugins/zsh-syntax-highlighting"]
 	path = configs/zsh/external/zsh-syntax-highlighting
 	url = git@github.com:zsh-users/zsh-syntax-highlighting.git
+	ignore = untracked
 [submodule "configs/tmux/external/tmux-better-mouse-mode"]
 	path = configs/tmux/external/tmux-better-mouse-mode
 	url = https://github.com/NHDaly/tmux-better-mouse-mode
+	ignore = untracked
 [submodule "configs/tmux/external/tmux-thumbs"]
 	path = configs/tmux/external/tmux-thumbs
 	url = https://github.com/fcsonline/tmux-thumbs
+	ignore = untracked
 [submodule "configs/neovim/nvim/external/lazy.nvim"]
 	path = configs/nvim/external/lazy.nvim
 	url = https://github.com/folke/lazy.nvim.git
+	ignore = untracked
