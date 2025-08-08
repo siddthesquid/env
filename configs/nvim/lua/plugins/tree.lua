@@ -346,7 +346,7 @@ return {
         },
       })
 
-      vim.keymap.set('n', '<leader>ee', '<Cmd>Neotree reveal<CR>')
+      Keymap.tree()
     end,
   },
 }
