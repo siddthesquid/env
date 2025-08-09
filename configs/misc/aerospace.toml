@@ -85,6 +85,24 @@ exec-and-forget \
   --wrap-around
 """
 
+alt-shift-rightSquareBracket = """
+exec-and-forget \
+  aerospace list-workspaces \
+  --monitor focused \
+  --empty no \
+  | aerospace workspace next \
+  --wrap-around
+"""
+
+alt-shift-leftSquareBracket = """
+exec-and-forget \
+  aerospace list-workspaces \
+  --monitor focused \
+  --empty no \
+  | aerospace workspace prev \
+  --wrap-around
+"""
+
 alt-f1 = 'workspace 1'
 alt-f2 = 'workspace 2'
 alt-f3 = 'workspace 3'

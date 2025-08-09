@@ -22,11 +22,6 @@ return {
       })
 
       lspconfig.lua_ls.setup({})
-      -- lspconfig.bashls.setup({
-      --   bashIde = {
-      --     globPattern = '**/*@(.sh|.inc|.bash|.command|.zsh)',
-      --   },
-      -- })
     end,
   },
 }
