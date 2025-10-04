@@ -1,5 +1,12 @@
 return {
   'windwp/nvim-autopairs',
   event = 'InsertEnter',
-  opts = {},
+  opts = {
+    disable_filetype = {
+      'TelescopePrompt',
+      'spectre_panel',
+      'snacks_picker_input',
+      'agda',
+    },
+  },
 }

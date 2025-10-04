@@ -28,6 +28,11 @@ return {
     config = function()
       -- Use backslash as Agda prefix (same as your example)
       vim.g.cornelis_agda_prefix = '\\'
+      vim.g.cornelis_max_size = 30
+
+      vim.fn['cornelis#bind_input']('p2', '″') -- U+2033 DOUBLE PRIME
+      vim.fn['cornelis#bind_input']('p3', '‴') -- U+2034 TRIPLE PRIME
+      vim.fn['cornelis#bind_input']('p4', '⁗') -- U+2057 QUADRUPLE PRIME
 
       local aug = vim.api.nvim_create_augroup
       local ac = vim.api.nvim_create_autocmd
@@ -72,8 +77,13 @@ return {
 
           -- Mappings that originally weren’t leader-based, now prefixed with <leader>a
           km(
-            '<leader>ag',
+            '<leader>aG',
             '<cmd>CornelisGoToDefinition<CR>',
+            'Cornelis: Go to Definition'
+          )
+          km(
+            '<leader>ag',
+            '<cmd>CornelisGive<CR>',
             'Cornelis: Go to Definition'
           )
           km(

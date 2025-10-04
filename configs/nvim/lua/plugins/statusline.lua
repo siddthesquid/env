@@ -32,6 +32,7 @@ return {
               'codecompanion',
               'neo-tree',
               'help',
+              'agdainfo',
             },
           },
           ignore_focus = {},

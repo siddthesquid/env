@@ -51,3 +51,4 @@ alias v="version_all"
 alias rl="env_lib_reload"
 
 alias nv="source $HOME/env/.env.ide.local && nvim"
+alias nvr="source $HOME/env/.env.ide.local && nvim -M +'set autoread' +'au FocusGained,BufEnter,CursorHold * checktime'"
