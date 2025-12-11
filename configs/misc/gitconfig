@@ -25,3 +25,6 @@ find = !git rev-list --all | xargs git grep -F
 main = checkout main
 chk = checkout
 new = checkout -b
+
+[core]
+attributesfile = /Users/sidd/.config/git/attributes

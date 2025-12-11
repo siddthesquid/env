@@ -25,9 +25,10 @@ return {
     opts = {
       ensure_installed = {
         'lua_ls',
-        'pyright',
+        -- 'basedpyright',
         'ruff',
         'ts_ls',
+        'vtsls',
         'rust_analyzer',
         'clangd',
         'bashls',
@@ -36,6 +37,7 @@ return {
         'jsonls',
         'yamlls',
         'marksman',
+        'tailwindcss',
       },
       automatic_installation = false,
     },
@@ -53,7 +55,7 @@ return {
       require('mason-tool-installer').setup({
         ensure_installed = {
           'stylua',
-          'prettierd',
+          -- 'prettierd',
         },
       })
     end,

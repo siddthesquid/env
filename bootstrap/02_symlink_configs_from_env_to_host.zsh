@@ -39,6 +39,7 @@ links=(
   # Misc
   ["$HOME/.config/git/ignore"]="$env_dir/configs/misc/gitignore"
   ["$HOME/.config/git/config"]="$env_dir/configs/misc/gitconfig"
+  ["$HOME/.config/git/attributes"]="$env_dir/configs/misc/gitattributes"
   ["$HOME/.config/ripgrep/ripgreprc"]="$env_dir/configs/misc/ripgreprc"
   ["$HOME/.config/alacritty/alacritty.toml"]="$env_dir/configs/misc/alacritty.toml"
   ["$HOME/.config/aerospace/aerospace.toml"]="$env_dir/configs/misc/aerospace.toml"
