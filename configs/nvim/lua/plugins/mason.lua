@@ -26,7 +26,7 @@ return {
       ensure_installed = {
         'lua_ls',
         -- 'basedpyright',
-        'ruff',
+        -- 'ruff',
         'ts_ls',
         'vtsls',
         'rust_analyzer',
@@ -38,6 +38,7 @@ return {
         'yamlls',
         'marksman',
         'tailwindcss',
+        'eslint',
       },
       automatic_installation = false,
     },

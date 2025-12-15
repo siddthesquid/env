@@ -28,3 +28,6 @@ new = checkout -b
 
 [core]
 attributesfile = /Users/sidd/.config/git/attributes
+
+[advice]
+addIgnoredFile = false
